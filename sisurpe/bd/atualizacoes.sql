@@ -4,6 +4,9 @@ ALTER TABLE inscricoes CHANGE folha periodo VARCHAR(50);
 
 ALTER TABLE inscricoes ADD COLUMN horario time;
 
+ALTER TABLE escola MODIFY numero INT(11) NULL;
+
+ALTER TABLE escola ADD COLUMN emAtividade int(1) DEFAULT 1;
 
 CREATE TABLE `turma` (
   `id` int(11) NOT NULL,

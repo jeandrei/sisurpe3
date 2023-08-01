@@ -11,7 +11,7 @@
    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/bootstrap.min.css">
    
    <!--Font Awesome CDN-->
-   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
    
    <!--CSS MIDIFICAÇÕES SOBESCREVER Botstrap-->
    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/style.css"> 

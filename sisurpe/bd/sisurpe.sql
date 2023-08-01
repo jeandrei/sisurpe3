@@ -39,7 +39,7 @@ CREATE TABLE `escola` (
   `nome` varchar(255) NOT NULL,
   `bairro_id` int(11) NOT NULL,
   `logradouro` varchar(255) NOT NULL,
-  `numero` int(11) NOT NULL
+  `numero` int(11)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
