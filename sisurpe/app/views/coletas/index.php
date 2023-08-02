@@ -71,13 +71,6 @@
  <!-- linha -->
 
 
-  <!-- ÚLTIMA LINHA DOS BOTÕES-->
-  <div class="row mt-2">
-    <div class="col-md-6 align-self-end mt-2" style="padding-left:5;"> 
-        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-arrows-rotate"></i> Gravar</button>
-    </div>
-  </div> 
-<!-- ÚLTIMA LINHA DOS BOTÕES-->
 </form>
 
 <div id='result'>
@@ -119,29 +112,26 @@
        document.getElementById('turmaId')[0].innerHTML = '<option value="null">Selecione a Escola</option>';       
    }
 
-   function atualizaKitInverno(val,id){
-    console.log('O valor atualizaKitInverno: ' + val + ' E o id é: ' + id);
+   
+
+   function atualiza(field,val,id){      
+      let act = field.slice(0, field.indexOf('_'));
+      $.ajax({  
+          url: `<?php echo URLROOT; ?>/coletas/update`,                
+          method:'POST',                 
+          data:{
+              id,                   
+              val,
+              act                                        
+          },         
+          success: function(retorno_php){                          
+              let responseObj = JSON.parse(retorno_php);             
+              createNotification(responseObj['message'], responseObj['class']);
+              //console.log(retorno_php);
+          }
+      });//Fecha o ajax    
    }
 
-   function atualizaKitVerao(val,id){
-    console.log('O valor atualizaKitVerao: ' + val + ' E o id é: ' + id);
-   }
-
-   function atualizaCalcado(val,id){
-    console.log('O valor atualizaCalcado: ' + val + ' E o id é: ' + id);
-   }
-
-   function atualizaTransporte1(val,id){
-    console.log('O valor atualizaTransporte1: ' + val + ' E o id é: ' + id);
-   }
-
-   function atualizaTransporte2(val,id){
-    console.log('O valor atualizaTransporte2: ' + val + ' E o id é: ' + id);
-   }
-
-   function atualizaTransporte3(val,id){
-    console.log('O valor atualizaTransporte3: ' + val + ' E o id é: ' + id);
-   }
 
 </script>
 <!-- SELECT DINÂMICO -->

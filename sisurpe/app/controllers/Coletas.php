@@ -118,12 +118,12 @@
             $html = "";
             foreach($data as $row){
                 $nascimento = formataData($row->nascimento);
-                $tamanhosInvero = imptamanhounif($data['kit_inverno']);
-                $tamanhosVerao = imptamanhounif($data['kit_verao']);
-                $tamanhosCalcado = imptamanhounif($data['tam_calcado']);
-                $transporte1 = imptlinhastransporte($data['transporte1']);
-                $transporte2 = imptlinhastransporte($data['transporte2']);
-                $transporte3 = imptlinhastransporte($data['transporte3']);
+                $tamanhosInvero = imptamanhounif($row->kit_inverno);
+                $tamanhosVerao = imptamanhounif($row->kit_verao);
+                $tamanhosCalcado = imptamanhounif($row->tam_calcado);
+                $transporte1 = imptlinhastransporte($row->transporte1);
+                $transporte2 = imptlinhastransporte($row->transporte2);
+                $transporte3 = imptlinhastransporte($row->transporte3);
                 $html .= "
                     <div class='row'>
                         <div class='col'>Nome: <b>$row->nome</b></div>
@@ -136,39 +136,39 @@
                         <div class='col'>                            
                             <div class='form-row'>  
                                 <div class='form-group col-md-2'>
-                                <label for='kit_inverno'>Kit Inverno</label>  
+                                <label for='kitInverno'>Kit Inverno</label>  
                                 <select
                                     class='form-control'
-                                    name='kit_inverno_$row->id'
-                                    id='kit_inverno_$row->id'          
+                                    name='kitInverno_$row->id'
+                                    id='kitInverno_$row->id'          
                                     placeholder='Tamanho do Kit de Inverno'
-                                    onChange='atualizaKitInverno(this.value,$row->id)'
+                                    onChange='atualiza(this.id,this.value,$row->id)'
                                 >
                                     <option value='null'>Selecione o Tamanho</option>
                                     $tamanhosInvero
                                 </select>                  
                                 </div>
                                 <div class='form-group col-md-2'>
-                                <label for='kit_verao'>Kit Verão</label>  
+                                <label for='kitVerao'>Kit Verão</label>  
                                 <select
                                     class='form-control'
-                                    name='kit_verao_$row->id'
-                                    id='kit_verao_$row->id'          
+                                    name='kitVerao_$row->id'
+                                    id='kitVerao_$row->id'          
                                     placeholder='Tamanho do Kit de Verão'
-                                    onChange='atualizaKitVerao(this.value,$row->id)'
+                                    onChange='atualiza(this.id,this.value,$row->id)'
                                 >
                                     <option value='null'>Selecione o Tamanho</option>
                                     $tamanhosVerao
                                 </select>                  
                                 </div>
                                 <div class='form-group col-md-2'>
-                                <label for='tam_calcado'>Tamanho do Calçado</label>  
+                                <label for='tamCalcado'>Tamanho do Calçado</label>  
                                 <select
                                     class='form-control'
-                                    name='tam_calcado_$row->id'
-                                    id='tam_calcado_$row->id'          
+                                    name='tamCalcado_$row->id'
+                                    id='tamCalcado_$row->id'          
                                     placeholder='Tamanho do Calçado'
-                                    onChange='atualizaCalcado(this.value,$row->id)'
+                                    onChange='atualiza(this.id,this.value,$row->id)'
                                 >
                                     <option value='null'>Selecione o Tamanho</option>
                                     $tamanhosCalcado
@@ -181,7 +181,7 @@
                                     name='transporte1_$row->id'
                                     id='transporte1_$row->id'          
                                     placeholder='Linha que o aluno utiliza'
-                                    onChange='atualizaTransporte1(this.value,$row->id)'
+                                    onChange='atualiza(this.id,this.value,$row->id)'
                                 >
                                     <option value='null'>Selecione a Linha</option>
                                     $transporte1
@@ -194,7 +194,7 @@
                                     name='transporte2_$row->id'
                                     id='transporte2_$row->id'          
                                     placeholder='Linha que o aluno utiliza'
-                                    onChange='atualizaTransporte2(this.value,$row->id)'
+                                    onChange='atualiza(this.id,this.value,$row->id)'
                                     >
                                     <option value='null'>Selecione a Linha</option>
                                     $transporte2
@@ -207,7 +207,7 @@
                                     name='transporte3_$row->id'
                                     id='transporte3_$row->id'          
                                     placeholder='Linha que o aluno utiliza'
-                                    onChange='atualizaTransporte3(this.value,$row->id)'
+                                    onChange='atualiza(this.id,this.value,$row->id)'
                                     >
                                     <option value='null'>Selecione a Linha</option>
                                     $transporte3
@@ -221,5 +221,63 @@
             }
             echo $html;
         }
+
+
+        public function update(){  
+            $data=[
+                'id' => $_POST['id'],
+                'val' => $_POST['val'],
+                'act' => $_POST['act']
+            ];
+            $error=false;
+
+            if(empty($data['id'])){
+                $error = true;
+            }
+            if(empty($data['val'])){
+                $error = true;
+            }
+            if(empty($data['act'])){
+                $error = true;
+            } 
+
+            if(
+                $error === false
+              )
+            {                
+                try{
+                   
+                    if($this->coletaModel->update($data)){                       
+                        $json_ret = array(                                            
+                                'class'=>'success', 
+                                'message'=>'Dados atualizados com sucesso!',
+                                'error'=>false
+                        );                     
+                        
+                        echo json_encode($json_ret); 
+                    } else {
+                        throw new Exception('Erro ao gravar os dados');
+                    }    
+                } catch (Exception $e) {
+                    //echo $e;
+                    $json_ret = array(
+                            'class'=>'error', 
+                            'message'=>'Erro ao gravar os dados',
+                            'error'=>true
+                            );                     
+                    echo json_encode($json_ret); 
+                }
+            }   else {
+                $json_ret = array(
+                    'class'=>'error', 
+                    'message'=>'Erro ao tentar gravar os dados',
+                    'error'=>true
+                );
+                echo json_encode($json_ret);
+            }
+
+            
+        }
+        
     }
 ?>
