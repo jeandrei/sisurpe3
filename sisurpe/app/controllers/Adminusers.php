@@ -35,14 +35,17 @@
         {  
             $page = 1;  
         }  
-                  
+            
+
         $options = array(
-          'results_per_page' => 10,
-          'url' => URLROOT . '/adminusers/index.php?page=*VAR*&name=' . $_GET['name'] . '&type=' . $_GET['usertype'],
-          'named_params' => array(
+            'results_per_page' => 10,
+            'url' => URLROOT . '/adminusers/index.php?page=*VAR*&cpf=' . $_GET['cpf'] .'&name=' . $_GET['name'] . '&type=' . $_GET['type'], 
+            'using_bound_params' => true,
+            'named_params' => array(
+                                    ':cpf' => $_GET['cpf'],
                                     ':name' => $_GET['name'],
-                                    ':type' => $_GET['usertype']
-                                )     
+                                    ':type' => $_GET['type']
+                                    )     
         );
       
         $paginate = $this->userModel->getUsers($page, $options); 

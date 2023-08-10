@@ -1,5 +1,14 @@
 <?php require APPROOT . '/views/inc/header.php'; ?>
 
+<script>  
+  function limpar(){
+          document.getElementById('cpf').value = ""; 
+          document.getElementById('name').value = "";  
+          document.getElementById('cpf').focus(); 
+      }  
+    document.getElementById('nome_aluno').focus(); 
+</script>
+
 <?php flash('mensagem');?>
 
 
@@ -15,7 +24,24 @@
 <form id="filtrar" action="<?php echo URLROOT; ?>/adminusers/index" method="get" enctype="multipart/form-data">
   <div class="row">
     
-    <!-- COLUNA 1 name-->
+   <!-- COLUNA 1 CPF-->
+   <div class="col-lg-3">
+        <label for="name">
+            Buscar por CPF
+        </label>
+        <input 
+            type="text" 
+            name="cpf" 
+            id="cpf" 
+            maxlength="60"
+            class="form-control cpfmask"
+            value="<?php if(isset($_GET['cpf'])){htmlout($_GET['cpf']);} ?>"
+            autofocus
+            >
+    </div>
+    <!-- COLUNA 1 CPF-->
+
+    <!-- COLUNA 2 name-->
     <div class="col-lg-4">
         <label for="name">
             Buscar por name
@@ -30,7 +56,7 @@
             onkeydown="upperCaseF(this)"   
             >
     </div>
-    <!-- COLUNA 1 name-->
+    <!-- COLUNA 2 name-->
 
      <!-- TIPO DO USUÁRIO -->  
      <div class="col-lg-2">
@@ -44,7 +70,7 @@
               >
               <option value='NULL'>todos</option>                   
               <?php              
-              $tipos = array('admin','sec','user');                    
+              $tipos = array('admin','sec','user','coleta');                    
               foreach($tipos as $tipo => $value) : ?> 
                   <option value="<?php echo $value; ?>" 
                               <?php echo $value == $_GET['usertype'] ? 'selected':'';?>
@@ -61,7 +87,8 @@
     <div class="row" style="margin-top:30px;">
         <div class="col" style="padding-left:0;">
             <div class="form-group mx-sm-3 mb-2">
-                <input type="submit" class="btn btn-primary mb-2" value="Atualizar">    
+                <input type="submit" class="btn btn-primary mb-2" value="Atualizar">  
+                <input type="button" class="btn btn-primary mb-2" value="Limpar" onClick="limpar()">   
             </div>                                                
         </div>  
     </div> 
@@ -95,9 +122,9 @@
                       <td><?php echo $row['type']; ?></td>                     
                       <!--BTN EDITAR-->            
                       <td style="text-align:right;">
-                          <a class="btn btn-success btn-sm fa fa-pencil" href="<?php echo URLROOT; ?>/users/edit/<?php echo $row['id'];?>" class="pull-left"> Editar</a>                          
+                          <a class="btn btn-success" href="<?php echo URLROOT; ?>/users/edit/<?php echo $row['id'];?>" class="pull-left"> Editar</a>                          
                       
-                          <a class="btn bg-warning btn-sm fa fa-share" href="<?php echo URLROOT; ?>/inscricoes/inscreverUsuario/<?php echo $row['id'];?>" class="pull-left"> Inscrever</a>                          
+                          <a class="btn bg-warning" href="<?php echo URLROOT; ?>/inscricoes/inscreverUsuario/<?php echo $row['id'];?>" class="pull-left"> Inscrever</a>                          
                       </td>
             </tr>
     <?php endforeach; ?>    

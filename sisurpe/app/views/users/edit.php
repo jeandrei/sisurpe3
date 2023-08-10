@@ -72,7 +72,7 @@
                             class="form-control" 
                             >                   
                             <?php 
-                            $tipos = array('admin','sec','user');                    
+                            $tipos = array('admin','sec','user','coleta');                    
                             foreach($tipos as $tipo => $value) : ?> 
                                 <option value="<?php echo $value; ?>" 
                                             <?php echo $value == $data['usertype'] ? 'selected':'';?>

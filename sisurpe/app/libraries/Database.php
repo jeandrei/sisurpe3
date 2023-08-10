@@ -67,7 +67,7 @@
         $this->stmt->bindValue($param, $value, $type);
     }
 
-    //Execute the prepared statemant
+    //Execute the prepared statemant and store the id in lastId proprerty
     public function execute(){
         if($this->stmt->execute()){
             $this->lastId = $this->dbh->lastInsertId();            
@@ -100,5 +100,68 @@
     // Get row count
     public function rowCount(){
         return $this->stmt->rowCount();
+    }
+
+    //fileExtensions - Extenções permitidas
+    //allowedSize - Tamanho em bytes permitidos
+    //newname - Se quiser dar um novo nome para o arquivo ao armazenar no banco de dados
+    public function uploadFile($file,$fileExtensions=array('jpeg','jpg','png'),$allowedSize=20971520,$newname=null){        
+       
+        
+        //se não for passado um novo nome utilizo o nome original do arquivo
+        $fileName = is_null($newname) ? $_FILES[$file]['name'] : $newname; 
+       
+        //Tipo do arquivo se jpeg,jpg,png etc
+        $fileType = $_FILES[$file]['type'];
+
+        //Pega o tamanho do arquivo para podermos impedir arquivos maiores que um determinado tamanho
+        $fileSize = $_FILES[$file]['size'];
+
+        //Temp name o php vai gerar um nome temporário para o arquivo algo tipo /tmp/phpINyjnR
+        $file = $_FILES[$file]['tmp_name'];       
+        
+        //Extenções permitidas
+        //$fileExtensions = ['jpeg','jpg','png'];        
+       
+        //explodo a string no ponto
+        $strings =  explode('.',$fileName);
+        //e pego apenas a extenção do arquivo exemplo jpg
+        $fileExtension = strtolower(end($strings));    
+
+        if(empty($file)) {
+          $file_uploaded['error'] = "Arquivo inválido!";            
+        }
+
+        $i=0;
+        $numtypes=count($fileExtensions);
+        foreach($fileExtensions as $extension){
+            if($i>0 && $i<$numtypes){
+                $allowed.=", ".$extension;
+            } else {
+                $allowed.=" ".$extension;
+            }
+            $i=1;
+        }
+
+        if (!in_array($fileExtension,$fileExtensions)) {
+            $file_uploaded['error'] = "Por favor informe arquivos do tipo ".strtoupper($allowed)."!";            
+        }
+
+        $size = round($allowedSize / 1024 / 1024,4) . 'MB';
+        if ($fileSize > $allowedSize) {
+            $file_uploaded['error'] = "Apenas arquivos até ".$size." são permitidos!";            
+        }
+
+        if (empty($file_uploaded['error'])){
+            $file_uploaded = [
+                'nome' => is_null($newname) ? $fileName : $newname,
+                'extensao' => $fileExtension,
+                'tipo' => $fileType,
+                'data' => file_get_contents($file)
+            ];        
+            
+        } 
+            
+     return $file_uploaded; 
     }
 }

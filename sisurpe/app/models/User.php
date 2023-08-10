@@ -216,25 +216,65 @@ class User extends Pagination{
         } 
     }
 
-    //FUNÇÃO QUE EXECUTA A SQL PAGINATE
+    //FUNÇÃO QUE EXECUTA A SQL PAGINATE PARA FUNCIONAR O BIND TEM QUE COLOCAR O  PARÂMETRO using_bound_params' => true lá no controller
    public function getUsers($page, $options){   
   
-        $sql = ("SELECT users.id,users.name,users.email,users.type,users.created_at FROM users WHERE 1");
+        $sql = ("
+        SELECT 
+            users.id,
+            users.name,
+            users.email,
+            users.type,
+            users.created_at 
+        FROM 
+            users 
+        WHERE 1");
+
+        if(!empty($options['named_params'][':cpf'])){
+            $sql .= " AND users.cpf LIKE CONCAT(:cpf, '%')";           
+        }
 
         if(!empty($options['named_params'][':name'])){
-        $sql .= " AND users.name LIKE " . "'%" . $options['named_params'][':name'] . "%'";
+            $sql .= " AND users.name LIKE CONCAT(:name, '%')";
         }
 
         if(($options['named_params'][':type']) != 'NULL' && ($options['named_params'][':type']) != ''){
-            $sql .= " AND users.type = '" . $options['named_params'][':type'] . "'";
+            $sql .= " AND users.type = :userType";
         }
 
-        
-        $sql .= " ORDER BY name ASC";     
-        
+        $sql .= " ORDER BY name ASC"; 
 
-        $paginate = new pagination($page, $sql, $options);
-        return  $paginate;
+        try
+        {
+            $this->pag = new Pagination($page,$sql,$options);  
+        }
+        catch(paginationException $e)
+        {
+            echo $e;
+            exit();
+        }
+
+
+        //bind
+
+        if(!empty($options['named_params'][':cpf'])){
+            $this->pag->bindParam(':cpf', $options['named_params'][':cpf'], PDO::PARAM_STR, 12);           
+        } 
+
+        if(!empty($options['named_params'][':name'])){
+            $this->pag->bindParam(':name', $options['named_params'][':name'], PDO::PARAM_STR, 12);           
+        } 
+
+        if(!empty($options['named_params'][':type'])){
+            $this->pag->bindParam(':userType', $options['named_params'][':type'], PDO::PARAM_STR, 12);           
+        } 
+
+
+
+        //EXECUTA A PAGINAÇÃO
+        $this->pag->execute();
+        //RETORNA A PAGINAÇÃO
+        return $this->pag;
     }
 
 

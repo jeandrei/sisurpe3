@@ -31,6 +31,12 @@
               </li> 
             <?php endif; ?> 
 
+            <?php if(isset($_SESSION[DB_NAME . '_user_type']) && ($_SESSION[DB_NAME . '_user_type']) == "admin" || ($_SESSION[DB_NAME . '_user_type']) == "coleta") : ?>
+              <li class="nav-item">
+              <a class="nav-link" href="<?php echo URLROOT; ?>/coletas/index">Coletas</a>
+              </li> 
+            <?php endif; ?> 
+
 
             <li class="nav-item">
                 <a class="nav-link" href="<?php echo URLROOT; ?>/pages/about">Sobre</a>
@@ -42,9 +48,6 @@
               </li> 
               <li class="nav-item">
                   <a class="nav-link" href="<?php echo URLROOT; ?>/inscricoes/index">Inscrições</a>
-              </li> 
-              <li class="nav-item">
-                  <a class="nav-link" href="<?php echo URLROOT; ?>/coletas/index">Coletas</a>
               </li> 
             <? endif; ?>
         </ul>

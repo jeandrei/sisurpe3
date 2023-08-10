@@ -546,7 +546,7 @@
     }
 
     /* quando a inscrição do usuário é feita pelo administrador */
-    public function registrarInscricao(){
+    public function registrarInscricao(){     
 
       if((!isLoggedIn())){ 
         flash('message', 'Você deve efetuar o login para ter acesso a esta página', 'error'); 
@@ -592,7 +592,15 @@
 
             if($this->inscritoModel->gravaInscricao($inscricaoId,$user_Id)) {  
               /* pego os abrepresença da inscrição */
-              $abrepresenca = $this->abrePresencaModel->getAbrePresencasInscricaoById($inscricaoId);
+              if(!$abrepresenca = $this->abrePresencaModel->getAbrePresencasInscricaoById($inscricaoId)){
+                $json_ret = array(
+                  'class'=>'error', 
+                  'message'=>'Nenhuma presença aberta para esta inscrição!',
+                  'error'=>true
+                  );                     
+              echo json_encode($json_ret); 
+              die() ;
+              }
               /* defino uma variável erro como null */
               $erro_presenca == NULL;
               /* para cada abrepresença registro a presença exemplo se for duas abrepersença de 4 horas vai registrar nas duas */
@@ -605,6 +613,7 @@
               }
               
               /* se não tem nenhum erro dentro de erro_presenca é que deu tudo certo*/
+              echo ($erro_presenca);
               if($erro_presenca == NULL){
                 $json_ret = array(                                            
                   'class'=>'success', 
@@ -612,6 +621,7 @@
                   'error'=>false
                 );                               
                 echo json_encode($json_ret); 
+                die();
               } else {
                 throw new Exception('Ops! Algo deu errado ao tentar registrar a presença!');
               }              
@@ -626,6 +636,7 @@
                     'error'=>true
                     );                     
             echo json_encode($json_ret); 
+            die();
         }        
       }   else {
           $json_ret = array(
@@ -634,6 +645,7 @@
               'error'=>true
           );
           echo json_encode($json_ret);
+          die();
       }         
     }
 
