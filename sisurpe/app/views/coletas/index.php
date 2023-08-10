@@ -1,5 +1,51 @@
 <!-- HEADER -->
 <?php require APPROOT . '/views/inc/header.php';?>
+<style>
+       .faq .detail {
+        display: none;
+      }
+      .faq.active .detail {
+        display: block;
+      }
+
+   /* parte de style do botão */
+   .faq-toggle {
+        background-color: transparent;
+        border: 0;
+        border-radius: 50%;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        padding: 0;
+        top: 30px;
+        right: 30px;
+        height: 30px;
+        width: 30px;
+      }
+
+      .faq-toggle:focus {
+        outline: 0;
+      }
+
+      .faq-toggle .fa-times {
+        display: none;
+      }
+
+      .faq.active .faq-toggle .fa-times {
+        color: #fff;
+        display: block;
+      }
+
+      .faq.active .faq-toggle .fa-chevron-down {
+        display: none;
+      }
+
+      .faq.active .faq-toggle {
+        background-color: #9fa4a8;
+      }
+      /* parte do style do botão */
+</style>
 
 <!-- FLASH MESSAGE -->
 <?php flash('message'); ?>
@@ -49,7 +95,7 @@
         <select
             name="turmaId"
             id="turmaId"
-            class="form-control <?php echo (!empty($data['turmaId_err'])) ? 'is-invalid' : ''; ?>"
+            class="form-control mb-5 <?php echo (!empty($data['turmaId_err'])) ? 'is-invalid' : ''; ?>"
         >
             <option value="null">Selecione a Escola</option>              
         </select>
@@ -86,6 +132,8 @@
 
 <!-- SELECT DINÂMICO -->
 <script>
+    //preciso declarar toggles aqui pois se eu declrar no controler Coletas ele vai redeclarar toda vez que o uma turma for selecionada
+    let toggles;
     $(document).ready(function(){
 
               
@@ -132,6 +180,23 @@
       });//Fecha o ajax    
    }
 
+   function checkAllFilled(id){
+    const classCheck = document.querySelectorAll(`.class_${id}`);
+    //console.log(classCheck);
+    let filled = true;
+    classCheck.forEach(function (obj) {
+        if(obj.value === 'null'){            
+            filled = false;
+        }
+        if(filled === true){ 
+            let checkImg = document.querySelector(`.row_${id}`);
+            checkImg.querySelector('.fa-square-check').style.display = 'block';  
+        } else {
+            let checkImg = document.querySelector(`.row_${id}`);
+            checkImg.querySelector('.fa-square-check').style.display = 'none'; 
+        }
+    });
+   }
 
 </script>
 <!-- SELECT DINÂMICO -->

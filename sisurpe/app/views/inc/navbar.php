@@ -43,6 +43,9 @@
               <li class="nav-item">
                   <a class="nav-link" href="<?php echo URLROOT; ?>/inscricoes/index">Inscrições</a>
               </li> 
+              <li class="nav-item">
+                  <a class="nav-link" href="<?php echo URLROOT; ?>/coletas/index">Coletas</a>
+              </li> 
             <? endif; ?>
         </ul>
 

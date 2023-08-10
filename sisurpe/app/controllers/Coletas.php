@@ -8,110 +8,14 @@
          /* Mostra os municípios que o cliente atende */
          public function index(){             
            
-            if($_SERVER['REQUEST_METHOD'] == 'POST'){  
-                        
-                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-                unset($data);
-                $data = [
-                    'titulo' => 'Adicionar novo Atendimento',
-                    'userId' => $_SESSION[SE.'user_id'],
-                    'regioes' => $this->regiaoModel->getRegioes(),
-                    
-                    'regiaoId' => html($_POST['regiaoId']),
-
-                    'estados' => $this->estadoModel->getEstadosRegiaoById($_POST['regiaoId']),
-                                        
-                    'estadoId' => html($_POST['estadoId']),
-                    'estado' => $this->estadoModel->getEstadoById($_POST['estadoId']),
-                    
-                    'municipioId' => html($_POST['municipioId']),
-                    'municipio' => $this->municipioModel->getMunicipioById($_POST['municipioId']),
-                    
-                    'municipios' => $this->municipioModel->getMunicipiosEstadoById($_POST['estadoId']),
-                    'atendimentos' => $this->atendimentoModel->getAtendimentos()
-                ];
-                    
-                //valida regiaoId  
-                $data['regiaoId_err'] = 
-                validate($data['regiaoId'], 
-                    $options = [
-                        'obrigatorio'=>true,
-                        'tipo'=>'select'                  
-                    ]                    
-                );  
-                
-                //valida estadoId               
-                $data['estadoId_err'] = 
-                validate($data['estadoId'], 
-                    $options = [
-                        'obrigatorio'=>true,
-                        'tipo'=>'select'                   
-                    ]                    
-                );  
-
-                //valida municipioId                
-                $data['municipioId_err'] = 
-                validate($data['municipioId'], 
-                    $options = [
-                        'obrigatorio'=>true,
-                        'tipo'=>'select'        
-                    ]                    
-                ); 
-                                
-                if(
-                    empty($data['regiaoId_err'])&&
-                    empty($data['estadoId_err'])&&
-                    empty($data['municipioId_err'])           
-                ){
-                    //se o municipio já está adicionado ao atendimento emito erro  
-                    if($this->atendimentoModel->getMunicipioAtendimentoById($data['municipioId'])){
-                        flash('message', 'Atendimento já está cadastrado!','error'); 
-                        $this->view('atendimentos/index',$data);   
-                    } else {
-                        try {
-                            if($this->atendimentoModel->register($data)){                       
-                                flash('message', 'Cadastro realizado com sucesso!','success'); 
-                                $data['atendimentos'] = $this->atendimentoModel->getAtendimentos();
-                                $this->view('atendimentos/index',$data);
-                            } else {                        
-                                throw new Exception('Ops! Algo deu errado ao tentar gravar os dados!');
-                            }
-    
-                        } catch (Exception $e) {                   
-                            $erro = 'Erro: '.  $e->getMessage();                      
-                            flash('message', $erro,'error');
-                            $this->view('atendimentos/index');
-                        }            
-                    }//else do if
-
-                            
-                } else {
-                    //Validação falhou
-                    flash('message', 'Erro ao efetuar o cadastro, verifique os dados informados!','error');                     
-                    $this->view('atendimentos/index',$data);
-                }                
-                
-            } else {
-                //limpo o array $data
-                unset($data);
+            unset($data);
                 $data = [
                     'titulo'    => 'Coleta de Dados',
                     'escolas' => $this->escolaModel->getEscolas()
                 ];
-                $this->view('coletas/index', $data);
-            }            
-            
+                $this->view('coletas/index', $data);            
         }
-        
-
-        public function add(){
-            $this->view('coletas/add');
-        }
-
-        public function edit(){            
-            $this->view('coletas/edit');
-        }
-        
+                        
         
         public function coletaTurma($turmaId){
             $data = $this->coletaModel->coletaTurmaById($turmaId);
@@ -125,100 +29,133 @@
                 $transporte2 = imptlinhastransporte($row->transporte2);
                 $transporte3 = imptlinhastransporte($row->transporte3);
                 $html .= "
-                    <div class='row'>
-                        <div class='col'>Nome: <b>$row->nome</b></div>
-                    </div>
-                    <div class='row'>                        
-                        <div class='col'>Nascimento: $nascimento</div>
-                        <div class='col'>Sexo: $row->sexo</div>
-                    </div>
-                    <div class='row'>
-                        <div class='col'>                            
-                            <div class='form-row'>  
-                                <div class='form-group col-md-2'>
-                                <label for='kitInverno'>Kit Inverno</label>  
-                                <select
-                                    class='form-control'
-                                    name='kitInverno_$row->id'
-                                    id='kitInverno_$row->id'          
-                                    placeholder='Tamanho do Kit de Inverno'
-                                    onChange='atualiza(this.id,this.value,$row->id)'
-                                >
-                                    <option value='null'>Selecione o Tamanho</option>
-                                    $tamanhosInvero
-                                </select>                  
-                                </div>
-                                <div class='form-group col-md-2'>
-                                <label for='kitVerao'>Kit Verão</label>  
-                                <select
-                                    class='form-control'
-                                    name='kitVerao_$row->id'
-                                    id='kitVerao_$row->id'          
-                                    placeholder='Tamanho do Kit de Verão'
-                                    onChange='atualiza(this.id,this.value,$row->id)'
-                                >
-                                    <option value='null'>Selecione o Tamanho</option>
-                                    $tamanhosVerao
-                                </select>                  
-                                </div>
-                                <div class='form-group col-md-2'>
-                                <label for='tamCalcado'>Tamanho do Calçado</label>  
-                                <select
-                                    class='form-control'
-                                    name='tamCalcado_$row->id'
-                                    id='tamCalcado_$row->id'          
-                                    placeholder='Tamanho do Calçado'
-                                    onChange='atualiza(this.id,this.value,$row->id)'
-                                >
-                                    <option value='null'>Selecione o Tamanho</option>
-                                    $tamanhosCalcado
-                                </select>                  
-                                </div>
-                                <div class='form-group col-md-2'>
-                                <label for='transporte1'>Transporte Escolar 1</label>  
-                                <select
-                                    class='form-control'
-                                    name='transporte1_$row->id'
-                                    id='transporte1_$row->id'          
-                                    placeholder='Linha que o aluno utiliza'
-                                    onChange='atualiza(this.id,this.value,$row->id)'
-                                >
-                                    <option value='null'>Selecione a Linha</option>
-                                    $transporte1
-                                </select>                  
-                                </div>
-                                <div class='form-group col-md-2'>
-                                <label for='transporte2'>Transporte Escolar 2</label>  
-                                <select
-                                    class='form-control'
-                                    name='transporte2_$row->id'
-                                    id='transporte2_$row->id'          
-                                    placeholder='Linha que o aluno utiliza'
-                                    onChange='atualiza(this.id,this.value,$row->id)'
-                                    >
-                                    <option value='null'>Selecione a Linha</option>
-                                    $transporte2
-                                </select>                  
-                                </div>
-                                <div class='form-group col-md-2'>
-                                <label for='transporte1'>Transporte Escolar 3</label>  
-                                <select
-                                    class='form-control'
-                                    name='transporte3_$row->id'
-                                    id='transporte3_$row->id'          
-                                    placeholder='Linha que o aluno utiliza'
-                                    onChange='atualiza(this.id,this.value,$row->id)'
-                                    >
-                                    <option value='null'>Selecione a Linha</option>
-                                    $transporte3
-                                </select>                  
-                                </div>
-                            </div>
+                <div class='faq'>
+                    <div class='row p-3 mb-2 bg-secondary text-white row_$row->id'>
+                        <div class='col-2 mt-2';>
+                            <i class='fa-solid fa-square-check fa-lg' style='color: #0ae657;'></i>
+                        </div> 
+                        <div class='col-10'>
+                            <b>$row->nome</b>
                         </div>
                     </div>
-                    <hr>
-                ";
+                    <div class='row mb-2'>  
+                        <div class='col-12 col-lg-6'><b>Nascimento:</b> $nascimento</div>
+                        <div class='col-12 col-lg-4'><b>Sexo:</b> $row->sexo</div>
+                    </div>                          
+                    <div class='detail'>
+                        <div class='row p-3 mb-2 bg-light text-dark detail'>
+                            <div class='col'>
+                                <div class='form-row'>
+                                    <div class='form-group col-md-2'>
+                                    <label for='kitInverno'>Kit Inverno</label>  
+                                        <select
+                                            class='form-control class_$row->id'
+                                            name='kitInverno_$row->id'
+                                            id='kitInverno_$row->id'          
+                                            placeholder='Tamanho do Kit de Inverno'
+                                            onChange='atualiza(this.id,this.value,$row->id),checkAllFilled($row->id)'
+                                        >
+                                            <option value='null'>Selecione o Tamanho</option>
+                                            $tamanhosInvero
+                                        </select>   
+                                    </div>
+                                    <div class='form-group col-md-2'>
+                                        <label for='kitVerao'>Kit Verão</label>  
+                                        <select
+                                            class='form-control class_$row->id'
+                                            name='kitVerao_$row->id'
+                                            id='kitVerao_$row->id'          
+                                            placeholder='Tamanho do Kit de Verão'
+                                            onChange='atualiza(this.id,this.value,$row->id),checkAllFilled($row->id)'
+                                        >
+                                            <option value='null'>Selecione o Tamanho</option>
+                                            $tamanhosVerao
+                                        </select>                  
+                                    </div>
+                                    <div class='form-group col-md-2'>
+                                        <label for='tamCalcado'>Tamanho do Calçado</label>  
+                                        <select
+                                            class='form-control class_$row->id'
+                                            name='tamCalcado_$row->id'
+                                            id='tamCalcado_$row->id'          
+                                            placeholder='Tamanho do Calçado'
+                                            onChange='atualiza(this.id,this.value,$row->id),checkAllFilled($row->id)'
+                                        >
+                                            <option value='null'>Selecione o Tamanho</option>
+                                            $tamanhosCalcado
+                                        </select>                  
+                                    </div>
+                                    <div class='form-group col-md-2'>
+                                        <label for='transporte1'>Transporte Escolar 1</label>  
+                                        <select
+                                            class='form-control class_$row->id'
+                                            name='transporte1_$row->id'
+                                            id='transporte1_$row->id'          
+                                            placeholder='Linha que o aluno utiliza'
+                                            onChange='atualiza(this.id,this.value,$row->id),checkAllFilled($row->id)'
+                                        >
+                                            <option value='null'>Selecione a Linha</option>
+                                            $transporte1
+                                        </select>                  
+                                    </div>
+                                    <div class='form-group col-md-2'>
+                                        <label for='transporte2'>Transporte Escolar 2</label>  
+                                        <select
+                                            class='form-control class_$row->id'
+                                            name='transporte2_$row->id'
+                                            id='transporte2_$row->id'          
+                                            placeholder='Linha que o aluno utiliza'
+                                            onChange='atualiza(this.id,this.value,$row->id),checkAllFilled($row->id)'
+                                            >
+                                            <option value='null'>Selecione a Linha</option>
+                                            $transporte2
+                                        </select>                  
+                                    </div>
+                                    <div class='form-group col-md-2'>
+                                        <label for='transporte1'>Transporte Escolar 3</label>  
+                                        <select
+                                            class='form-control class_$row->id'
+                                            name='transporte3_$row->id'
+                                            id='transporte3_$row->id'          
+                                            placeholder='Linha que o aluno utiliza'
+                                            onChange='atualiza(this.id,this.value,$row->id),checkAllFilled($row->id)'
+                                            >
+                                            <option value='null'>Selecione a Linha</option>
+                                            $transporte3
+                                        </select>                  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                    
+                    </div>
+                    <div class='text-center mb-2'>
+                        <button class='faq-toggle'>
+                        <i class='fas fa-chevron-down'></i>
+                        <i class='fas fa-times'></i></button>  
+                    </div>              
+                </div> 
+                <script>
+                    checkAllFilled($row->id);
+                        toggles  = document.querySelectorAll('.faq-toggle')
+                        toggles.forEach((toggle)=> {
+                        toggle.addEventListener('click', () => {
+                            toggle.parentNode.parentNode.parentNode.classList.toggle('active')
+                        })
+                    })
+                </script> 
+            ";
             }
+            /* essa função tem que ser carregada depois para ela dar um querySelectorAll em todos os objetos */
+            $html .= "
+            <script>
+            toggles  = document.querySelectorAll('.faq-toggle')
+            toggles.forEach((toggle)=> {
+                toggle.addEventListener('click', () => {
+                    toggle.parentNode.parentNode.classList.toggle('active')
+                })
+            })            
+            </script>";
+            
             echo $html;
         }
 
