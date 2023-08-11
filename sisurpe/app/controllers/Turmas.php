@@ -30,7 +30,7 @@
           * Esse priemeiro option é para sempre adicionar no início do select, caso contário 
           * Ele vai sepmpre pegar o primeiro valor que tiver no option no caso a primeira escola
           */
-          echo ("<option value='null'>Selecione a Escola</option>");
+          echo ("<option value='null'>Selecione a Turma</option>");
 
           //Faz o foreach para cada turma dentro do array $data
           //O que for dado echo vai ser retornado lá para o index no jquery $('#estadoId').load(

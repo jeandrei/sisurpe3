@@ -157,7 +157,7 @@
    
 
    function selectTurma(){
-       document.getElementById('turmaId')[0].innerHTML = '<option value="null">Selecione a Escola</option>';       
+       document.getElementById('turmaId')[0].innerHTML = '<option value="null">Selecione a Turma</option>';       
    }
 
    

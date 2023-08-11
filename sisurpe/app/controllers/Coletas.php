@@ -101,9 +101,9 @@
                                     <div class='form-group col-md-2'>
                                         <label for='transporte2'>Transporte Escolar 2</label>  
                                         <select
-                                            class='form-control class_$row->id'
+                                            class='form-control'
                                             name='transporte2_$row->id'
-                                            id='transporte2_$row->id'          
+                                            id='transporte2_$row->id'        
                                             placeholder='Linha que o aluno utiliza'
                                             onChange='atualiza(this.id,this.value,$row->id),checkAllFilled($row->id)'
                                             >
@@ -114,9 +114,9 @@
                                     <div class='form-group col-md-2'>
                                         <label for='transporte1'>Transporte Escolar 3</label>  
                                         <select
-                                            class='form-control class_$row->id'
+                                            class='form-control'
                                             name='transporte3_$row->id'
-                                            id='transporte3_$row->id'          
+                                            id='transporte3_$row->id'         
                                             placeholder='Linha que o aluno utiliza'
                                             onChange='atualiza(this.id,this.value,$row->id),checkAllFilled($row->id)'
                                             >
