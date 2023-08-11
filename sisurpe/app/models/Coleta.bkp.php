@@ -134,20 +134,12 @@ class Coleta {
 
         $this->db->bind(':turmaId', $turmaId);
 
-        $row = $this->db->single();           
-
-        if($this->db->rowCount() > 0){
-            return $row->total;
-        } else {
-            return false;
-        }       
-
-        /* $result = $this->db->resultSet();        
+        $result = $this->db->resultSet();        
         if($this->db->rowCount() > 0){
             return $result;
         } else {
             return false;
-        } */
+        }
     }
 
     //Retorna os totais por turma

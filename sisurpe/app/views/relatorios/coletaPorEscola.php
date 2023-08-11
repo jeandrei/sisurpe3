@@ -89,7 +89,7 @@ if($data['result']){
     $pdf->Cell(20,5,utf8_decode('Inverno'),1,0,'C');
     $arrayTamanhos = getArrayTamanhos();
     foreach($arrayTamanhos as $tamanho){
-      $pdf->Cell(13,5,utf8_decode('('.$tamanho . '): ' . $row['kit_inverno'][$tamanho][0]->total),1,0,'C');
+      $pdf->Cell(13,5,utf8_decode('('.$tamanho . '): ' . $row['kit_inverno'][$tamanho]),1,0,'C');
     }  
     
     $pdf->Ln();
@@ -97,7 +97,7 @@ if($data['result']){
     $pdf->Cell(20,5,utf8_decode('Verão'),1,0,'C');
     $arrayTamanhos = getArrayTamanhos();
     foreach($arrayTamanhos as $tamanho){
-      $pdf->Cell(13,5,utf8_decode('('.$tamanho . '): ' . $row['kit_verao'][$tamanho][0]->total),1,0,'C');
+      $pdf->Cell(13,5,utf8_decode('('.$tamanho . '): ' . $row['kit_verao'][$tamanho]),1,0,'C');
     }  
    
 
@@ -106,7 +106,7 @@ if($data['result']){
     $pdf->Cell(20,5,utf8_decode('Calçado'),1,0,'C');
     $arrayTamanhos = getArrayTamanhos();
     foreach($arrayTamanhos as $tamanho){
-      $pdf->Cell(13,5,utf8_decode('('.$tamanho . '): ' . $row['tam_calcado'][$tamanho][0]->total),1,0,'C');
+      $pdf->Cell(13,5,utf8_decode('('.$tamanho . '): ' . $row['tam_calcado'][$tamanho]),1,0,'C');
     }  
   $pdf->AddPage('P');  
   }
@@ -123,7 +123,7 @@ $pdf->Cell(50, 15, 'Totais Gerais da Escola', 0, 1, 'L');
 $pdf->Cell(20,5,utf8_decode('Inverno'),1,0,'C');
 $arrayTamanhos = getArrayTamanhos();
 foreach($arrayTamanhos as $tamanho){  
-  $pdf->Cell(13,5,utf8_decode('('.$tamanho . '): ' . $data['result'][0]['total']['kit_inverno'][$tamanho][0]->total),1,0,'C');
+  $pdf->Cell(13,5,utf8_decode('('.$tamanho . '): ' . $data['result'][0]['total']['kit_inverno'][$tamanho]),1,0,'C');
 }  
 
 $pdf->Ln();
@@ -131,7 +131,7 @@ $pdf->Ln();
 $pdf->Cell(20,5,utf8_decode('Verao'),1,0,'C');
 $arrayTamanhos = getArrayTamanhos();
 foreach($arrayTamanhos as $tamanho){  
-  $pdf->Cell(13,5,utf8_decode('('.$tamanho . '): ' . $data['result'][0]['total']['kit_verao'][$tamanho][0]->total),1,0,'C');
+  $pdf->Cell(13,5,utf8_decode('('.$tamanho . '): ' . $data['result'][0]['total']['kit_verao'][$tamanho]),1,0,'C');
 }  
 
 $pdf->Ln();
@@ -139,7 +139,7 @@ $pdf->Ln();
 $pdf->Cell(20,5,utf8_decode('Calçado'),1,0,'C');
 $arrayTamanhos = getArrayTamanhos();
 foreach($arrayTamanhos as $tamanho){  
-  $pdf->Cell(13,5,utf8_decode('('.$tamanho . '): ' . $data['result'][0]['total']['tam_calcado'][$tamanho][0]->total),1,0,'C');
+  $pdf->Cell(13,5,utf8_decode('('.$tamanho . '): ' . $data['result'][0]['total']['tam_calcado'][$tamanho]),1,0,'C');
 } 
 
 

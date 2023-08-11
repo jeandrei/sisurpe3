@@ -47,7 +47,7 @@
               'total' => $this->coletaModel->totaisEscola($_GET['escolaId'])
             ]; 
            
-          }            
+          }   
           
           $this->view('relatorios/coletaPorEscola',$data);
         }
