@@ -31,6 +31,12 @@
               </li> 
             <?php endif; ?> 
 
+            <?php if((isset($_SESSION[DB_NAME . '_user_type']))&&((($_SESSION[DB_NAME . '_user_type']) == "admin")||(($_SESSION[DB_NAME . '_user_type']) == "sec"))) : ?>
+              <li class="nav-item">
+              <a class="nav-link" href="<?php echo URLROOT; ?>/relatorios/index">Relatórios</a>
+              </li> 
+            <?php endif; ?> 
+
             <?php if(isset($_SESSION[DB_NAME . '_user_type']) && ($_SESSION[DB_NAME . '_user_type']) == "admin" || ($_SESSION[DB_NAME . '_user_type']) == "coleta") : ?>
               <li class="nav-item">
               <a class="nav-link" href="<?php echo URLROOT; ?>/coletas/index">Coletas</a>

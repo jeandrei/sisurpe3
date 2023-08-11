@@ -47,22 +47,30 @@ return $html;
 }
 
 
-function imptamanhounif($tamanhosec){
+
+function getArrayTamanhos(){
   $arrayTamanhos = array(
-      '1',
-      '2',
-      '3',
-      '4',
-      '5',
-      '6',
-      '7',
-      '8',
-      'P',
-      'M',
-      'G',
-      'GG',
-      'EG',      
-    );  
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    'P',
+    'M',
+    'G',
+    'GG',
+    'EG',      
+  );
+  return $arrayTamanhos;
+}
+
+function imptamanhounif($tamanhosec){
+
+    $arrayTamanhos = getArrayTamanhos();
+
     foreach($arrayTamanhos as $tamanho){ 
       //idtamanho tem que ser passada pelo post
       if($tamanho == $tamanhosec){
