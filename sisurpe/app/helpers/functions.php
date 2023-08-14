@@ -52,8 +52,8 @@ function getArrayTamanhos(){
   $arrayTamanhos = array(
     '1',
     '2',
-    '3',
-    '4',
+    '36',
+    '42',
     '5',
     '6',
     '7',

@@ -4,6 +4,7 @@
         public function __construct(){
             //vai procurar na pasta model um arquivo chamado User.php e incluir
             $this->userModel = $this->model('User');
+            $this->escolaModel = $this->model('Escola');
         }
 
         public function register(){
@@ -228,6 +229,7 @@
                     'email' => $user->email,
                     'cpf' => $user->cpf,
                     'usertype' => $user->type,
+                    'escolas' => $this->escolaModel->getEscolas(),
                     'password' => '',
                     'confirm_password' => '',
                     'name_err' => '',

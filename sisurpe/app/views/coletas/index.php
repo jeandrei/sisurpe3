@@ -76,8 +76,8 @@
             <option value="null">Selecione a Escola</option>
             <?php foreach($data['escolas'] as $row) : ?>
             <option 
-                value="<?php htmlout($row->id); ?>"
-                <?php echo ($data['escolaId']) == $row->id ? 'selected' : '';?>
+                value="<?php htmlout($row->escolaId); ?>"
+                <?php echo ($data['escolaId']) == $row->escolaId ? 'selected' : '';?>
             >
             <?php htmlout($row->nome); ?>
             </option>

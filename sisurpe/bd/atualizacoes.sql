@@ -9,13 +9,14 @@ ALTER TABLE escola MODIFY numero INT(11) NULL;
 ALTER TABLE escola ADD COLUMN emAtividade int(1) DEFAULT 1;
 
 CREATE TABLE `turma` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `escolaId` int(11) NOT NULL,
   `descricao` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) auto_increment=0,
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `coleta` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `nome` varchar(255) NOT NULL,
   `turmaId` int(11) NOT NULL,
   `turno` varchar(255) NOT NULL,
@@ -27,16 +28,15 @@ CREATE TABLE `coleta` (
   `transporte1` varchar(50) DEFAULT NULL,  
   `transporte2` varchar(50) DEFAULT NULL,  
   `transporte3` varchar(50) DEFAULT NULL   
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) auto_increment=0,
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-ALTER TABLE `turma`
-  ADD PRIMARY KEY (`id`);
-  
-  ALTER TABLE `coleta`
-  ADD PRIMARY KEY (`id`);
-  
-  ALTER TABLE `turma`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
-  
-  ALTER TABLE `coleta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
+/* Tabela que vai liberar usuário para fazer uma determinada coleta */
+CREATE TABLE `usere_scola_coleta` (
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `escolaId` int(11) NOT NULL,
+  `userId` int(11) NOT NULL   
+) auto_increment=0,
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+

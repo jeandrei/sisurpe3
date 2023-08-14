@@ -29,8 +29,28 @@ class User extends Pagination{
         }
     }
 
+    public function removeUserEscolaColeta($userId){
+        $this->db->query('DELETE FROM user_escola_coleta WHERE userId = :userId');
+        // Bind values
+        $this->db->bind(':userId',$userId);           
+                    
+        // Execute
+        if($this->db->execute()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     // Update User
     public function update($data){
+              
+        if($data['usertype'] != 'coleta'){
+            if(!$this->removeUserEscolaColeta($data['user_id'])){
+                return false;
+            }
+        }
+
         if((!empty($data['password'])) && (!is_null($data['password'])) && ($data['password'] != ""))  {           
             $this->updatepassword($data);
         }

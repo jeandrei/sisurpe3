@@ -2,21 +2,20 @@
     class Adminusers extends Controller{
 
         public function __construct(){
+            if((!isLoggedIn())){ 
+                flash('message', 'Você deve efetuar o login para ter acesso a esta página', 'error'); 
+                redirect('pages/index');
+                die();
+            } else if ((!isAdmin()) && (!isSec())){                
+                flash('message', 'Você não tem permissão de acesso a esta página', 'error'); 
+                redirect('pages/index'); 
+                die();
+            }  
             //vai procurar na pasta model um arquivo chamado User.php e incluir
             $this->userModel = $this->model('User');
         }     
 
     public function index(){ 
-
-        if((!isLoggedIn())){ 
-            flash('message', 'Você deve efetuar o login para ter acesso a esta página', 'error'); 
-            redirect('pages/index');
-            die();
-        } else if ((!isAdmin()) && (!isSec())){                
-            flash('message', 'Você não tem permissão de acesso a esta página', 'error'); 
-            redirect('pages/index'); 
-            die();
-        }  
         
         $limit = 10;
         $data = [
@@ -24,9 +23,7 @@
             'description' => 'Busca por registros de Usuários'          
         ]; 
 
-        // INÍCIO PARTE PAGINAÇÃO SÓ COPIAR ESSA PARTE MUDAR A URL E COLOCAR OS PARAMETROS EM named_params
-        // O STATUS EU NÃO PASSO PARA O A CONSULTA É APENAS PARA MANTER AS INFORMAÇÕES APÓS CLICAR NO LINK DA PAGINAÇÃO
-        // CASO CONTRÁRIO TODA VEZ QUE CLICASSE NO LINK DA PAGINAÇÃO ELE VOLTA PARA O VALOR PADRÃO DO CAMPO DE BUSCA
+        
         if(isset($_GET['page']))  
         {  
             $page = $_GET['page'];  

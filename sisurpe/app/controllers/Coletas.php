@@ -1,17 +1,28 @@
 <?php 
     class Coletas extends Controller{
-        public function __construct(){            
+        public function __construct(){
+            
+            if((!isLoggedIn())){ 
+                flash('message', 'Você deve efetuar o login para ter acesso a esta página', 'error'); 
+                redirect('users/login');
+                die();
+            } else if ((!isAdmin() && !isColeta())){                
+                flash('message', 'Você não tem permissão de acesso a esta página', 'error'); 
+                redirect('pages/sistem'); 
+                die();
+            }  
+
             $this->coletaModel = $this->model('Coleta');
             $this->escolaModel = $this->model('Escola');
+            $this->userescolacoletaModel = $this->model('Userescolacoleta');
         }
 
          /* Mostra os municípios que o cliente atende */
-         public function index(){             
-           
+         public function index(){                         
             unset($data);
                 $data = [
                     'titulo'    => 'Coleta de Dados',
-                    'escolas' => $this->escolaModel->getEscolas()
+                    'escolas' => $this->userescolacoletaModel->getEscolaColetaUserById($_SESSION[DB_NAME . '_user_id'])
                 ];
                 $this->view('coletas/index', $data);            
         }

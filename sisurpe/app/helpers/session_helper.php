@@ -61,5 +61,13 @@
         }
     }
 
+    function isColeta(){
+        if((isset($_SESSION[DB_NAME . '_user_type'])) && ($_SESSION[DB_NAME . '_user_type']) == 'coleta'){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 ?>
