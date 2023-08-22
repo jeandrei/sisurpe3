@@ -6,6 +6,7 @@
           $this->escolaModel = $this->model('Escola');
           $this->coletaModel = $this->model('Coleta');
           $this->turmaModel = $this->model('Turma');
+          $this->userescolacoletaModel = $this->model('Userescolacoleta');
         }
 
         public function index(){ 
@@ -41,15 +42,15 @@
               'turmaId' => $row->id,
               'turma' => $row->descricao,
               'coleta' => $this->coletaModel->getColetaByTurma($row->id),
-              'kit_inverno' => $this->coletaModel->totais($row->id,'kit_inverno'),
-              'kit_verao' => $this->coletaModel->totais($row->id,'kit_verao'),     
-              'tam_calcado' => $this->coletaModel->totais($row->id,'tam_calcado'),
-              'total' => $this->coletaModel->totaisEscola($_GET['escolaId'])
-            ]; 
+              'kit_inverno' => $this->coletaModel->totaisUniforme($row->id,'kit_inverno'),
+              'kit_verao' => $this->coletaModel->totaisUniforme($row->id,'kit_verao'),     
+              'tam_calcado' => $this->coletaModel->totaisCalcado($row->id,'tam_calcado'),
+              'totalUniforme' => $this->coletaModel->totaisEscolaUniforme($_GET['escolaId']),
+              'totalCalcado' => $this->coletaModel->totaisEscolaCalcado($_GET['escolaId'])
+            ];            
            
-          }   
-          
+          }  
           $this->view('relatorios/coletaPorEscola',$data);
-        }
+        }        
       
 }

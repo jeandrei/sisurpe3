@@ -38,9 +38,18 @@
             <?php endif; ?> 
 
             <?php if(isset($_SESSION[DB_NAME . '_user_type']) && ($_SESSION[DB_NAME . '_user_type']) == "admin" || ($_SESSION[DB_NAME . '_user_type']) == "coleta") : ?>
-              <li class="nav-item">
-              <a class="nav-link" href="<?php echo URLROOT; ?>/coletas/index">Coletas</a>
-              </li> 
+
+
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Coletas
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+                  <a class="dropdown-item" href="<?php echo URLROOT; ?>/coletas/index">Coletar Dados</a>
+                  <a class="dropdown-item" href="<?php echo URLROOT; ?>/coletas/geradordebilhetes">Gerador de bilhetes</a>
+                </div>
+              </li>               
             <?php endif; ?> 
 
 

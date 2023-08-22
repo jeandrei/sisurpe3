@@ -32,11 +32,110 @@ CREATE TABLE `coleta` (
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /* Tabela que vai liberar usuário para fazer uma determinada coleta */
-CREATE TABLE `usere_scola_coleta` (
+CREATE TABLE `user_scola_coleta` (
   `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `escolaId` int(11) NOT NULL,
   `userId` int(11) NOT NULL   
 ) auto_increment=0,
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+/* formação do usuário 
+19 - maiorEscolaridade:
+  Não Concluiu o ensino fundamental
+  Ensino Fundamental
+  Ensino Médio
+  Ensino Superior
+19a - tipoEnsinoMedio
+  Formação geral
+  Modalidade Normal(magistério)
+  Curso técnico
+  Magistério indígena - modalidade normal
+*/
+CREATE TABLE `users_formacao` (
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,  
+  `userId` int(11) NOT NULL,
+  `maiorEscolaridade` varchar(50) DEFAULT NULL,
+  `tipoEnsinoMedio` varchar(50) DEFAULT NULL  
+) auto_increment=0,
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*
+19 - Curso superior
+  areaCurso
+    Educação
+    Artes e humanidades
+    Ciências sociais, jornalismo e informação
+    Negócios, administração e direito
+    Ciências naturais, matemática e estatística
+    Computação e Tecologias da informação e Comunicação (TIC)
+    Engenharia, produção e construção
+    Agricultura, produção e construção
+    Saúde e bem-estar
+    Serviços
+  nivelAcademico
+    Bacharelado
+    Licenciatura
+    Sequencial
+    Tecnológico
+*/
+CREATE TABLE `user_formacao` (
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,  
+  `userId` int(11) NOT NULL,
+  `cursoSuperiorId` int(11) NOT NULL, 
+) auto_increment=0,
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+/*
+Tabela apenas com cadastro de cursos superiores
+*/
+CREATE TABLE `curso_superior` (
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+  `cursoSuperior` varchar(100) DEFAULT NULL
+) auto_increment=0,
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*
+21 - posConcluida pode selecionar mais de um
+  Especialização
+  Mestrado
+  Doutorado
+  Não tem pós-graduação concluída
+*/
+CREATE TABLE `user_formacao_pos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,  
+  `formacaoId` int(11) NOT NULL,   
+  `posConcluida` varchar(50) DEFAULT NULL 
+) auto_increment=0,
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*
+22 - Outros cursos específicos (Formação continuada com no mínimo 80 horas) - obrigatório selecionar ao menos um
+  Creche (0 a 3 anos)
+  Pré-escola (4 e 5 anos)
+  Anos Iniciais do ensino fundamental
+  Anos finais do ensino fundamental
+  Ensino médio
+  Educação de jovens e adultos
+  Educação especial
+  Educação indígena
+  Educação do campo
+  Educação ambiental
+  Educação em direitos humanos
+  Gênero e diversidade sexual
+  Direitos da criança e adolecente
+  Educação para as relações étnico-raciais e história e cultura afro-brasileira e africana
+  Gestão escolar
+  Outros
+  Nenhum
+*/
+CREATE TABLE `user_formacao_outros_cursos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,  
+  `formacaoId` int(11) NOT NULL,   
+  `curso` varchar(50) DEFAULT NULL 
+) auto_increment=0,
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 

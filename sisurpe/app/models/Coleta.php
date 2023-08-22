@@ -80,7 +80,7 @@ class Coleta {
 
 
     public function getColetaEscola($escolaId){
-        $this->db->query('select * from coleta, escola, turma WHERE coleta.turmaId = turma.id AND turma.escolaId = escola.id and escola.id = :escolaId ORDER BY turma.id, coleta.nome ASC');
+        $this->db->query('select escola.id as escolaId, escola.nome as escolaNome, escola.bairro_id as bairro_id, escola.numero as numero, escola.emAtividade as emAtividade, coleta.id as coletaId, coleta.nome as coletaNome, coleta.turmaId as turmaId, coleta.turno as turno, coleta.nascimento as nascimento, coleta.sexo as sexo, coleta.kit_inverno as kit_inverno, coleta.tam_calcado as tam_calcado, coleta.transporte1 as transporte1, coleta.transporte2 as transporte2, coleta.transporte3 as transporte3 from coleta, escola, turma WHERE coleta.turmaId = turma.id AND turma.escolaId = escola.id and escola.id = :escolaId ORDER BY turma.id, coleta.nome ASC');
         $this->db->bind(':escolaId', $escolaId);
         $result = $this->db->resultSet();
         if($this->db->rowCount() > 0){
@@ -90,9 +90,8 @@ class Coleta {
         }
     }
 
-
     public function getColetaByTurma($turmaId){         
-        $this->db->query('select * from coleta WHERE coleta.turmaId = :turmaId ORDER BY coleta.nome ASC');
+        $this->db->query('select coleta.id as coletaId, coleta.nome as coletaNome, coleta.turmaId as turmaId, coleta.turno as turno, coleta.nascimento as nascimento, coleta.sexo as sexo, coleta.kit_inverno as kit_inverno,coleta.kit_verao as kit_verao, coleta.tam_calcado as tam_calcado, coleta.transporte1 as transporte1, coleta.transporte2 as transporte2, coleta.transporte3 as transporte3 from coleta WHERE coleta.turmaId = :turmaId ORDER BY coleta.nome ASC');
         $this->db->bind(':turmaId', $turmaId);
         $result = $this->db->resultSet();        
         if($this->db->rowCount() > 0){
@@ -101,6 +100,29 @@ class Coleta {
             return false;
         }
     }
+/*
+    public function getColetaEscola($escolaId){
+        $this->db->query('select * from coleta, escola, turma WHERE coleta.turmaId = turma.id AND turma.escolaId = escola.id and escola.id = :escolaId ORDER BY turma.id, coleta.nome ASC');
+        $this->db->bind(':escolaId', $escolaId);
+        $result = $this->db->resultSet();
+        if($this->db->rowCount() > 0){
+            return $result;
+        } else {
+            return false;
+        }
+    }
+*/
+
+    /* public function getColetaByTurma($turmaId){         
+        $this->db->query('select * from coleta WHERE coleta.turmaId = :turmaId ORDER BY coleta.nome ASC');
+        $this->db->bind(':turmaId', $turmaId);
+        $result = $this->db->resultSet();        
+        if($this->db->rowCount() > 0){
+            return $result;
+        } else {
+            return false;
+        }
+    } */
 
 
     public function getTotal($turmaId,$tamanho,$campoCalcular){
@@ -150,10 +172,22 @@ class Coleta {
         } */
     }
 
-    //Retorna os totais por turma
-    public function totais($turmaId,$campoCalcular){ 
+    //Retorna os totais de uniforme por turma
+    public function totaisUniforme($turmaId,$campoCalcular){ 
         $arrayTamanhos='';
         $arrayTamanhos = getArrayTamanhos();             
+
+        foreach($arrayTamanhos as $tamanho){
+            $result[$tamanho] = $this->getTotal($turmaId,$tamanho,$campoCalcular);            
+        }
+        
+        return $result;
+    }
+
+    //Retorna os totais de uniforme por turma
+    public function totaisCalcado($turmaId,$campoCalcular){ 
+        $arrayTamanhos='';
+        $arrayTamanhos = getTamanhosCalcados();             
 
         foreach($arrayTamanhos as $tamanho){
             $result[$tamanho] = $this->getTotal($turmaId,$tamanho,$campoCalcular);            
@@ -203,13 +237,23 @@ class Coleta {
         }         
     }
 
-    //retorna os totais por escola
-    public function totaisEscola($escolaId){
+    //retorna os totais de uniforme por escola
+    public function totaisEscolaUniforme($escolaId){
         $arrayTamanhos='';
         $arrayTamanhos = getArrayTamanhos();
         foreach($arrayTamanhos as $tamanho){            
             $result['kit_inverno'][$tamanho] = $this->getTotaisEscola($escolaId,$tamanho,'kit_inverno'); 
             $result['kit_verao'][$tamanho] = $this->getTotaisEscola($escolaId,$tamanho,'kit_verao'); 
+            $result['tam_calcado'][$tamanho] = $this->getTotaisEscola($escolaId,$tamanho,'tam_calcado');
+        } 
+        return $result;       
+    }
+
+    //retorna os totais de calçados por escola
+    public function totaisEscolaCalcado($escolaId){
+        $arrayTamanhos='';
+        $arrayTamanhos = getTamanhosCalcados();
+        foreach($arrayTamanhos as $tamanho){ 
             $result['tam_calcado'][$tamanho] = $this->getTotaisEscola($escolaId,$tamanho,'tam_calcado');
         } 
         return $result;       

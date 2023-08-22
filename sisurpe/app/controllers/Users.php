@@ -202,8 +202,7 @@
                       } else {
                         $data['password'] = null;
                       }
-                     
-
+                                           
                       // Register User
                       if($this->userModel->update($data)){
                         // Cria a menságem antes de chamar o view va para 

@@ -43,7 +43,7 @@ class User extends Pagination{
     }
 
     // Update User
-    public function update($data){
+    public function update($data){        
               
         if($data['usertype'] != 'coleta'){
             if(!$this->removeUserEscolaColeta($data['user_id'])){

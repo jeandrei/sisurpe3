@@ -15,6 +15,7 @@
             $this->coletaModel = $this->model('Coleta');
             $this->escolaModel = $this->model('Escola');
             $this->userescolacoletaModel = $this->model('Userescolacoleta');
+            $this->turmaModel = $this->model('Turma');
         }
 
          /* Mostra os municípios que o cliente atende */
@@ -35,7 +36,7 @@
                 $nascimento = formataData($row->nascimento);
                 $tamanhosInvero = imptamanhounif($row->kit_inverno);
                 $tamanhosVerao = imptamanhounif($row->kit_verao);
-                $tamanhosCalcado = imptamanhounif($row->tam_calcado);
+                $tamanhosCalcado = imptamanhocalc($row->tam_calcado);
                 $transporte1 = imptlinhastransporte($row->transporte1);
                 $transporte2 = imptlinhastransporte($row->transporte2);
                 $transporte3 = imptlinhastransporte($row->transporte3);
@@ -225,6 +226,78 @@
             }
 
             
+        }
+
+        //gerador de bilhetes seleção da escola e turma
+        public function geradordebilhetes(){            
+            unset($data);           
+            $data = [
+                'titulo'    => 'Gerador de bilhetes',
+                'escolas' => $this->userescolacoletaModel->getEscolaColetaUserById($_SESSION[DB_NAME . '_user_id'])
+            ];
+            $this->view('coletas/geradordebilhetes', $data); 
+        }
+
+        //gerador de bilhetes validação e envio de dados para o relatório
+        public function bilhetecoleta(){
+
+            if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING); 
+              
+                //init data
+                $data = [
+                    'titulo'    => 'Gerador de bilhetes',
+                    'escolaId' => trim($_POST['escolaId']),
+                    'turmaId' => trim($_POST['turmaId']),
+                    'texto' => trim($_POST['texto']),
+                    'bilheteFolha' => $_POST['bilheteFolha'],
+                    'escolas' => $this->userescolacoletaModel->getEscolaColetaUserById($_SESSION[DB_NAME . '_user_id']), 
+                    'turmas' => $this->turmaModel->getTurmasEscolaById($_POST['escolaId']),               
+                    'escolaId_err' => '',
+                    'turmaId_err' => '',
+                    'bilheteFolha_err' => ''                                 
+                ];   
+                      
+                // Valida escolaId
+                if(empty($data['escolaId']) || $data['escolaId'] === 'null'){
+                    $data['escolaId_err'] = 'Por favor informe a escola.';
+                } 
+
+                if(empty($data['bilheteFolha']) || $data['bilheteFolha'] === 'null'){
+                    $data['bilheteFolha_err'] = 'Por favor informe a quantidade de bilhetes por folha.';
+                }
+  
+                // Make sure errors are empty
+                if(                    
+                    empty($data['escolaId_err']) &&
+                    empty($data['bilheteFolha_err'])
+                    ){  
+                    
+                        if($data['turmaId']=='null'){
+                        $coleta = $this->coletaModel->getColetaEscola($data['escolaId']);
+                        } else {
+                        $coleta = $this->coletaModel->getColetaByTurma($data['turmaId']);
+                        }
+
+                        foreach($coleta as $row){
+                        $data['result'][] = [
+                            'nome' => $row->coletaNome,
+                            'turma' => $this->turmaModel->getTurmaById($row->turmaId)->descricao,
+                            'turno' => $row->turno,
+                            'sexo' => $row->sexo                        
+                            ];
+                        }
+
+                        //debug($data);
+                        $data['escola'] = $this->escolaModel->getEscolaByid($data['escolaId'])->nome;
+                        
+                        $this->view('relatorios/bilhetecoleta',$data);   
+                                
+                    } else {
+                        $this->view('coletas/geradordebilhetes', $data);
+                    }
+  
+            }// if post      
         }
         
     }

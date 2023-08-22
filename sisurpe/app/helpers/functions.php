@@ -46,23 +46,51 @@ $arrayEstados = array(
 return $html;
 }
 
+function getTamanhosCalcados(){
+  $arrayTamanhos = array(
+    '22',
+    '23',
+    '24',
+    '25',
+    '26',
+    '27',
+    '28',
+    '29',
+    '30',
+    '31',
+    '32',
+    '33',
+    '34',
+    '35',
+    '36',
+    '37',
+    '38',
+    '39',
+    '40',
+    '41',
+    '42',
+    '43'
+  );
+  return $arrayTamanhos;
+}
 
 
 function getArrayTamanhos(){
   $arrayTamanhos = array(
-    '1',
-    '2',
-    '36',
-    '42',
-    '5',
-    '6',
-    '7',
-    '8',
     'P',
     'M',
     'G',
     'GG',
-    'EG',      
+    'XGG',
+    '1',
+    '2',
+    '4',
+    '6',
+    '8',
+    '10',
+    '12',
+    '14',
+    '16'    
   );
   return $arrayTamanhos;
 }
@@ -86,19 +114,42 @@ function imptamanhounif($tamanhosec){
   }
 
 
+  function imptamanhocalc($tamanhosec){
+
+    $arrayTamanhos = getTamanhosCalcados();
+
+    foreach($arrayTamanhos as $tamanho){ 
+      //idtamanho tem que ser passada pelo post
+      if($tamanho == $tamanhosec){
+        $html .= '<option selected value="'.$tamanho.'" '.'>'.$tamanho.'</option>';
+      }
+      else{
+      $html .='<option value="'.$tamanho.'" '.'>'.$tamanho.'</option>';           
+  
+    }
+  
+  }
+  return $html;
+  }
+
   function imptlinhastransporte($linhasec){
-    $arrayLinhas = array(
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-        '6',
-        '7',
-        '8',
-        'ARMAÇÃO',
-        'SANTA LIDIA',
-        'TESTE',              
+    $arrayLinhas = array(     
+      'LINHA 03',
+      'LINHA 05',
+      'LINHA 06',
+      'LINHA 08', 
+      'LINHA 09', 
+      'LINHA 14', 
+      'LINHA 15', 
+      'LINHA 18', 
+      'LINHA 19', 
+      'ROTA 02',
+      'ROTA 07',
+      'ROTA 14',
+      'ROTA 17',
+      'ROTA 17A',
+      'ROTA 20-18A',
+      'ROTA VAN'                      
       );  
       foreach($arrayLinhas as $linha){ 
         //idtamanho tem que ser passada pelo post
