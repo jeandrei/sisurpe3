@@ -132,6 +132,7 @@
       <!-- BILHETE POR FOLHA -->
       <div class="form-group"> 
         <label for="turmaId">
+            <b class="obrigatorio">*</b>
             Bilhetes pof folha: 
         </label>
         <select

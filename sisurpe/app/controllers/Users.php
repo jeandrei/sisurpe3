@@ -324,6 +324,7 @@
             }
     }
 
+
     public function createUserSession($user){
         // $user->id vem do model na função login() retorna a row com todos os campos
         // da consulta na tabela users
