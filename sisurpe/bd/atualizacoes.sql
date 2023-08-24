@@ -268,9 +268,9 @@ CREATE TABLE `f_user_curso_superior` (
   `areaId` int(11) NOT NULL,
   `nivelId` int(11) NOT NULL,
   `cursoId` int(11) NOT NULL,
-  `tipoInstituicao` varchar(50) DEFAULT NULL, 
-  `instituicaoEnsino` varchar(50) DEFAULT NULL,
-  `municipioId` int(11) NOT NULL
+  `tipoInstituicao` varchar(50)  NOT NULL,
+  `instituicaoEnsino` varchar(50)  NOT NULL,
+  `municipioId` int(11) DEFAULT NULL
 ) auto_increment=0,
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

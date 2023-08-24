@@ -1,10 +1,21 @@
 <?php
-    class Fuserformacao {
+    class Fusercursosuperior {
         private $db;
 
         public function __construct(){
             //inicia a classe Database
             $this->db = new Database;
+        }
+
+
+        public function getCursosUser($_userId){
+            $this->db->query('SELECT fucs.userId as userId, fucs.areaId as areaId, fucs.nivelId as nivelId, fucs.cursoId as cursoId, fucs.tipoInstituicao as tipoInstituicao, fucs.instituicaoEnsino as instituicaoEnsino, fucs.municipioId as municipioId  FROM f_user_curso_superior fucs ORDER BY fucs.instituicaoEnsino ASC');
+            $result = $this->db->resultSet();
+            if($this->db->rowCount() > 0){
+                return $result;
+            } else {
+                return false;
+            }
         }
 
         // Registra a formacao na tabela f_user_formacao 

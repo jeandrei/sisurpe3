@@ -1,13 +1,28 @@
 <!-- HEADER -->
 <?php require APPROOT . '/views/inc/header.php';?>
 
+
+
 <!-- FLASH MESSAGE -->
 <?php flash('message'); ?>
 
 <!-- TÍTULO -->
-<div class="row text-center">
-    <h1><?php echo $data['titulo']; ?></h1>
+<div class="row">
+    <div class="col-12 text-center">
+        <h3><?php echo $data['titulo']; ?></h3>
+    </div>    
 </div>
+
+<div class="alert alert-warning" role="alert">
+  <h4 class="alert-heading">Nível de escolaridade e tipo de ensino médio.</h4>
+  <p>Em Maior nível de escolaridade concluída, como o próprio texto diz, você deve informar o maior nível <b>CONCLLUÍDO</b>, logo se você está cursando o ensino superior, mas ainda não finalizou, você deve informar a opção <b>Ensino médio</b>.</p>
+  <p>
+    Em Tipo de ensino médio cursado, informe o tipo de formação do seu ensino médio.
+  </p>  
+  <hr>
+  <p class="mb-0">Após informar os dados, clique em <b>Salvar</b> e depois em <b>Avançar</b>.</p>
+</div>
+
 
 <!-- FORMULÁRIO -->
 <form id="frmUserFormacao" action="<?php echo URLROOT.'/fuserformacoes/add'?>" method="POST" novalidate enctype="multipart/form-data">    
@@ -31,10 +46,34 @@
                         class="form-control <?php echo (!empty($data['maiorEscolaridade_err'])) ? 'is-invalid' : ''; ?>"
                     >
                         <option value="null">Selecione</option>              
-                        <option value="nao_concluiu">Não concluiu o ensino fundamental</option> 
-                        <option value="e_fundamental">Ensino fundamental</option> 
-                        <option value="e_superior">Ensino superior</option> 
-                        <option value="e_medio">Ensino médio</option> 
+                        
+                        <option 
+                            value="nao_concluiu" 
+                            <?php echo ($data['maiorEscolaridade']) == "nao_concluiu" ? 'selected' : '';?>
+                        >
+                            Não concluiu o ensino fundamental
+                        </option> 
+
+                        <option 
+                            value="e_fundamental"
+                            <?php echo ($data['maiorEscolaridade']) == "e_fundamental" ? 'selected' : '';?>
+                        >
+                            Ensino fundamental
+                        </option> 
+
+                        <option 
+                            value="e_superior"
+                            <?php echo ($data['maiorEscolaridade']) == "e_superior" ? 'selected' : '';?>
+                        >
+                            Ensino superior
+                        </option> 
+
+                        <option 
+                            value="e_medio"
+                            <?php echo ($data['maiorEscolaridade']) == "e_medio" ? 'selected' : '';?>
+                        >
+                            Ensino médio
+                        </option> 
                     </select>
                     <span class="text-danger">
                         <?php echo $data['maiorEscolaridade_err']; ?>
@@ -57,10 +96,33 @@
                         class="form-control <?php echo (!empty($data['tipoEnsinoMedio_err'])) ? 'is-invalid' : ''; ?>"
                     >
                         <option value="null">Selecione</option>              
-                        <option value="geral">Formação geral</option> 
-                        <option value="normal">Modalidade normal (magistério)</option> 
-                        <option value="c_tecnico">Curso técnico</option> 
-                        <option value="m_indigena">Magistério indígena - modalidade normal</option> 
+                        <option 
+                            value="geral"
+                            <?php echo ($data['tipoEnsinoMedio']) == "geral" ? 'selected' : '';?>
+                        >
+                            Formação geral
+                        </option>
+
+                        <option 
+                            value="normal"
+                            <?php echo ($data['tipoEnsinoMedio']) == "normal" ? 'selected' : '';?>
+                        >
+                            Modalidade normal (magistério)
+                        </option> 
+                        
+                        <option 
+                            value="c_tecnico"
+                            <?php echo ($data['tipoEnsinoMedio']) == "c_tecnico" ? 'selected' : '';?>
+                        >
+                            Curso técnico
+                        </option> 
+                        
+                        <option 
+                            value="m_indigena"
+                            <?php echo ($data['tipoEnsinoMedio']) == "m_indigena" ? 'selected' : '';?>
+                        >
+                            Magistério indígena - modalidade normal
+                        </option> 
                     </select>
                     <span class="text-danger">
                         <?php echo $data['tipoEnsinoMedio_err']; ?>
@@ -78,9 +140,17 @@
 
     <!-- BOTÕES -->
     <div class="form-group mt-3 mb-3">           
-        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Salvar</button> 
-
-        <a href="<?php echo URLROOT; ?>/municipios/edit/<?php echo $data['municipioId']; ?>" class="btn bg-warning"><i class="fa-solid fa-backward"></i> Voltar</a>
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Salvar</button>        
+    <!-- $data['userformacao'] retorna false se não tem formação do usuário -->
+        <?php if($data['userformacao']): ?>
+            <?php if($data['userformacao']->maiorEscolaridade == 'e_superior') : ?>
+                <a href="<?php echo URLROOT; ?>/fusercursosuperiores/index" class="btn btn-success"><i class="fa fa-forward"></i> Avançar</a>
+            <?php else:?>
+                <!-- se não tem curso superior avanço para outros cursos -->
+                <a href="<?php echo URLROOT; ?>/fuserformacoes/index" class="btn btn-success"><i class="fa fa-forward"></i> Avançar</a>
+            <?php endif;?>
+               
+        <?php endif;?>
             
     </div>   
     <!-- BOTÕES -->

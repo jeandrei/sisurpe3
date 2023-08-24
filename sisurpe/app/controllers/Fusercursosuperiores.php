@@ -1,5 +1,5 @@
 <?php
-    class Fuserformacoes extends Controller{
+    class Fusercursosuperiores extends Controller{
         public function __construct(){
 
             if((!isLoggedIn())){ 
@@ -12,28 +12,31 @@
             $this->bairroModel = $this->model('Bairro');
             $this->fuserescolaModel = $this->model('Fuserescolaano');
             $this->fuserformacoesModel = $this->model('Fuserformacao');
+            $this->fareacursoModel = $this->model('Fareacurso');
+            $this->fnivelcursoModel = $this->model('Fnivelcurso');
+            $this->fcursossupModel = $this->model('Fcursossuperior');
+            $this->fusercursossupModel = $this->model('Fusercursosuperior');
         }
 
-        public function index() { 
-          
+        public function index() {  
           //se o usuário ainda não adicionou nenhuma escola, faço essa verificação para evitar passar para próxima etapa pelo link sem ter adicionado uma escola
-          if(!$this->fuserescolaModel->getEscolasUser($_SESSION[DB_NAME . '_user_id'])){
-            flash('message', 'Você deve adicionar uma escola ao ano corrente primeiro!', 'error'); 
-            redirect('fuserescolaanos/index');
-              die();
-          } 
-
-            $formacoes = $this->fuserformacoesModel->getUserFormacoesById($_SESSION[DB_NAME . '_user_id']);
-                        $data = [
-                        'maiorEscolaridade' => $formacoes->maiorEscolaridade,
-                        'tipoEnsinoMedio' => $formacoes->tipoEnsinoMedio,
-                        'userId' => $_SESSION[DB_NAME . '_user_id'],
-                        'userformacao' => $this->fuserformacoesModel->getUserFormacoesById($_SESSION[DB_NAME . '_user_id']),
-                        'titulo' => 'Formação do usuário'
-            ];   
+          if(!$this->fuserformacoesModel->getUserFormacoesById($_SESSION[DB_NAME . '_user_id'])){
+            flash('message', 'Você deve adicionar sua formação para informar os dados de curso superior!', 'error'); 
+            redirect('fuserformacoes/index');
+            die();
+          }      
+            
+            
+          $data = [
+              'areasCurso' => $this->fareacursoModel->getAreasCurso(),
+              'nivelCurso' => $this->fnivelcursoModel->getNivelCurso(),
+              'cursosSuperiores' => $this->fcursossupModel->getCursosSup(),
+              'userCursosSup' => $this->fusercursossupModel->getCursosUser($_SESSION[DB_NAME . '_user_id']),
+              'userId' => $_SESSION[DB_NAME . '_user_id'],
+              'titulo' => 'Curso superior'
+          ];  
          
-          $this->view('fuserformacoes/index',$data);
-          
+          $this->view('fusercursosuperiores/index',$data);         
           
         }
 
