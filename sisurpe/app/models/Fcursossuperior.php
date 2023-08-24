@@ -18,6 +18,17 @@
             }
         }
 
+        public function getCursoById($_cursoId){
+            $this->db->query('SELECT c.cursoId as cursoId, c.curso as curso FROM f_curso_superior c WHERE c.cursoId = :cursoId'); 
+            $this->db->bind(':cursoId',$_cursoId); 
+            $row = $this->db->single();       
+            if($this->db->execute()){
+                return $row;
+            } else {
+                return false;
+            }
+        }
+
 
     }//area
     

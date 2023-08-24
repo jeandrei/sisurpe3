@@ -74,6 +74,14 @@ function getTamanhosCalcados(){
   return $arrayTamanhos;
 }
 
+function getTipoInstituicoes(){
+  $data = array(
+    'Pública',
+    'Privada'
+  );
+  return $data;
+}
+
 
 function getArrayTamanhos(){
   $arrayTamanhos = array(

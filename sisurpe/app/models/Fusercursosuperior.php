@@ -9,7 +9,7 @@
 
 
         public function getCursosUser($_userId){
-            $this->db->query('SELECT fucs.userId as userId, fucs.areaId as areaId, fucs.nivelId as nivelId, fucs.cursoId as cursoId, fucs.tipoInstituicao as tipoInstituicao, fucs.instituicaoEnsino as instituicaoEnsino, fucs.municipioId as municipioId  FROM f_user_curso_superior fucs ORDER BY fucs.instituicaoEnsino ASC');
+            $this->db->query('SELECT fucs.ucsId,fucs.userId as userId, fucs.areaId as areaId, fucs.nivelId as nivelId, fucs.cursoId as cursoId, fucs.tipoInstituicao as tipoInstituicao, fucs.instituicaoEnsino as instituicaoEnsino, fucs.municipioId as municipioId  FROM f_user_curso_superior fucs ORDER BY fucs.instituicaoEnsino ASC');
             $result = $this->db->resultSet();
             if($this->db->rowCount() > 0){
                 return $result;
@@ -18,28 +18,20 @@
             }
         }
 
-        // Registra a formacao na tabela f_user_formacao 
-        public function register($data){             
-            $this->db->query('SELECT * FROM f_user_formacao WHERE userId = :userId');
-            $this->db->bind(':userId',$data['userId']);
-            $result = $this->db->resultSet();            
-            //verifico se já tem cadastro, se não tem registro se tem atualizo            
-            if($this->db->rowCount() > 0){
-            //update
-            $sql = 'UPDATE f_user_formacao SET maiorEscolaridade = :maiorEscolaridade, tipoEnsinoMedio = :tipoEnsinoMedio WHERE userId = :userId';
-            } else {
-            //insert
-            $sql = 'INSERT INTO f_user_formacao (userId, maiorEscolaridade,tipoEnsinoMedio) VALUES (:userId, :maiorEscolaridade,:tipoEnsinoMedio)';
-            }
-            
+        // Registra um curso na tabela f_user_curso_superior
+        public function register($data){  
+            $sql = 'INSERT INTO f_user_curso_superior (userId, areaId,nivelId,	cursoId,tipoInstituicao,instituicaoEnsino) VALUES (:userId, :areaId,:nivelId,:cursoId,:tipoInstituicao,:instituicaoEnsino)';           
             $this->db->query($sql);
             // Bind values
             $this->db->bind(':userId',$data['userId']);
-            $this->db->bind(':maiorEscolaridade',$data['maiorEscolaridade']);
-            $this->db->bind(':tipoEnsinoMedio',$data['tipoEnsinoMedio']);
+            $this->db->bind(':areaId',$data['areaId']);
+            $this->db->bind(':nivelId',$data['nivelId']);
+            $this->db->bind(':cursoId',$data['cursoId']);
+            $this->db->bind(':tipoInstituicao',$data['tipoInstituicao']);
+            $this->db->bind(':instituicaoEnsino',$data['instituicaoEnsino']);
             // Execute
             if($this->db->execute()){
-                return true;
+                return $this->db->lastId;
             } else {
                 return false;
             }
@@ -55,6 +47,18 @@
             } else {
                 return false;
             }
+        }
+
+
+        public function delete($_ucsId){
+            $this->db->query('DELETE FROM f_user_curso_superior WHERE ucsId = :ucsId');
+            $this->db->bind(':ucsId', $_ucsId);
+            $row = $this->db->execute();
+            if($this->db->rowCount() > 0){
+                return true;
+            } else {
+                return false;
+            }        
         }
 
         

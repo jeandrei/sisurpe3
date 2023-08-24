@@ -27,15 +27,32 @@
           }      
             
             
-          $data = [
+          $data['init'] = [
               'areasCurso' => $this->fareacursoModel->getAreasCurso(),
               'nivelCurso' => $this->fnivelcursoModel->getNivelCurso(),
               'cursosSuperiores' => $this->fcursossupModel->getCursosSup(),
-              'userCursosSup' => $this->fusercursossupModel->getCursosUser($_SESSION[DB_NAME . '_user_id']),
+              'tiposInstituicoes' => getTipoInstituicoes(),
               'userId' => $_SESSION[DB_NAME . '_user_id'],
               'titulo' => 'Curso superior'
-          ];  
-         
+          ];
+          
+          if($userCursosSup = $this->fusercursossupModel->getCursosUser($_SESSION[DB_NAME . '_user_id'])){
+            foreach($userCursosSup as $row) {
+              $data['userCursosSup'][] = [
+                'ucsId' => $row->ucsId,
+                'areaId' => $row->areaId,
+                'area' => $this->fareacursoModel->getAreaById($row->areaId)->area,
+                'nivelId' => $row->nivelId,
+                'nivel' => $this->fnivelcursoModel->getNivelById($row->nivelId)->nivel,
+                'cursoId' => $row->cursoId,
+                'curso' => $this->fcursossupModel->getCursoById($row->cursoId)->curso,
+                'tipoInstituicao' => $row->tipoInstituicao,
+                'instituicaoEnsino' => $row->instituicaoEnsino
+              ];
+            };
+          }
+                    
+                   
           $this->view('fusercursosuperiores/index',$data);         
           
         }
@@ -51,37 +68,62 @@
 
                 //init data
                 unset($data);
-                $data = [
-                    'maiorEscolaridade' => trim($_POST['maiorEscolaridade']),
-                    'tipoEnsinoMedio' => trim($_POST['tipoEnsinoMedio']),
-                    'userId' => $_SESSION[DB_NAME . '_user_id'],
-                    'titulo' => 'Formação do usuário'
-                ];                
-               
-                   
                 
-                // Valida maiorEscolaridade
-                if(empty($data['maiorEscolaridade']) || ($data['maiorEscolaridade'] == 'null')){
-                    $data['maiorEscolaridade_err'] = 'Por favor informe o nível de escolaridade.';
+                $data['init'] = [
+                  'areaId' => trim($_POST['areaId']),
+                  'nivelId' => trim($_POST['nivelId']),
+                  'cursoId' => trim($_POST['cursoId']),
+                  'userId' => $_SESSION[DB_NAME . '_user_id'],
+                  'titulo' => 'Curso superior',
+                  'tipoInstituicao' => trim($_POST['tipoInstituicao']),
+                  'instituicaoEnsino' => trim($_POST['instituicaoEnsino']),
+                  'areasCurso' => $this->fareacursoModel->getAreasCurso(),
+                  'nivelCurso' => $this->fnivelcursoModel->getNivelCurso(),
+                  'cursosSuperiores' => $this->fcursossupModel->getCursosSup(),
+                  'userCursosSup' => $this->fusercursossupModel->getCursosUser($_SESSION[DB_NAME . '_user_id']),
+                  'tiposInstituicoes' => getTipoInstituicoes()                  
+              ];  
+                                  
+                
+                // Valida areaId
+                if(empty($data['init']['areaId']) || ($data['init']['areaId'] == 'null')){
+                    $data['init']['areaId_err'] = 'Por favor informe a área do curso.';
+                }  
+
+                // Valida nivelId
+                if(empty($data['init']['nivelId']) || ($data['init']['nivelId'] == 'null')){
+                  $data['init']['nivelId_err'] = 'Por favor informe o nível do curso.';
+                } 
+
+                // Valida cursoId
+                if(empty($data['init']['cursoId']) || ($data['init']['cursoId'] == 'null')){
+                  $data['init']['cursoId_err'] = 'Por favor informe o curso.';
                 }  
                 
-                // Valida tipoEnsinoMedio
-                if(empty($data['tipoEnsinoMedio']) || ($data['tipoEnsinoMedio'] == 'null')){
-                    $data['tipoEnsinoMedio_err'] = 'Por favor informe tipo de ensino médio cursado.';
+                // Valida tipoInstituicao
+                if(empty($data['init']['tipoInstituicao']) || ($data['init']['tipoInstituicao'] == 'null')){
+                    $data['init']['tipoInstituicao_err'] = 'Por favor informe tipo da instituição.';
+                } 
+
+                // Valida nstituicaoEnsino
+                if(empty($data['init']['instituicaoEnsino']) || ($data['init']['instituicaoEnsino'] == '')){
+                  $data['init']['instituicaoEnsino_err'] = 'Por favor informe a instituição de ensino.';
                 } 
                                
                 
                 // Make sure errors are empty
                 if(                    
-                    empty($data['maiorEscolaridade_err'])&&
-                    empty($data['tipoEnsinoMedio_err'])
+                    empty($data['init']['areaId_err'])&&
+                    empty($data['init']['nivelId_err'])&&
+                    empty($data['init']['cursoId_err'])&&
+                    empty($data['init']['tipoInstituicao_err'])&&
+                    empty($data['init']['instituicaoEnsino_err'])                    
                   ){
                         // Register maiorEscolaridade
-                        try {
-
-                            if($this->fuserformacoesModel->register($data)){
-                                flash('message', 'Nível de escolaridade registrado com sucesso!','success');                        
-                                redirect('fuserformacoes/index');
+                        try {                            
+                            if($this->fusercursossupModel->register($data['init'])){
+                                flash('message', 'Curso superior registrado com sucesso!','success');                        
+                                redirect('fusercursosuperiores/index');
                             } else {                                
                                 throw new Exception('Ops! Algo deu errado ao tentar gravar os dados! Tente novamente.');
                             } 
@@ -89,18 +131,48 @@
                         } catch (Exception $e) {
                             $erro = 'Erro: '.  $e->getMessage(); 
                             flash('message', $erro,'error');                       
-                            redirect('fuserformacoes/index');        
+                            redirect('fusercursosuperiores/add');        
                         }  
                     } else {
                       // Load the view with errors
-                        if(!empty($data['erro'])){
-                        flash('message', $data['erro'], 'error');
-                        }                        
-                        $this->view('fuserformacoes/index', $data);
+                        $this->view('fusercursosuperiores/add', $data);
                     }               
 
             
-            } 
+            } else {
+              if(!$this->fuserformacoesModel->getUserFormacoesById($_SESSION[DB_NAME . '_user_id'])){
+                flash('message', 'Você deve adicionar sua formação para informar os dados de curso superior!', 'error'); 
+                redirect('fuserformacoes/index');
+                die();
+              }      
+                
+                
+              $data['init'] = [
+                  'areasCurso' => $this->fareacursoModel->getAreasCurso(),
+                  'nivelCurso' => $this->fnivelcursoModel->getNivelCurso(),
+                  'cursosSuperiores' => $this->fcursossupModel->getCursosSup(),
+                  'tiposInstituicoes' => getTipoInstituicoes(),
+                  'userId' => $_SESSION[DB_NAME . '_user_id'],
+                  'titulo' => 'Curso superior'
+              ];
+              $this->view('fusercursosuperiores/add',$data);
+            }
+        }
+
+
+        public function delete($_ucsId){          
+          try {
+            if($this->fusercursossupModel->delete($_ucsId)){           
+                flash('message', 'Curso removido com sucesso!','success');                     
+                redirect('fusercursosuperiores/index');
+            } else {                        
+                throw new Exception('Ops! Algo deu errado ao tentar excluir o curso!');
+            }
+          } catch (Exception $e) {                   
+            $erro = 'Erro: '.  $e->getMessage();                      
+            flash('message', $erro,'error');
+            redirect('fusercursosuperiores/index');
+          }
         }
     
 }   

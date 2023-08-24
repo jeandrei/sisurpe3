@@ -5,58 +5,68 @@
 <!-- FLASH MESSAGE -->
 <?php flash('message'); ?>
 
-<!-- TÍTULO -->
-<div class="row">
-    <div class="col-12 text-center">
-        <h3><?php echo $data['titulo']; ?></h3>
-    </div>    
+
+<div class="alert alert-warning" role="alert">
+  <h4 class="alert-heading">Curso superior.</h4>
+  <p>Abaixo são listados os cursos superiores já adicionados.</p>
+  <p>Para adicionar um curso superior clique em <b>+ Adicionar</b>. 
+  <hr>
+  <p class="mb-0"><p>Após adicionar todos os seus cursos, clique em <b>Avançar</b>.
+</div>
+
+<!-- ADD NEW -->
+<div class="row mb-3">
+  <div class="col-md-12">
+    <a href="<?php echo URLROOT; ?>/fusercursosuperiores/add" class="btn btn-primary float-end">
+        <i class="fa fa-plus"></i> Adicionar
+    </a>
+    <?php if($data['userCursosSup']) : ?>
+      <a href="<?php echo URLROOT; ?>/fuserpos/index" class="btn btn-success"><i class="fa fa-forward"></i> Avançar</a>
+    <?php endif;?>
+  </div>
 </div>
 
 
+<table class="table table-striped table-responsive-sm">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Área</th> 
+      <th scope="col">Nível</th> 
+      <th scope="col">Curso</th> 
+      <th scope="col">Tipo Instituição</th> 
+      <th scope="col">Instituição de Ensino</th> 
+      <th scope="col"></th>     
+    </tr>
+  </thead>
+  <tbody>
+    <?php if($data['userCursosSup']) : ?>
+      <?php $i=0;?>
+      <?php foreach($data['userCursosSup'] as $row) :?>
+        <?php $i++;?>
+        <tr>
+          <th scope="row"><?php echo $i;?></th>
+          <td><?php echo $row['area'];?></td> 
+          <td><?php echo $row['nivel'];?></td> 
+          <td><?php echo $row['curso'];?></td> 
+          <td><?php echo $row['tipoInstituicao'];?></td> 
+          <td><?php echo $row['instituicaoEnsino'];?></td> 
 
-<!-- FORMULÁRIO -->
-<form id="frmUserCursoSuperior" action="<?php echo URLROOT.'/fuserformacoes/add'?>" method="POST" novalidate enctype="multipart/form-data">    
-    
-    <!-- grup de dados 1 -->
-    <fieldset class="bg-light p-2">
-        
-        <!-- PRIMEIRA LINHA -->
-        <div class="row">
-            
-            <!--areaId-->
-            <div class="col-12"> 
-                <label for="areaId">
-                    <b class="obrigatorio">*</b> Área do curso: 
-                </label> 
-                <select
-                    name="areaId"
-                    id="areaId"
-                    class="form-control <?php echo (!empty($data['areaId_err'])) ? 'is-invalid' : ''; ?>"
-                >
-                    <option value="null">Selecione</option>
-                    <?php foreach($data['areasCurso'] as $row) : ?> 
-                            <option value="<?php htmlout($row->areaId); ?>"
-                            <?php echo $data['areaId'] == $row->areaId ? 'selected':'';?>
-                            >
-                                <?php htmlout($row->area);?>
-                            </option>
-                    <?php endforeach; ?>
-                </select>
-                <span class="text-danger">
-                    <?php echo $data['areaId_err']; ?>
-                </span>
-            </div>
-            <!--areaId-->
+          <td><a href="<?php echo URLROOT.'/fusercursosuperiores/delete/'.$row['ucsId'];?>"><i class="fa-solid fa-trash" style="color: #f20707;"></i></a></td>     
+        </tr>
+      <?php endforeach; ?>    
+    <?php else: ?>
+      <tr class='text-center'>
+          <td colspan='7'>
+              Nenhum curso superior adicionado!
+          </td> 
+      </tr>   
+    <?php endif;?>
+  </tbody>
+</table>
 
-        </div>
-        <!-- PRIMEIRA LINHA --> 
 
-    </fieldset>
-    <!-- fim do grup de dados 1 -->    
 
-    
-    
-</form>
 
 <!-- FOOTER -->
 <?php require APPROOT . '/views/inc/footer.php'; ?>

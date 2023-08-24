@@ -6,13 +6,6 @@
 <!-- FLASH MESSAGE -->
 <?php flash('message'); ?>
 
-<!-- TÍTULO -->
-<div class="row">
-    <div class="col-12 text-center">
-        <h3><?php echo $data['titulo']; ?></h3>
-    </div>    
-</div>
-
 <div class="alert alert-warning" role="alert">
   <h4 class="alert-heading">Nível de escolaridade e tipo de ensino médio.</h4>
   <p>Em Maior nível de escolaridade concluída, como o próprio texto diz, você deve informar o maior nível <b>CONCLLUÍDO</b>, logo se você está cursando o ensino superior, mas ainda não finalizou, você deve informar a opção <b>Ensino médio</b>.</p>
