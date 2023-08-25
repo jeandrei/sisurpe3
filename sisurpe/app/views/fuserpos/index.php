@@ -74,16 +74,14 @@ function updateCheckBox(){
   let checkValue = document.querySelectorAll('.form-check-input')[0].checked; 
   let checks = document.querySelectorAll('.form-check-input');
     
-    if(checkValue){
-      console.log('não selecionado');
+    if(checkValue){      
       checks.forEach((c)=>{  
         if(c.id > 1){
           c.disabled = true;
         }        
     });    
   } else {
-    checks.forEach((c)=>{ 
-      console.log('outra selecionado');
+    checks.forEach((c)=>{       
       c.disabled = false;
     });  
   }  
