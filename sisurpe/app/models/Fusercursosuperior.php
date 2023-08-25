@@ -20,7 +20,7 @@
 
         // Registra um curso na tabela f_user_curso_superior
         public function register($data){  
-            $sql = 'INSERT INTO f_user_curso_superior (userId, areaId,nivelId,	cursoId,tipoInstituicao,instituicaoEnsino) VALUES (:userId, :areaId,:nivelId,:cursoId,:tipoInstituicao,:instituicaoEnsino)';           
+            $sql = 'INSERT INTO f_user_curso_superior (userId, areaId,nivelId,	cursoId,tipoInstituicao,instituicaoEnsino,municipioId) VALUES (:userId, :areaId,:nivelId,:cursoId,:tipoInstituicao,:instituicaoEnsino,:municipioId)';           
             $this->db->query($sql);
             // Bind values
             $this->db->bind(':userId',$data['userId']);
@@ -29,6 +29,7 @@
             $this->db->bind(':cursoId',$data['cursoId']);
             $this->db->bind(':tipoInstituicao',$data['tipoInstituicao']);
             $this->db->bind(':instituicaoEnsino',$data['instituicaoEnsino']);
+            $this->db->bind(':municipioId',$data['municipioId']);
             // Execute
             if($this->db->execute()){
                 return $this->db->lastId;

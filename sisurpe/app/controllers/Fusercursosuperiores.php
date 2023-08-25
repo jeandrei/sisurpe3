@@ -7,15 +7,16 @@
               redirect('users/login');
               die();
             }
-            //vai procurar na pasta model um arquivo chamado User.php e incluir
-            $this->escolaModel = $this->model('Escola');
-            $this->bairroModel = $this->model('Bairro');
+            $this->escolaModel = $this->model('Escola');         
             $this->fuserescolaModel = $this->model('Fuserescolaano');
             $this->fuserformacoesModel = $this->model('Fuserformacao');
             $this->fareacursoModel = $this->model('Fareacurso');
             $this->fnivelcursoModel = $this->model('Fnivelcurso');
             $this->fcursossupModel = $this->model('Fcursossuperior');
             $this->fusercursossupModel = $this->model('Fusercursosuperior');
+            $this->municipioModel = $this->model('Municipio');
+            $this->regiaoModel = $this->model('Regiao');
+            $this->estadoModel = $this->model('Estado');           
         }
 
         public function index() {  
@@ -33,7 +34,15 @@
               'cursosSuperiores' => $this->fcursossupModel->getCursosSup(),
               'tiposInstituicoes' => getTipoInstituicoes(),
               'userId' => $_SESSION[DB_NAME . '_user_id'],
-              'titulo' => 'Curso superior'
+              'titulo' => 'Curso superior',
+              'regioes' => $this->regiaoModel->getRegioes(),
+              'regiaoId' => html($_POST['regiaoId']),
+              'estados' => $this->estadoModel->getEstadosRegiaoById($_POST['regiaoId']),
+              'estadoId' => html($_POST['estadoId']),
+              'estado' => $this->estadoModel->getEstadoById($_POST['estadoId']),
+              'municipioId' => html($_POST['municipioId']),
+              'municipio' => $this->municipioModel->getMunicipioById($_POST['municipioId']),
+              'municipios' => $this->municipioModel->getMunicipiosEstadoById($_POST['estadoId'])
           ];
           
           if($userCursosSup = $this->fusercursossupModel->getCursosUser($_SESSION[DB_NAME . '_user_id'])){
@@ -47,7 +56,8 @@
                 'cursoId' => $row->cursoId,
                 'curso' => $this->fcursossupModel->getCursoById($row->cursoId)->curso,
                 'tipoInstituicao' => $row->tipoInstituicao,
-                'instituicaoEnsino' => $row->instituicaoEnsino
+                'instituicaoEnsino' => $row->instituicaoEnsino,
+                'municipioInstituicao' => $this->municipioModel->getMunicipioById($row->municipioId)->nomeMunicipio
               ];
             };
           }
@@ -75,6 +85,14 @@
                   'cursoId' => trim($_POST['cursoId']),
                   'userId' => $_SESSION[DB_NAME . '_user_id'],
                   'titulo' => 'Curso superior',
+                  'regioes' => $this->regiaoModel->getRegioes(),
+                  'regiaoId' => html($_POST['regiaoId']),
+                  'estados' => $this->estadoModel->getEstadosRegiaoById($_POST['regiaoId']),
+                  'estadoId' => html($_POST['estadoId']),
+                  'estado' => $this->estadoModel->getEstadoById($_POST['estadoId']),
+                  'municipioId' => html($_POST['municipioId']),
+                  'municipio' => $this->municipioModel->getMunicipioById($_POST['municipioId']),
+                  'municipios' => $this->municipioModel->getMunicipiosEstadoById($_POST['estadoId']),
                   'tipoInstituicao' => trim($_POST['tipoInstituicao']),
                   'instituicaoEnsino' => trim($_POST['instituicaoEnsino']),
                   'areasCurso' => $this->fareacursoModel->getAreasCurso(),
@@ -99,7 +117,22 @@
                 if(empty($data['init']['cursoId']) || ($data['init']['cursoId'] == 'null')){
                   $data['init']['cursoId_err'] = 'Por favor informe o curso.';
                 }  
+
+                // Valida regiaoId
+                if(empty($data['init']['regiaoId']) || ($data['init']['regiaoId'] == 'null')){
+                  $data['init']['regiaoId_err'] = 'Por favor informe a região da instituição de ensino.';
+                }  
                 
+                  // Valida estadoId
+                  if(empty($data['init']['estadoId']) || ($data['init']['estadoId'] == 'null')){
+                  $data['init']['estadoId_err'] = 'Por favor informe o estado da instituição de ensino.';
+                } 
+
+                // Valida municipioId
+                if(empty($data['init']['municipioId']) || ($data['init']['municipioId'] == 'null')){
+                  $data['init']['municipioId_err'] = 'Por favor informe o município da instituição de ensino.';
+                } 
+
                 // Valida tipoInstituicao
                 if(empty($data['init']['tipoInstituicao']) || ($data['init']['tipoInstituicao'] == 'null')){
                     $data['init']['tipoInstituicao_err'] = 'Por favor informe tipo da instituição.';
@@ -117,6 +150,9 @@
                     empty($data['init']['nivelId_err'])&&
                     empty($data['init']['cursoId_err'])&&
                     empty($data['init']['tipoInstituicao_err'])&&
+                    empty($data['init']['regiaoId_err'])&&
+                    empty($data['init']['estadoId_err'])&&
+                    empty($data['init']['municipioId_err'])&&
                     empty($data['init']['instituicaoEnsino_err'])                    
                   ){
                         // Register maiorEscolaridade
@@ -144,8 +180,7 @@
                 flash('message', 'Você deve adicionar sua formação para informar os dados de curso superior!', 'error'); 
                 redirect('fuserformacoes/index');
                 die();
-              }      
-                
+              }   
                 
               $data['init'] = [
                   'areasCurso' => $this->fareacursoModel->getAreasCurso(),
@@ -153,7 +188,8 @@
                   'cursosSuperiores' => $this->fcursossupModel->getCursosSup(),
                   'tiposInstituicoes' => getTipoInstituicoes(),
                   'userId' => $_SESSION[DB_NAME . '_user_id'],
-                  'titulo' => 'Curso superior'
+                  'titulo' => 'Curso superior',
+                  'regioes' => $this->regiaoModel->getRegioes()
               ];
               $this->view('fusercursosuperiores/add',$data);
             }

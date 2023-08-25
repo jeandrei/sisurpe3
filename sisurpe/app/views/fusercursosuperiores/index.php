@@ -36,6 +36,8 @@
       <th scope="col">Curso</th> 
       <th scope="col">Tipo Instituição</th> 
       <th scope="col">Instituição de Ensino</th> 
+      <th scope="col">Município</th> 
+
       <th scope="col"></th>     
     </tr>
   </thead>
@@ -51,6 +53,7 @@
           <td><?php echo $row['curso'];?></td> 
           <td><?php echo $row['tipoInstituicao'];?></td> 
           <td><?php echo $row['instituicaoEnsino'];?></td> 
+          <td><?php echo $row['municipioInstituicao'];?></td>           
 
           <td><a href="<?php echo URLROOT.'/fusercursosuperiores/delete/'.$row['ucsId'];?>"><i class="fa-solid fa-trash" style="color: #f20707;"></i></a></td>     
         </tr>

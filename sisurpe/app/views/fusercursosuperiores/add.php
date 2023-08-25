@@ -140,14 +140,18 @@
 
         </div>
          <!-- QUARTA LINHA -->
+    </fieldset>
+    <!-- fim do grup de dados 1 --> 
 
+    <!-- grup de dados 2 -->
+    <fieldset class="bg-light p-2 mt-3">
          <!-- QUINTA LINHA -->
         <div class="row mb-3">
             
             <!--	instituicaoEnsino-->
             <div class="col-12"> 
                 <label for="instituicaoEnsino">
-                    <b class="obrigatorio">*</b> Nome da Instituição de Ensino: 
+                    <b class="obrigatorio">*</b> Instituição de Ensino Nome: 
                 </label> 
                 <input 
                     type="text" 
@@ -164,10 +168,97 @@
             <!--	instituicaoEnsino-->
 
         </div>
-         <!-- QUINTA LINHA -->
+        <!-- QUINTA LINHA -->
 
+        <!-- SEXTA LINHA -->
+        <div class="row mb-3">
+         <!--regiaoId-->
+         <div class="col-12">
+                <label for="regiaoId">
+                    <b class="obrigatorio">*</b> Instituição de Ensino Região: 
+                </label>
+                <select
+                    name="regiaoId"
+                    id="regiaoId"
+                    class="form-control <?php echo (!empty($data['init']['regiaoId_err'])) ? 'is-invalid' : ''; ?>"
+                >
+                    <option value="null">Selecione a Região</option>
+                    <?php foreach($data['init']['regioes'] as $regiao) : ?>
+                    <option 
+                        value="<?php htmlout($regiao->id); ?>"
+                        <?php echo ($data['init']['regiaoId']) == $regiao->id ? 'selected' : '';?>
+                    >
+                    <?php htmlout($regiao->regiao); ?>
+                    </option>
+                    <?php endforeach; ?>  
+                </select>
+                <span class="text-danger">
+                    <?php echo $data['init']['regiaoId_err']; ?>
+                </span>
+            </div>
+            <!--regiaoId-->
+        </div>
+         <!-- SEXTA LINHA -->
+
+        <!-- SETIMA LINHA -->
+        <div class="row mb-3">
+            <!--estadoId-->
+            <div class="col-12"> 
+                <label for="estadoId">
+                    <b class="obrigatorio">*</b> Instituição de Ensino Estado: 
+                </label>
+                <select
+                    name="estadoId"
+                    id="estadoId"
+                    class="form-control <?php echo (!empty($data['init']['estadoId_err'])) ? 'is-invalid' : ''; ?>"
+                >
+                    <option value="null">Selecione a Região</option>
+                    <?php foreach($data['init']['estados'] as $estado) : ?> 
+                            <option value="<?php echo $estado->id; ?>"
+                            <?php echo $data['init']['estadoId'] == $estado->id ? 'selected':'';?>
+                            >
+                                <?php echo $estado->estado;?>
+                            </option>
+                    <?php endforeach; ?>
+                </select>
+                <span class="text-danger">
+                    <?php echo $data['init']['estadoId_err']; ?>
+                </span>
+            </div>
+            <!--estadoId-->
+        </div>
+
+        <!-- OITAVA LINHA -->
+        <div class="row mb-3">
+            <!--municipioId-->
+            <div class="col-12"> 
+                <label for="municipioId">
+                    <b class="obrigatorio">*</b> Instituição de Ensino Município: 
+                </label> 
+                <select
+                    name="municipioId"
+                    id="municipioId"
+                    class="form-control <?php echo (!empty($data['init']['municipioId_err'])) ? 'is-invalid' : ''; ?>"
+                >
+                    <option value="null">Selecione a Região</option>
+                    <?php foreach($data['init']['municipios'] as $municipio) : ?> 
+                            <option value="<?php echo $municipio->id; ?>"
+                            <?php echo $data['init']['municipioId'] == $municipio->id ? 'selected':'';?>
+                            >
+                                <?php echo $municipio->nomeMunicipio;?>
+                            </option>
+                    <?php endforeach; ?>
+                </select>
+                <span class="text-danger">
+                    <?php echo $data['init']['municipioId_err']; ?>
+                </span>
+            </div>
+            <!--municipioId-->
+        </div>
+        <!-- OITAVA LINHA -->
     </fieldset>
-    <!-- fim do grup de dados 1 -->      
+    <!-- fim do grup de dados 2 --> 
+         
     
 
     <!-- BOTÕES -->
@@ -183,3 +274,49 @@
 
 <!-- FOOTER -->
 <?php require APPROOT . '/views/inc/footer.php'; ?>
+
+<!-- SELECT DINÂMICO -->
+<script>
+    $(document).ready(function(){
+
+         /*     
+         if($("#regiaoId").val() !== 'null'){            
+            selectEstado();
+        } 
+
+        if($("#estadoId").val() !== 'null'){
+             selectMunicipio(); 
+        }*/
+       
+       //CARREGA OS ESTADOS
+       $('#regiaoId').change(function(){          
+          selectEstado();                      
+          $('#estadoId').load('<?php echo URLROOT; ?>/estados/estadosRegiao/'+$('#regiaoId').val());
+       });
+
+       //CARREGA OS MUNICÍPIOS
+       $('#estadoId').change(function(){ 
+          selectMunicipio();
+          $('#municipioId').load('<?php echo URLROOT; ?>/municipios/municipiosEstado/'+$('#estadoId').val());
+       });
+       
+   });
+   
+
+   function selectRegiao(){
+       document.getElementById('regiaoId').innerHTML = '<option value="null">Selecione a Região</option>';
+       document.getElementById('estadoId').innerHTML = '<option value="null">Selecione a Região</option>';
+       document.getElementById('municipioId').innerHTML = '<option value="null">Selecione a Região</option>';
+   }
+
+   function selectEstado(){ 
+        document.getElementById('estadoId').innerHTML = '<option value="null">Selecione o Estado</option>';
+        document.getElementById('municipioId').innerHTML = '<option value="null">Selecione o Estado</option>';
+   }
+
+   function selectMunicipio(){        
+       document.getElementById('municipioId').innerHTML = '<option value="null">Selecione o Municipio</option>';
+   }   
+
+</script>
+<!-- SELECT DINÂMICO -->
