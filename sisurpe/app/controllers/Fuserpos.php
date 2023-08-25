@@ -14,6 +14,7 @@
             $this->fuserformacoesModel = $this->model('Fuserformacao');
             $this->fusercursossupModel = $this->model('Fusercursosuperior');
             $this->fposModel = $this->model('Fpo');
+            $this->fuserposModel = $this->model('Fuserpo');
         }
 
         public function index() {   
@@ -36,14 +37,35 @@
             if(                    
               empty($data['pos_err'])
             ){
-              
+              try {
+                if($this->fuserposModel->register($_POST['pos'],$_SESSION[DB_NAME . '_user_id'])){
+                    flash('message', 'Pós registrada com sucesso!','success');                        
+                    redirect('fuserpos/index');
+                } else {                                
+                    throw new Exception('Ops! Algo deu errado ao tentar gravar os dados! Tente novamente.');
+                } 
+
+              } catch (Exception $e) {
+                  $erro = 'Erro: '.  $e->getMessage(); 
+                  flash('message', $erro,'error');                       
+                  redirect('fuserpos/index');        
+              }  
             }else {   
               $data['pos'] = $this->fposModel->getPos();                                   
               $this->view('fuserpos/index', $data);
             } 
             
           } else {
-            $data['pos'] = $this->fposModel->getPos();         
+            $data['pos'] = $this->fposModel->getPos();  
+            $data['userPos'] = $this->fuserposModel->getUserPos($_SESSION[DB_NAME . '_user_id']);
+            if($data['userPos']){
+              foreach($data['userPos'] as $row){
+                $data['userPosId'][] = $row->posId;
+              } 
+            } else {
+              $data['userPosId'] = 'null';
+            }
+                       
             $this->view('fuserpos/index',$data);
           }          
           

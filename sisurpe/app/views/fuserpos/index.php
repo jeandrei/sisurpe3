@@ -1,15 +1,13 @@
 <!-- HEADER -->
 <?php require APPROOT . '/views/inc/header.php';?>
 
-
 <!-- FLASH MESSAGE -->
 <?php flash('message'); ?>
 
 
 <div class="alert alert-warning" role="alert">
-  <h4 class="alert-heading">Curso superior.</h4>
-  <p>Abaixo são listados os cursos superiores já adicionados.</p>
-  <p>Para adicionar um curso superior clique em <b>+ Adicionar</b>. 
+  <h4 class="alert-heading">Curso de pós graduação concluída.</h4>
+  <p>Informe os cursos de pós graduação concluída e clique em <b>Salvar</b>.</p>
   <hr>
   <p class="mb-0"><p>Após adicionar todos os seus cursos, clique em <b>Avançar</b>.
 </div>
@@ -17,9 +15,17 @@
 <form id="frmUserPos" action="<?php echo URLROOT.'/fuserpos/index'?>" method="POST" novalidate enctype="multipart/form-data"> 
 
   <?php if($data['pos']) : ?>
-    <?php foreach($data['pos'] as $row) : ?>
+    <?php foreach($data['pos'] as $row) : ?>      
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="pos[]" value="<?php echo $row->posId;?>" id="<?php echo $row->posId;?>">
+        <input class="form-check-input" type="checkbox" name="pos[]" value="<?php echo $row->posId;?>" id="<?php echo $row->posId;?>"
+        
+        <?php 
+          if($data['userPosId'] != 'null' && empty($data['pos_err']))          
+          if (in_array($row->posId, $data['userPosId'])) {
+            echo 'checked';
+          }
+        ?>        
+        >
         <label class="form-check-label" for="<?php echo $row->posId;?>">
           <?php echo $row->pos; ?>
         </label>
@@ -38,6 +44,10 @@
       <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Salvar</button> 
 
       <a href="<?php echo URLROOT; ?>/fusercursosuperiores/index" class="btn bg-warning"><i class="fa-solid fa-backward"></i> Voltar</a>
+      
+      <?php if($data['userPosId'] != 'null'): ?>            
+          <a href="<?php echo URLROOT; ?>/fuseroutroscursos/index" class="btn btn-success"><i class="fa fa-forward"></i> Avançar</a>
+      <?php endif;?>
             
   </div>   
   <!-- BOTÕES -->

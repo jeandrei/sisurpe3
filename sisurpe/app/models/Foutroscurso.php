@@ -1,5 +1,5 @@
 <?php
-    class Fpo {
+    class Foutroscurso {
         private $db;
 
         public function __construct(){
@@ -7,8 +7,8 @@
             $this->db = new Database;
         }
         
-        public function getPos(){            
-            $this->db->query('SELECT fp.posId as posId, fp.pos as pos FROM f_pos fp');           
+        public function getOutrosCursos(){            
+            $this->db->query('SELECT foc.cursoId as cursoId, foc.curso as curso FROM f_outros_cursos foc');           
             $results = $this->db->resultSet();  
             if($this->db->rowCount() > 0){
                 return $results;

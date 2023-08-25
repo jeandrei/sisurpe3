@@ -61,51 +61,18 @@ BEFORE INSERT ON f_user_escola_ano
 
 CREATE TABLE `f_user_escola` (
   `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `ano` VARCHAR(4),
   `escolaId` int(11) NOT NULL,
   `userId` int(11) NOT NULL
 ) auto_increment=0,
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-delimiter 
 
-CREATE TRIGGER teste AFTER INSERT ON f_user_escola
-FOR EACH ROW
-  BEGIN
-      INSERT INTO f_user_ano (userId,ano) VALUES (1,'2023');
-  END
-
-
-delimiter ;
-
-/*funcionando
+/* adiciona o ano automaticamente na tabela  f_user_escola*/
 DROP TRIGGER IF EXISTS `addYear`;
-CREATE TRIGGER `addYear` AFTER INSERT ON `f_user_escola`
- FOR EACH ROW 
- INSERT INTO `f_user_ano`(`userId`, `ano`) VALUES (NEW.userId,YEAR(NOW()));
-*/
+CREATE TRIGGER `addYear` BEFORE INSERT ON `f_user_escola`
+ FOR EACH ROW SET NEW.ano = YEAR(NOW());
 
-
-/* adiciona na tabela f_user_ano o id do usuário e o ano caso ainda não tenha o registro na tabela, fiz isso para ficar mais fácil de contar o número de professores no ano corrente */
-DROP TRIGGER IF EXISTS `addYear`;
-DELIMITER $$
-CREATE TRIGGER `addYear` AFTER INSERT ON `f_user_escola`
-FOR EACH ROW
-BEGIN
-IF NOT EXISTS (SELECT * FROM `f_user_ano` WHERE `userId` = NEW.userId AND `ano` = YEAR(NOW())) THEN
-    INSERT INTO `f_user_ano`(`userId`, `ano`) VALUES (NEW.userId,YEAR(NOW()));
-END IF;
-END $$
-DELIMITER ;
-
-
-
-/*Quando o usuário cadastra os dados do servidor, ele seleciona a escola daquele ano, qundo salva na tabela f_user_escola a trigger addYear é acionada e adiciona o usuário e o ano na tabela f_user_ano, assim eu sei quais os usuários estão trabalhando no ano corrente*/
-CREATE TABLE `f_user_ano` (
-  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,  
-  `userId` int(11) NOT NULL,
-  `ano` VARCHAR(4)
-) auto_increment=0,
-ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*
 f_areas_curso
