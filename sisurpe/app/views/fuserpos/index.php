@@ -60,15 +60,22 @@
 
 <script>
 
+updateCheckBox();
 
 let checkNao = document.querySelectorAll('.form-check-input')[0];
 
-checkNao.addEventListener('click',()=>{
+checkNao.addEventListener('click',()=>{  
+  updateCheckBox();  
+});
+
+
+function updateCheckBox(){
   //checkValue retorna se o checkbox é true selecionado ou false não selecionado
   let checkValue = document.querySelectorAll('.form-check-input')[0].checked; 
   let checks = document.querySelectorAll('.form-check-input');
     
     if(checkValue){
+      console.log('não selecionado');
       checks.forEach((c)=>{  
         if(c.id > 1){
           c.disabled = true;
@@ -76,21 +83,9 @@ checkNao.addEventListener('click',()=>{
     });    
   } else {
     checks.forEach((c)=>{ 
+      console.log('outra selecionado');
       c.disabled = false;
     });  
   }  
-  
-});
-
-
-let checks = document.querySelectorAll('.form-check-input');
-  checks.forEach((c)=>{  
-    if(c.id == '1' && checkNao){
-      c.disabled = false;
-    } else {
-      c.disabled = true;
-    }
-  });
-
-
+}
 </script>
