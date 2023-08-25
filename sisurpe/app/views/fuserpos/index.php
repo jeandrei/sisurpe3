@@ -57,3 +57,40 @@
 
 <!-- FOOTER -->
 <?php require APPROOT . '/views/inc/footer.php'; ?>
+
+<script>
+
+
+let checkNao = document.querySelectorAll('.form-check-input')[0];
+
+checkNao.addEventListener('click',()=>{
+  //checkValue retorna se o checkbox é true selecionado ou false não selecionado
+  let checkValue = document.querySelectorAll('.form-check-input')[0].checked; 
+  let checks = document.querySelectorAll('.form-check-input');
+    
+    if(checkValue){
+      checks.forEach((c)=>{  
+        if(c.id > 1){
+          c.disabled = true;
+        }        
+    });    
+  } else {
+    checks.forEach((c)=>{ 
+      c.disabled = false;
+    });  
+  }  
+  
+});
+
+
+let checks = document.querySelectorAll('.form-check-input');
+  checks.forEach((c)=>{  
+    if(c.id == '1' && checkNao){
+      c.disabled = false;
+    } else {
+      c.disabled = true;
+    }
+  });
+
+
+</script>
