@@ -20,6 +20,9 @@
     <a href="<?php echo URLROOT; ?>/fusercursosuperiores/add" class="btn btn-primary float-end">
         <i class="fa fa-plus"></i> Adicionar
     </a>
+
+    <a href="<?php echo URLROOT; ?>/fuserformacoes/index" class="btn bg-warning"><i class="fa-solid fa-backward"></i> Voltar</a>
+
     <?php if($data['userCursosSup']) : ?>
       <a href="<?php echo URLROOT; ?>/fuserpos/index" class="btn btn-success"><i class="fa fa-forward"></i> Avançar</a>
     <?php endif;?>

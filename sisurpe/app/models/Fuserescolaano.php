@@ -133,6 +133,21 @@
             }
         }
 
+        public function getUserEscolaAno($_userId, $_ano){            
+            $this->db->query('SELECT * FROM f_user_escola WHERE userId = :userId AND ano = :ano');
+            // Bind value
+            $this->db->bind(':userId', $_userId);
+            $this->db->bind(':ano', $_ano);
+            $row = $this->db->single();
+
+            // Check row
+            if($this->db->rowCount() > 0){
+                return $row;
+            } else {
+                return false;
+            }
+        }
+
 
 
     }//etapa

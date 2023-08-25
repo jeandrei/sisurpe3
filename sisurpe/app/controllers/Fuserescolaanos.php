@@ -39,7 +39,11 @@
             empty($data['escolaId_err'])             
           ) 
           {
-              try {
+              try {                               
+                if($this->fuserescolaModel->getUserEscolaAno($_SESSION[DB_NAME . '_user_id'],date("Y"))){
+                  throw new Exception('Ops! Escola já cadastrada!');
+                }
+
                 if($lastId = $this->fuserescolaModel->register($data)){                       
                     $data['lastId'] = $lastId;                       
                     flash('message', 'Cadastro realizado com sucesso!','success');                     
@@ -50,6 +54,13 @@
               } catch (Exception $e) {                   
                 $erro = 'Erro: '.  $e->getMessage();                      
                 flash('message', $erro,'error');
+                $data['init'] = [
+                  'titulo' => 'Atualização dos dados do servidor para o ano de ',
+                  'ano' => date("Y")
+                ];
+                $data['user'] = $this->userModel->getUserById($_SESSION[DB_NAME . '_user_id']);
+                $data['escolas'] = $this->escolaModel->getEscolas();              
+                $data['userEscolas'] = $this->fuserescolaModel->getEscolasUser($_SESSION[DB_NAME . '_user_id']);
                 $this->view('users/userescola',$data);
               } 
           } else {
@@ -59,7 +70,8 @@
               'ano' => date("Y")
             ];
             $data['user'] = $this->userModel->getUserById($_SESSION[DB_NAME . '_user_id']);
-            $data['escolas'] = $this->escolaModel->getEscolas();
+            $data['escolas'] = $this->escolaModel->getEscolas();              
+            $data['userEscolas'] = $this->fuserescolaModel->getEscolasUser($_SESSION[DB_NAME . '_user_id']);
             flash('message', 'Erro ao efetuar o cadastro, verifique os dados informados!','error');                     
             $this->view('users/userescola', $data);
           }

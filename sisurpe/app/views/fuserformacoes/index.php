@@ -133,7 +133,11 @@
 
     <!-- BOTÕES -->
     <div class="form-group mt-3 mb-3">           
-        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Salvar</button>        
+        
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Salvar</button>  
+        
+        <a href="<?php echo URLROOT; ?>/fuserescolaanos/userEscolaAno" class="btn bg-warning"><i class="fa-solid fa-backward"></i> Voltar</a>
+
     <!-- $data['userformacao'] retorna false se não tem formação do usuário -->
         <?php if($data['userformacao']): ?>
             <?php if($data['userformacao']->maiorEscolaridade == 'e_superior') : ?>
@@ -143,8 +147,8 @@
                 <a href="<?php echo URLROOT; ?>/fuserformacoes/index" class="btn btn-success"><i class="fa fa-forward"></i> Avançar</a>
             <?php endif;?>
                
-        <?php endif;?>
-            
+        <?php endif;?>       
+
     </div>   
     <!-- BOTÕES -->
     
