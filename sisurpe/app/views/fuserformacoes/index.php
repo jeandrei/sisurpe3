@@ -55,18 +55,19 @@
                         </option> 
 
                         <option 
-                            value="e_superior"
-                            <?php echo ($data['maiorEscolaridade']) == "e_superior" ? 'selected' : '';?>
-                        >
-                            Ensino superior
-                        </option> 
-
-                        <option 
                             value="e_medio"
                             <?php echo ($data['maiorEscolaridade']) == "e_medio" ? 'selected' : '';?>
                         >
                             Ensino médio
                         </option> 
+
+                        <option 
+                            value="e_superior"
+                            <?php echo ($data['maiorEscolaridade']) == "e_superior" ? 'selected' : '';?>
+                        >
+                            Ensino superior
+                        </option> 
+                        
                     </select>
                     <span class="text-danger">
                         <?php echo $data['maiorEscolaridade_err']; ?>

@@ -148,9 +148,9 @@
                 * Faz o upload do arquivo do input id=file_post 
                 * Utilizando a função upload_file que está no arquivo helpers/functions
                 * Se tiver erro vai retornar o erro em $file['error'];
-                */
-
-                if(!empty($_POST['file_post'])){
+                */            
+               
+                if(!empty($_FILES['file_post']['name'])){                  
                   $file = $this->fusercursossupModel->upload('file_post'); 
                   if(empty($file['erro'])){
                     $data['init']['file_post_data'] = $file['data'];
@@ -160,9 +160,7 @@
                   }  else {
                     $data['init']['file_post_err'] = $file['message'];
                   }  
-                }
-
-                             
+                }                              
                
                 
                 // Make sure errors are empty
