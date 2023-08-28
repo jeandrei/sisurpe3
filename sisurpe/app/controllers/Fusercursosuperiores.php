@@ -144,6 +144,27 @@
                 } 
                                
                 
+                 /**
+                * Faz o upload do arquivo do input id=file_post 
+                * Utilizando a função upload_file que está no arquivo helpers/functions
+                * Se tiver erro vai retornar o erro em $file['error'];
+                */
+
+                if(!empty($_POST['file_post'])){
+                  $file = $this->fusercursossupModel->upload('file_post'); 
+                  if(empty($file['erro'])){
+                    $data['init']['file_post_data'] = $file['data'];
+                    $data['init']['file_post_name'] = $file['nome'];
+                    $data['init']['file_post_type'] = $file['tipo'];
+                    $data['init']['file_post_err'] = '';
+                  }  else {
+                    $data['init']['file_post_err'] = $file['message'];
+                  }  
+                }
+
+                             
+               
+                
                 // Make sure errors are empty
                 if(                    
                     empty($data['init']['areaId_err'])&&
@@ -153,7 +174,8 @@
                     empty($data['init']['regiaoId_err'])&&
                     empty($data['init']['estadoId_err'])&&
                     empty($data['init']['municipioId_err'])&&
-                    empty($data['init']['instituicaoEnsino_err'])                    
+                    empty($data['init']['instituicaoEnsino_err']) && 
+                    empty($data['init']['file_post_err'])
                   ){
                         // Register maiorEscolaridade
                         try {                            

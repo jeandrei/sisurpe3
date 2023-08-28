@@ -8,7 +8,7 @@
 
 <div class="alert alert-warning" role="alert">
   <h4 class="alert-heading">Nível de escolaridade e tipo de ensino médio.</h4>
-  <p>Em Maior nível de escolaridade concluída, como o próprio texto diz, você deve informar o maior nível <b>CONCLLUÍDO</b>, logo se você está cursando o ensino superior, mas ainda não finalizou, você deve informar a opção <b>Ensino médio</b>.</p>
+  <p>Em Maior nível de escolaridade concluído, como o próprio texto diz, você deve informar o maior nível <b>CONCLUÍDO</b>, logo se você está cursando o ensino superior, mas ainda não finalizou, você deve informar a opção <b>Ensino médio</b>.</p>
   <p>
     Em Tipo de ensino médio cursado, informe o tipo de formação do seu ensino médio.
   </p>  

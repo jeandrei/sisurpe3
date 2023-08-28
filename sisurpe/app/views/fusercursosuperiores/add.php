@@ -258,12 +258,39 @@
         <!-- OITAVA LINHA -->
     </fieldset>
     <!-- fim do grup de dados 2 --> 
+
+    <fieldset>
+    <!-- NONA LINHA -->
+       <!-- Adicionar arquivo-->
+        <div class="row" style="margin:5px;">  
+            <!-- Mensagem -->    
+            <div class="alert alert-warning mt-2" role="alert">
+                Arquivos permitidos com extenção <strong>jpg, png e pdf</strong>, e no máximo com <strong>20 MB</strong>. <b>Dica:</b> Se estiver utilizano o celular para bater uma foto do seu diploma, diminua a resolução da foto para não exceder o tamanho máximo permitido.
+            </div>
+            <!-- Input file -->
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="file_post">Upload</label>
+                <input 
+                    type="file" 
+                    class="form-control" 
+                    id="file_post"
+                    name="file_post"                
+                ><!-- A função fileValidation está no arquivo main.js-->                   
+            </div><!--onchange="return fileValidation('file_post','file_post_err');" -->
+            <!-- Span para caso tenha erros -->
+            <span id="file_post_err" name="file_post_err" class="text-danger">
+                <?php echo $data['init']['file_post_err']; ?>
+            </span>
+        </div><!-- row -->            
+        <!-- Fim Adicionar arquivo -->                 
+    <!-- NONA LINHA -->                   
+    </fieldset>   
          
     
 
     <!-- BOTÕES -->
     <div class="form-group mt-3 mb-3">           
-        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Salvar</button> 
+        <button type="submit" id="btnSalvar" name="btnSalvar" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Salvar</button> 
 
         <a href="<?php echo URLROOT; ?>/fusercursosuperiores/index" class="btn bg-warning"><i class="fa-solid fa-backward"></i> Voltar</a>
             
@@ -274,6 +301,14 @@
 
 <!-- FOOTER -->
 <?php require APPROOT . '/views/inc/footer.php'; ?>
+
+<script>
+    const btnSalvar = document.querySelector('#btnSalvar');
+
+    btnSalvar.addEventListener("click",() => {
+    loadingBtn('btnSalvar');  
+    });
+</script>
 
 <!-- SELECT DINÂMICO -->
 <script>

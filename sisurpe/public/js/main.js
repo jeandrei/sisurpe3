@@ -209,3 +209,59 @@ function createNotification(message = null, type = null) {
     notif.remove()
   }, 3000)
 }
+
+//fileValidation(campo tipo field,id do span para apresentar o erro);"
+// onchange="return fileValidation('comprovante_residencia','res_erro');"
+function fileValidation(myfiel, span) {
+  var fileInput = document.getElementById(myfiel)
+  var filePath = fileInput.value
+  var errorspan = span
+  var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i
+  if (!allowedExtensions.exec(filePath)) {
+    document.getElementById(errorspan).textContent =
+      'Apenas arquivo do tipo JPEG, PNG ou GIFT são permitidos!'
+    fileInput.value = ''
+    return false
+  } else {
+    document.getElementById(errorspan).textContent = ''
+    return true
+  }
+}
+
+/*
+IMPORTANTE NÃO TESTEI AINDA A PARTE DE RETORNAR O BOTÃO A FORMA INICIAL
+coloca o spinnig no botão e retorna as classes do i atual. 
+precisamos das classes do i atual para retornar como era antes
+no caso quando usamos o jquery se o post for pelo php não precisa
+se for pelo post apenas chama loadingBtn('idDoBotao');
+
+const btnSalvar = document.querySelector('#btnSalvar');
+
+btnSalvar.addEventListener("click",() => {
+  loadingBtn('btnSalvar');  
+});
+
+se for pelo jquery chama
+const classes = loadingBtn('idDoBotao');
+e ao final do processo para retornar como era antes
+noLoadingBtn('idDoBotao',classes)
+*/
+function loadingBtn(id) {
+  const btn = document.querySelector(`#${id}`)
+  const classes = btn.classList
+  const i = btn.querySelector('i')
+  i.classList.value = ''
+  i.classList.add('fa-solid')
+  i.classList.add('fa-spinner')
+  i.classList.add('fa-spin')
+  return classes
+}
+
+function noLoadingBtn(id, classes) {
+  const btn = document.querySelector(`#${id}`)
+  const i = btn.querySelector('i')
+  i.classList.value = ''
+  classes.map((c) => {
+    i.classList.add(c)
+  })
+}
