@@ -69,9 +69,10 @@ ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 /* adiciona o ano automaticamente na tabela  f_user_escola*/
+/*
 DROP TRIGGER IF EXISTS `addYear`;
 CREATE TRIGGER `addYear` BEFORE INSERT ON `f_user_escola`
- FOR EACH ROW SET NEW.ano = YEAR(NOW());
+ FOR EACH ROW SET NEW.ano = YEAR(NOW());*/
 
 
 /*

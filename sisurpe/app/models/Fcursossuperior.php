@@ -30,7 +30,7 @@
         }
 
         public function getCursosAreaById($_areaId){
-            $this->db->query('SELECT c.cursoId as cursoId, c.curso as curso FROM f_curso_superior c WHERE c.areaId = :areaId'); 
+            $this->db->query('SELECT c.cursoId as cursoId, c.curso as curso FROM f_curso_superior c WHERE c.areaId = :areaId ORDER BY c.curso ASC'); 
             $this->db->bind(':areaId',$_areaId); 
             $result = $this->db->resultSet();     
             if($this->db->execute()){

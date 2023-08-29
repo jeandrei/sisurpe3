@@ -133,11 +133,12 @@
             }
         }
 
-        public function getUserEscolaAno($_userId, $_ano){            
-            $this->db->query('SELECT * FROM f_user_escola WHERE userId = :userId AND ano = :ano');
+        public function getUserEscolaAno($_userId,$_escolaId,$_ano){             
+            $this->db->query('SELECT * FROM f_user_escola WHERE userId = :userId AND escolaId = :escolaId AND ano = :ano');
             // Bind value
             $this->db->bind(':userId', $_userId);
-            $this->db->bind(':ano', $_ano);
+            $this->db->bind(':escolaId', $_escolaId);
+            $this->db->bind(':ano', $_ano);            
             $row = $this->db->single();
 
             // Check row

@@ -8,8 +8,9 @@
         }
 
 
-        public function getCursosUser($_userId){
-            $this->db->query('SELECT fucs.ucsId,fucs.userId as userId, fucs.areaId as areaId, fucs.nivelId as nivelId, fucs.cursoId as cursoId, fucs.tipoInstituicao as tipoInstituicao, fucs.instituicaoEnsino as instituicaoEnsino, fucs.municipioId as municipioId  FROM f_user_curso_superior fucs ORDER BY fucs.instituicaoEnsino ASC');
+        public function getCursosUser($_userId){            
+            $this->db->query('SELECT fucs.ucsId,fucs.userId as userId, fucs.areaId as areaId, fucs.nivelId as nivelId, fucs.cursoId as cursoId, fucs.tipoInstituicao as tipoInstituicao, fucs.instituicaoEnsino as instituicaoEnsino, fucs.municipioId as municipioId  FROM f_user_curso_superior fucs WHERE fucs.userId = :userId ORDER BY fucs.instituicaoEnsino ASC');
+            $this->db->bind(':userId',$_userId);
             $result = $this->db->resultSet();
             if($this->db->rowCount() > 0){
                 return $result;

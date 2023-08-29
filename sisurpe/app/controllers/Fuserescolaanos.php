@@ -3,6 +3,11 @@
 
         public function __construct(){
             //vai procurar na pasta model um arquivo chamado User.php e incluir
+            if((!isLoggedIn())){ 
+              flash('message', 'Você deve efetuar o login para ter acesso a esta página', 'error'); 
+              redirect('users/login');
+              die();
+            }
             $this->userModel = $this->model('User');
             $this->escolaModel = $this->model('Escola');
             $this->fuserescolaModel = $this->model('Fuserescolaano');
@@ -40,7 +45,7 @@
           ) 
           {
               try {                               
-                if($this->fuserescolaModel->getUserEscolaAno($_SESSION[DB_NAME . '_user_id'],date("Y"))){
+                if($this->fuserescolaModel->getUserEscolaAno($_SESSION[DB_NAME . '_user_id'],$data['escolaId'],date("Y"))){
                   throw new Exception('Ops! Escola já cadastrada!');
                 }
 

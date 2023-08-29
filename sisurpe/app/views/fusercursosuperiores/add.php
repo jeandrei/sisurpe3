@@ -15,7 +15,7 @@
   <h4 class="alert-heading">Localizar a área de curso.</h4>
   <p>Você pode visualizar o quadro de cursos de formação superior para facilitar a localização do seu curso superior.</p>
   <hr>
-  <p class="mb-0"><p>Dificuldades em localizar seu curso? <b><a class="alert-link" target="_blank" href="<?php echo URLROOT; ?>/downloads/caderno_de_cursos.pdf">Clique aqui e visuelize o quadro de cursos</a>.</b>
+  <p class="mb-0"><p>Dificuldades em localizar seu curso? <b><a class="alert-link" target="_blank" href="<?php echo URLROOT; ?>/downloads/caderno_de_cursos.pdf">Clique aqui e visualize o quadro de cursos</a>.</b>
 </div>
 
 <!-- FORMULÁRIO -->

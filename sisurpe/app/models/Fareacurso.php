@@ -9,7 +9,7 @@
 
        
         public function getAreasCurso(){
-          $this->db->query('SELECT fac.areaId as areaId, fac.area as area FROM f_areas_curso fac');           
+          $this->db->query('SELECT fac.areaId as areaId, fac.area as area FROM f_areas_curso fac ORDER BY fac.area ASC');           
             $result = $this->db->resultSet();
             if($this->db->rowCount() > 0){
                 return $result;

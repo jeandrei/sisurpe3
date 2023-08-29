@@ -1,6 +1,11 @@
 <?php
     class Escolas extends Controller{
         public function __construct(){
+            if((!isLoggedIn())){ 
+                flash('message', 'Você deve efetuar o login para ter acesso a esta página', 'error'); 
+                redirect('users/login');
+                die();
+              }
             //vai procurar na pasta model um arquivo chamado User.php e incluir
             $this->escolaModel = $this->model('Escola');
             $this->bairroModel = $this->model('Bairro');
