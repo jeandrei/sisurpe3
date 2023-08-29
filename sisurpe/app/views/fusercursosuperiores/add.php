@@ -11,6 +11,13 @@
     </div>    
 </div>
 
+<div class="alert alert-warning" role="alert">
+  <h4 class="alert-heading">Localizar a área de curso.</h4>
+  <p>Você pode visualizar o quadro de cursos de formação superior para facilitar a localização do seu curso superior.</p>
+  <hr>
+  <p class="mb-0"><p>Dificuldades em localizar seu curso? <b><a class="alert-link" target="_blank" href="<?php echo URLROOT; ?>/downloads/caderno_de_cursos.pdf">Clique aqui e visuelize o quadro de cursos</a>.</b>
+</div>
+
 <!-- FORMULÁRIO -->
 <form id="frmUserCursoSuperior" action="<?php echo URLROOT.'/fusercursosuperiores/add'?>" method="POST" novalidate enctype="multipart/form-data">    
     
@@ -51,6 +58,37 @@
         <!-- SEGUNDA LINHA -->
         <div class="row mb-3">
             
+            <!--cursoId-->
+            <div class="col-12"> 
+                <label for="cursoId">
+                    <b class="obrigatorio">*</b> Curso: 
+                </label> 
+                <select
+                    name="cursoId"
+                    id="cursoId"
+                    class="form-control <?php echo (!empty($data['init']['cursoId_err'])) ? 'is-invalid' : ''; ?>"
+                >
+                    <option value="null">Selecione uma área</option>
+                    <?php foreach($data['init']['cursosSuperiores'] as $row) : ?> 
+                            <option value="<?php htmlout($row->cursoId); ?>"
+                            <?php echo $data['init']['cursoId'] == $row->cursoId ? 'selected':'';?>
+                            >
+                                <?php htmlout($row->curso);?>
+                            </option>
+                    <?php endforeach; ?>
+                </select>
+                <span class="text-danger">
+                    <?php echo $data['init']['cursoId_err']; ?>
+                </span>
+            </div>
+            <!--cursoId-->
+
+        </div>
+        <!-- SEGUNDA LINHA -->
+
+        <!-- TERCEIRA LINHA -->
+        <div class="row mb-3">
+            
             <!--nivelId-->
             <div class="col-12"> 
                 <label for="nivelId">
@@ -77,38 +115,8 @@
             <!--nivelId-->
 
         </div>
-        <!-- SEGUNDA LINHA -->
-
         <!-- TERCEIRA LINHA -->
-        <div class="row mb-3">
-            
-            <!--cursoId-->
-            <div class="col-12"> 
-                <label for="cursoId">
-                    <b class="obrigatorio">*</b> Curso: 
-                </label> 
-                <select
-                    name="cursoId"
-                    id="cursoId"
-                    class="form-control <?php echo (!empty($data['init']['cursoId_err'])) ? 'is-invalid' : ''; ?>"
-                >
-                    <option value="null">Selecione</option>
-                    <?php foreach($data['init']['cursosSuperiores'] as $row) : ?> 
-                            <option value="<?php htmlout($row->cursoId); ?>"
-                            <?php echo $data['init']['cursoId'] == $row->cursoId ? 'selected':'';?>
-                            >
-                                <?php htmlout($row->curso);?>
-                            </option>
-                    <?php endforeach; ?>
-                </select>
-                <span class="text-danger">
-                    <?php echo $data['init']['cursoId_err']; ?>
-                </span>
-            </div>
-            <!--cursoId-->
-
-        </div>
-        <!-- TERCEIRA LINHA -->
+        
 
         <!-- QUARTA LINHA -->
         <div class="row mb-3">
@@ -333,6 +341,11 @@
        $('#estadoId').change(function(){ 
           selectMunicipio();
           $('#municipioId').load('<?php echo URLROOT; ?>/municipios/municipiosEstado/'+$('#estadoId').val());
+       });
+
+        //CARREGA OS CURSOS POR AREA
+        $('#areaId').change(function(){           
+          $('#cursoId').load('<?php echo URLROOT; ?>/fcursosuperiores/cursosArea/'+$('#areaId').val());
        });
        
    });

@@ -205,7 +205,6 @@
               $data['init'] = [
                   'areasCurso' => $this->fareacursoModel->getAreasCurso(),
                   'nivelCurso' => $this->fnivelcursoModel->getNivelCurso(),
-                  'cursosSuperiores' => $this->fcursossupModel->getCursosSup(),
                   'tiposInstituicoes' => getTipoInstituicoes(),
                   'userId' => $_SESSION[DB_NAME . '_user_id'],
                   'titulo' => 'Curso superior',
