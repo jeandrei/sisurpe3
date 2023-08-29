@@ -57,7 +57,10 @@
                 'curso' => $this->fcursossupModel->getCursoById($row->cursoId)->curso,
                 'tipoInstituicao' => $row->tipoInstituicao,
                 'instituicaoEnsino' => $row->instituicaoEnsino,
-                'municipioInstituicao' => $this->municipioModel->getMunicipioById($row->municipioId)->nomeMunicipio
+                'municipioInstituicao' => $this->municipioModel->getMunicipioById($row->municipioId)->nomeMunicipio,
+                'file' => $row->file,
+                'file_name' => $row->file_name,
+                'file_type' => $row->file_type
               ];
             };
           }
@@ -229,6 +232,22 @@
             redirect('fusercursosuperiores/index');
           }
         }
+
+        public function getImagenFormacao($_ucsId){   
+          $html = "";
+          if(!$imagenCurso = $this->fusercursossupModel->getImagenUserCurso($_ucsId)){
+            $html = "<p>Erro ao tentar recuperar o anexo.</p>";
+            return $html;
+          }
+                  
+          if($imagenCurso->file==NULL){
+            $html = "<p>Nenhuma imagem anexada</p>";
+          } else {
+            $file = base64_encode($imagenCurso->file);           
+            $html = "<img src='data:image/jpeg;base64,$file' class='img-fluid img-thumbnail'>";
+          }          
+          echo $html;
+      }
     
 }   
 ?>

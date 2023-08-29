@@ -9,7 +9,7 @@
 
 
         public function getCursosUser($_userId){            
-            $this->db->query('SELECT fucs.ucsId,fucs.userId as userId, fucs.areaId as areaId, fucs.nivelId as nivelId, fucs.cursoId as cursoId, fucs.tipoInstituicao as tipoInstituicao, fucs.instituicaoEnsino as instituicaoEnsino, fucs.municipioId as municipioId  FROM f_user_curso_superior fucs WHERE fucs.userId = :userId ORDER BY fucs.instituicaoEnsino ASC');
+            $this->db->query('SELECT fucs.ucsId,fucs.userId as userId, fucs.areaId as areaId, fucs.nivelId as nivelId, fucs.cursoId as cursoId, fucs.tipoInstituicao as tipoInstituicao, fucs.instituicaoEnsino as instituicaoEnsino, fucs.municipioId as municipioId, fucs.file as file, fucs.file_name as file_name, fucs.file_type as file_type  FROM f_user_curso_superior fucs WHERE fucs.userId = :userId ORDER BY fucs.instituicaoEnsino ASC');
             $this->db->bind(':userId',$_userId);
             $result = $this->db->resultSet();
             if($this->db->rowCount() > 0){
@@ -132,6 +132,18 @@
             return $file;
         }
 
+        public function getImagenUserCurso($_ucsId){            
+            $this->db->query("SELECT file,file_name,file_type FROM f_user_curso_superior WHERE  ucsId = :ucsId");
+            $this->db->bind(':ucsId',$_ucsId); 
+            $row = $this->db->single(); 
+            if($this->db->rowCount() > 0){
+                return $row;
+            } else {
+                return false;
+            }   
+        }
+
+        
         
     }
     

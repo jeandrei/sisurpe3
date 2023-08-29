@@ -1,7 +1,6 @@
 <!-- HEADER -->
 <?php require APPROOT . '/views/inc/header.php';?>
 
-
 <!-- FLASH MESSAGE -->
 <?php flash('message'); ?>
 
@@ -58,6 +57,9 @@
           <td><?php echo $row['instituicaoEnsino'];?></td> 
           <td><?php echo $row['municipioInstituicao'];?></td>           
 
+          <td><a href="" id="showImageBtn" data-toggle="modal" data-target="#showimg" onClick="showImageModal(<?php echo $row['ucsId']; ?>)"><i class="fa-solid fa-paperclip"></i></a></td>
+
+         
           <td><a href="<?php echo URLROOT.'/fusercursosuperiores/delete/'.$row['ucsId'];?>"><i class="fa-solid fa-trash" style="color: #f20707;"></i></a></td>     
         </tr>
       <?php endforeach; ?>    
@@ -71,6 +73,45 @@
   </tbody>
 </table>
 
+
+
+<!-- Modal -->
+<div class="modal fade" id="showimg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Anexo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="img-fluid text-center" id="modalImage">
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>        
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  
+  function showImageModal(ucsId){
+    //const modalImage = document.querySelector('#modalImage');
+    if(typeof ucsId != 'undefined'){
+        $.ajax({ 
+                url: '<?php echo URLROOT; ?>/Fusercursosuperiores/getImagenFormacao/'+ucsId,                
+                method:'POST', 
+                success: function(retorno_php){   
+                  document.getElementById('modalImage').innerHTML = retorno_php;                
+                }
+        });//Fecha o ajax 
+    }
+  }
+</script>
 
 
 
