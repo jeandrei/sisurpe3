@@ -40,23 +40,6 @@ CREATE TABLE `user_scola_coleta` (
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-/*
-Tabela que vai armazenar a escola que o usuário trabalha no corrente ano
-Tem que ser atualizada todos os anos
-*/
-CREATE TABLE `f_user_escola_ano` (
-  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `escolaId` int(11) NOT NULL,
-  `userId` int(11) NOT NULL,
-  `ano` VARCHAR(4)
-) auto_increment=0,
-ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/* trygger addYear adiciona o ano atual na tabela  f_user_escola_ano.ano*/
-DROP TRIGGER IF EXISTS `addYear`;
-CREATE TRIGGER `addYear` BEFORE INSERT ON `f_user_escola`
- FOR EACH ROW SET NEW.ano = YEAR(NOW());
-
-
 
 
 CREATE TABLE `f_user_escola` (
@@ -66,6 +49,10 @@ CREATE TABLE `f_user_escola` (
   `userId` int(11) NOT NULL
 ) auto_increment=0,
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/* trygger addYear adiciona o ano atual na tabela  f_user_escola_ano.ano*/
+DROP TRIGGER IF EXISTS `addYear`;
+CREATE TRIGGER `addYear` BEFORE INSERT ON `f_user_escola`
+ FOR EACH ROW SET NEW.ano = YEAR(NOW());
 
 
 /* adiciona o ano automaticamente na tabela  f_user_escola*/
