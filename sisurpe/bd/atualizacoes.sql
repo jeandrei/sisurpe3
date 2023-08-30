@@ -52,9 +52,9 @@ CREATE TABLE `f_user_escola_ano` (
 ) auto_increment=0,
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /* trygger addYear adiciona o ano atual na tabela  f_user_escola_ano.ano*/
-CREATE TRIGGER addYear
-BEFORE INSERT ON f_user_escola_ano
-    FOR EACH ROW SET NEW.ano = YEAR(NOW());
+DROP TRIGGER IF EXISTS `addYear`;
+CREATE TRIGGER `addYear` BEFORE INSERT ON `f_user_escola`
+ FOR EACH ROW SET NEW.ano = YEAR(NOW());
 
 
 

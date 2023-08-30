@@ -60,11 +60,12 @@
         public function rfespecializacao(){          
           $data['escola'] = $this->escolaModel->getEscolaById($_GET['escolaId']);
           $escolaId = $data['escola']->id;         
-          $data['result'] = $this->fuserPos->getUsersPos($escolaId,date("Y"));          
-          if($data){
-            $this->view('relatorios/ruserposporescola',$data);
+          $data['result'] = $this->fuserPos->getUsersPos($escolaId,date("Y"));             
+          
+          if($data['result']){
+            $this->view('relatorios/rfuserposporescola',$data);
           } else {
-            die('dados para emitir');
+            die('Sem dados para emitir');
           }          
         }
       
