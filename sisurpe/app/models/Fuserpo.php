@@ -88,6 +88,18 @@
             }
         }
 
+        public function getUsersSemRespostaPos($_escolaId,$_ano){
+            $this->db->query('SELECT u.name as nome, e.nome as escola, fue.ano as ano FROM users u, escola e, f_user_escola fue WHERE u.id = fue.userId AND fue.escolaId = e.id AND fue.escolaId = :escolaId AND fue.ano = :ano AND NOT EXISTS (SELECT * FROM f_user_pos fup WHERE fup.userId = fue.userId) ORDER BY e.nome, u.name ASC');
+            $this->db->bind(':escolaId',$_escolaId);
+            $this->db->bind(':ano',$_ano);
+            $results = $this->db->resultSet();  
+            if($this->db->rowCount() > 0){
+                return $results;
+            } else {
+                return false;
+            }
+        }
+
         
     }
     

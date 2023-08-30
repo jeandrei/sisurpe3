@@ -12,7 +12,8 @@
 
 <ul class="list-group">
   <li class="list-group-item"><a href="<?php echo URLROOT; ?>/relatorios/selectEscola/uniformePorEscola">Relatório de uniforme por escola</a></li>
-  <li class="list-group-item"><a href="<?php echo URLROOT; ?>/relatorios/selectEscola/rfespecializacao">Relatório funcionário especialização</a></li>  
+  <li class="list-group-item"><a href="<?php echo URLROOT; ?>/relatorios/selectEscola/rfespecializacao">Relatório funcionário especialização</a></li> 
+  <li class="list-group-item"><a href="<?php echo URLROOT; ?>/relatorios/selectEscola/fusersemrespostapos">Relatório de funcionários que responderam a formação mas não responderam a especialização</a></li> 
 </ul>
 
 

@@ -68,5 +68,18 @@
             die('Sem dados para emitir');
           }          
         }
+
+        public function fusersemrespostapos(){   
+          
+          $data['escola'] = $this->escolaModel->getEscolaById($_GET['escolaId']);
+          $escolaId = $data['escola']->id;         
+          $data['result'] = $this->fuserPos->getUsersSemRespostaPos($escolaId,date("Y"));          
+          
+          if($data['result']){
+            $this->view('relatorios/rfusersemrespostapos',$data);
+          } else {
+            die('Sem dados para emitir');
+          }          
+        }
       
 }
