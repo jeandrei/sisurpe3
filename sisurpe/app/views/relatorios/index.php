@@ -10,11 +10,10 @@
     </div>  
 </div>
 
-<div class="row mb-3">
-    <div class="col-md-12 text-center">
-        <a href="<?php echo URLROOT; ?>/relatorios/selectEscola">Relatório de uniforme por escola</a>
-    </div>  
-</div>
+<ul class="list-group">
+  <li class="list-group-item"><a href="<?php echo URLROOT; ?>/relatorios/selectEscola/uniformePorEscola">Relatório de uniforme por escola</a></li>
+  <li class="list-group-item"><a href="<?php echo URLROOT; ?>/relatorios/selectEscola/rfespecializacao">Relatório funcionário especialização</a></li>  
+</ul>
 
 
 

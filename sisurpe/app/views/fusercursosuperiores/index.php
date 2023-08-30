@@ -57,8 +57,11 @@
           <td><?php echo $row['instituicaoEnsino'];?></td> 
           <td><?php echo $row['municipioInstituicao'];?></td>           
 
-          <td><a href="" id="showImageBtn" data-toggle="modal" data-target="#showimg" onClick="showImageModal(<?php echo $row['ucsId']; ?>)"><i class="fa-solid fa-paperclip"></i></a></td>
-
+          <?php if($row['file']) : ?>
+            <td><a href="" id="showImageBtn" data-toggle="modal" data-target="#showimg" onClick="showImageModal(<?php echo $row['ucsId']; ?>)"><i class="fa-solid fa-paperclip"></i></a></td>
+          <?php else: ?>
+            <td></td>
+          <?php endif; ?>
          
           <td><a href="<?php echo URLROOT.'/fusercursosuperiores/delete/'.$row['ucsId'];?>"><i class="fa-solid fa-trash" style="color: #f20707;"></i></a></td>     
         </tr>

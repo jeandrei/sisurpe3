@@ -7,6 +7,8 @@
           $this->coletaModel = $this->model('Coleta');
           $this->turmaModel = $this->model('Turma');
           $this->userescolacoletaModel = $this->model('Userescolacoleta');
+          $this->posModel = $this->model('Fpo');
+          $this->fuserPos = $this->model('Fuserpo');
         }
 
         public function index(){ 
@@ -19,9 +21,10 @@
         }
 
 
-        public function selectEscola(){
+        public function selectEscola($view){          
           $data['init'] = [
-            'titulo' => 'Selecione a escola',              
+            'titulo' => 'Selecione a escola',
+            'view' => $view              
           ];
           $data['escolas'] = $this->escolaModel->getEscolas();
           $this->view('relatorios/selectEscola',$data);
@@ -51,6 +54,18 @@
            
           }  
           $this->view('relatorios/coletaPorEscola',$data);
-        }        
+        } 
+        
+        
+        public function rfespecializacao(){          
+          $data['escola'] = $this->escolaModel->getEscolaById($_GET['escolaId']);
+          $escolaId = $data['escola']->id;         
+          $data['result'] = $this->fuserPos->getUsersPos($escolaId,date("Y"));          
+          if($data){
+            $this->view('relatorios/ruserposporescola',$data);
+          } else {
+            die('dados para emitir');
+          }          
+        }
       
 }

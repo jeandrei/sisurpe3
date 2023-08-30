@@ -15,7 +15,7 @@
 
 
 <!-- FORMULÁRIO -->
-<form target="_blank" id="frmRelUniformeEscola" action="<?php echo URLROOT; ?>/relatorios/uniformePorEscola" method="GET" novalidate enctype="multipart/form-data">
+<form target="_blank" id="frmRelUniformeEscola" action="<?php echo URLROOT ."/relatorios"."/".$data['init']['view'] ?>" method="GET" novalidate enctype="multipart/form-data">
 
  <!-- linha -->
   <div class="row mt-2">  

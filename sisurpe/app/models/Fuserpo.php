@@ -61,6 +61,32 @@
                 return true;
             }
         }
+        
+        //Retorna o total de profissionais com uma especialização de uma escola
+        public function getTotalEspecEscola($_escolaId,$_posId,$_ano){
+            $this->db->query('SELECT COUNT(fup.userId) as total FROM f_user_pos fup, f_user_escola fue WHERE fup.userId = fue.userId AND fup.posId = :posId AND fue.escolaId = :escolaId AND fue.ano = :ano');
+            $this->db->bind(':escolaId',$_escolaId);
+            $this->db->bind(':posId',$_posId);
+            $this->db->bind(':ano',$_ano);
+            $row = $this->db->single();
+            if($this->db->rowCount() > 0){
+                return $row;
+            } else {
+                return false;
+            }
+        }
+
+        public function getUsersPos($_escolaId,$_ano){
+            $this->db->query('SELECT u.name as nome, fp.pos as pos, e.nome as escola, fup.userId as userId, fup.posId as posId, fue.escolaId as escolaId, fue.ano as ano FROM users u, f_pos fp, escola e, f_user_pos fup, f_user_escola fue WHERE u.id = fup.userId AND fup.userId = fue.userId AND fp.posId = fup.posId AND e.id = fue.escolaId AND fue.escolaId = :escolaId AND fue.ano = :ano ORDER BY u.name, fp.pos ASC');
+            $this->db->bind(':escolaId',$_escolaId);
+            $this->db->bind(':ano',$_ano);
+            $results = $this->db->resultSet();  
+            if($this->db->rowCount() > 0){
+                return $results;
+            } else {
+                return false;
+            }
+        }
 
         
     }
