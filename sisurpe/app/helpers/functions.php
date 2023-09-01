@@ -82,6 +82,39 @@ function getTipoInstituicoes(){
   return $data;
 }
 
+function getMaiorEscolaridade($escolaridade){
+  switch ($escolaridade) {
+    case 'nao_concluiu':
+        return "Não concluiu o EF";
+        break;
+    case 'e_fundamental':
+        return "Ensino Fundamental";
+        break;
+    case 'e_medio':
+        return "Ensino Médio";
+        break;
+    case 'e_superior':
+      return "Ensino Superior";
+      break;
+  }  
+}
+
+function getTipoEnsinoMedio($em){
+  switch ($em) {
+    case 'geral':
+        return "Formação Geral";
+        break;
+    case 'normal':
+        return "Modalidade normal (magistério)";
+        break;
+    case 'c_tecnico':
+        return "Curso técnico";
+        break;
+    case 'm_indigena':
+      return "Magistério indígena - modalidade normal";
+      break;
+  }  
+}
 
 function getArrayTamanhos(){
   $arrayTamanhos = array(

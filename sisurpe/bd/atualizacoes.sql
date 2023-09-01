@@ -49,7 +49,7 @@ CREATE TABLE `f_user_escola` (
   `userId` int(11) NOT NULL
 ) auto_increment=0,
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/* trygger addYear adiciona o ano atual na tabela  f_user_escola_ano.ano*/
+/* trygger addYear adiciona o ano atual na tabela  f_user_escola*/
 DROP TRIGGER IF EXISTS `addYear`;
 CREATE TRIGGER `addYear` BEFORE INSERT ON `f_user_escola`
  FOR EACH ROW SET NEW.ano = YEAR(NOW());
@@ -6507,17 +6507,3 @@ INSERT INTO `municipios`(`id`, `estadoId`, `nomeMunicipio`) VALUES
 (5568,26,'Vila Boa'),
 (5569,26,'Vila Propício'),
 (5570,27,'Brasília');
-
-INSERT INTO `bairros` ( `id`, `municipioId` , `nomeBairro`) VALUES
-(1, 4502, 'Armação'),
-(2, 4502, 'Gravata'),
-(3, 4502, 'Santa Lídia'),
-(4, 4502, 'Praia Alegre'),
-(5, 4502, 'Centro'),
-(6, 4502, 'São Nicolau'),
-(7, 4502, 'NSra de Fátima'),
-(8, 4502, 'São Cristovão'),
-(9, 4502, 'São Francisco de Assis');
-
-
-
