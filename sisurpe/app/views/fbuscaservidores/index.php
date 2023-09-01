@@ -238,7 +238,7 @@
                       <td><?php echo getTipoEnsinoMedio($row['tipoEnsinoMedio']); ?></td>                   
                       <!--BTN EDITAR-->            
                       <td style="text-align:right;">
-                          <a class="btn btn-primary" href="<?php echo URLROOT; ?>/users/edit/<?php echo $row['userId'];?>" class="pull-left"><i class="fa-solid fa-eye"></i></a>                    
+                          <a class="btn btn-primary" href="<?php echo URLROOT; ?>/fbuscaservidores/ver/<?php echo $row['userId'];?>" class="pull-left"><i class="fa-solid fa-eye"></i></a>                    
                       </td>
             </tr>
     <?php endforeach; ?>    

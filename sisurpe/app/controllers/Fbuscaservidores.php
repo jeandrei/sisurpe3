@@ -12,10 +12,16 @@
                 die();
             }  
             //vai procurar na pasta model um arquivo chamado User.php e incluir
-            $this->userModel = $this->model('User');
-            $this->buscaServidorModel = $this->model('Fbuscaservidor');
+            $this->userModel = $this->model('User');            
             $this->escolaModel = $this->model('Escola');
             $this->fposModel = $this->model('Fpo');
+
+            $this->buscaServidorModel = $this->model('Fbuscaservidor');
+            $this->fuserEscolaAnoModel = $this->model('Fuserescolaano');
+            $this->fuserFormacaoModel = $this->model('Fuserformacao');
+            $this->fusercursosSupModel = $this->model('Fusercursosuperior');
+            $this->fuserposModel = $this->model('Fuserpo');
+            $this->fuseroutroscurModel = $this->model('Fuseroutroscurso');
         }     
 
     public function index(){ 
@@ -69,6 +75,15 @@
         $data['pos'] = $this->fposModel->getPos();
         
         $this->view('fbuscaservidores/index', $data);
-    }   
+    }
+    
+    public function ver($userId){
+        $data['escolas'] = $this->fuserEscolaAnoModel->getEscolasUser($userId);
+        $data['forarmacao'] = $this->fuserFormacaoModel->getUserFormacoesById($userId);
+        $data['fcursossup'] = $this->fusercursosSupModel->getCursosUser($userId);
+        $data['fpos'] = $this->fuserposModel->getUserPos($userId);
+        $data['foutroscur'] = $this->fuseroutroscurModel->getUserOutrosCursos($userId);
+        debug($data);
+    }
 }   
 ?>
