@@ -76,10 +76,22 @@
             }
         }
 
-        public function getUsersPos($_escolaId,$_ano){
-            $this->db->query('SELECT u.name as nome, fp.pos as pos, e.nome as escola, fup.userId as userId, fup.posId as posId, fue.escolaId as escolaId, fue.ano as ano FROM users u, f_pos fp, escola e, f_user_pos fup, f_user_escola fue WHERE u.id = fup.userId AND fup.userId = fue.userId AND fp.posId = fup.posId AND e.id = fue.escolaId AND fue.escolaId = :escolaId AND fue.ano = :ano ORDER BY fp.pos, u.name ASC');
-            $this->db->bind(':escolaId',$_escolaId);
-            $this->db->bind(':ano',$_ano);
+        public function getUsersPos($_escolaId,$_ano){            
+            if($_escolaId == 'null'){
+                $sql = "SELECT u.name as nome, fp.pos as pos, e.nome as escola, fup.userId as userId, fup.posId as posId, fue.escolaId as escolaId, fue.ano as ano FROM users u, f_pos fp, escola e, f_user_pos fup, f_user_escola fue WHERE u.id = fup.userId AND fup.userId = fue.userId AND fp.posId = fup.posId AND e.id = fue.escolaId AND fue.ano = :ano ORDER BY e.nome, fp.pos, u.name  ASC";
+            } else {
+                $sql = "SELECT u.name as nome, fp.pos as pos, e.nome as escola, fup.userId as userId, fup.posId as posId, fue.escolaId as escolaId, fue.ano as ano FROM users u, f_pos fp, escola e, f_user_pos fup, f_user_escola fue WHERE u.id = fup.userId AND fup.userId = fue.userId AND fp.posId = fup.posId AND e.id = fue.escolaId AND fue.escolaId = :escolaId AND fue.ano = :ano ORDER BY u.name, fp.pos ASC";
+            }
+
+            $this->db->query($sql);
+
+            if($_escolaId == 'null'){
+                $this->db->bind(':ano',$_ano);
+            } else {
+                $this->db->bind(':escolaId',$_escolaId);
+                $this->db->bind(':ano',$_ano);
+            }
+            
             $results = $this->db->resultSet();  
             if($this->db->rowCount() > 0){
                 return $results;
@@ -89,9 +101,18 @@
         }
 
         public function getUsersSemRespostaPos($_escolaId,$_ano){
-            $this->db->query('SELECT u.name as nome, e.nome as escola, fue.ano as ano FROM users u, escola e, f_user_escola fue WHERE u.id = fue.userId AND fue.escolaId = e.id AND fue.escolaId = :escolaId AND fue.ano = :ano AND NOT EXISTS (SELECT * FROM f_user_pos fup WHERE fup.userId = fue.userId) ORDER BY e.nome, u.name ASC');
-            $this->db->bind(':escolaId',$_escolaId);
-            $this->db->bind(':ano',$_ano);
+            if($_escolaId == 'null'){
+                $sql = "SELECT u.name as nome, e.nome as escola, fue.ano as ano FROM users u, escola e, f_user_escola fue, f_user_formacao fuf WHERE u.id = fue.userId AND fue.escolaId = e.id AND fuf.userId = fue.userId AND fuf.maiorEscolaridade = 'e_superior' AND fue.ano = :ano AND NOT EXISTS (SELECT * FROM f_user_pos fup WHERE fup.userId = fue.userId) ORDER BY e.nome, u.name ASC";
+            } else {
+                $sql = "SELECT u.name as nome, e.nome as escola, fue.ano as ano FROM users u, escola e, f_user_escola fue, f_user_formacao fuf WHERE u.id = fue.userId AND fue.escolaId = e.id AND fue.escolaId = :escolaId AND fuf.userId = fue.userId AND fuf.maiorEscolaridade = 'e_superior' AND fue.ano = :ano AND NOT EXISTS (SELECT * FROM f_user_pos fup WHERE fup.userId = fue.userId) ORDER BY e.nome, u.name ASC";
+            }
+            $this->db->query($sql);
+            if($_escolaId == 'null'){
+                $this->db->bind(':ano',$_ano);
+            } else {
+                $this->db->bind(':escolaId',$_escolaId);
+                $this->db->bind(':ano',$_ano);
+            }            
             $results = $this->db->resultSet();  
             if($this->db->rowCount() > 0){
                 return $results;

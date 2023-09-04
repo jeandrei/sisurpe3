@@ -31,8 +31,8 @@
             id="escolaId"
             class="form-control <?php echo (!empty($data['escolaId_err'])) ? 'is-invalid' : ''; ?>"
         >
-            <option value="null">Selecione a Escola</option>
-            <?php foreach($data['escolas'] as $row) : ?>
+            <option value="null">Todas</option>
+            <?php foreach($data['escolas'] as $row) : ?>            
             <option 
                 value="<?php htmlout($row->id); ?>"
                 <?php echo ($data['escolaId']) == $row->id ? 'selected' : '';?>

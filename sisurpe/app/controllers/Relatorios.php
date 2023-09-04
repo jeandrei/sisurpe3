@@ -57,9 +57,16 @@
         } 
         
         
-        public function rfespecializacao(){          
-          $data['escola'] = $this->escolaModel->getEscolaById($_GET['escolaId']);
-          $escolaId = $data['escola']->id;         
+        public function rfespecializacao(){  
+          
+          if($_GET['escolaId']=='null'){
+            $escolaId = 'null';
+            $data['escola']='Todas';
+          } else {
+            $data['escola'] = $this->escolaModel->getEscolaById($_GET['escolaId']);
+            $escolaId = $data['escola']->id;
+          }   
+                             
           $data['result'] = $this->fuserPos->getUsersPos($escolaId,date("Y"));             
           
           if($data['result']){
@@ -71,8 +78,14 @@
 
         public function fusersemrespostapos(){   
           
-          $data['escola'] = $this->escolaModel->getEscolaById($_GET['escolaId']);
-          $escolaId = $data['escola']->id;         
+          if($_GET['escolaId']=='null'){
+            $escolaId = 'null';
+            $data['escola']='Todas';
+          } else {
+            $data['escola'] = $this->escolaModel->getEscolaById($_GET['escolaId']);
+            $escolaId = $data['escola']->id;
+          }          
+                  
           $data['result'] = $this->fuserPos->getUsersSemRespostaPos($escolaId,date("Y"));          
           
           if($data['result']){

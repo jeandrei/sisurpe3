@@ -18,13 +18,7 @@ class PDF extends FPDF
         // Arial bold 15
         $this->SetFont('Arial','B',15);    
         // Title
-        $this->Ln(20);
-        // Move to the right                
-        $this->Cell(200,0, utf8_decode("Servidores que responderam o questionário"),0,0,'C');
-        $this->Ln(5);
-        $this->Cell(200,0, utf8_decode("mas não responderam a especialização"),0,0,'C');
-        // Line break
-        $this->Ln(20);                
+        $this->Ln(20);                      
     }
 
     // Page footer
@@ -42,45 +36,75 @@ class PDF extends FPDF
 // Instanciation of inherited class
 $pdf = new PDF();
 //define o tipo e o tamanho da fonte                                  
-$pdf->SetFont('Arial','B',8);
-//defino as colunas do relatório
-$colunas =array("N","Nome","Ano");
-//largura das colunas
-$larguracoll = array(1 => 5, 2 => 150, 3 => 35);
-//tamanho da fonte
-$left = 5; 
 
-$pdf->AddPage('P');
-$pdf->Ln();
 
-$pdf->SetFont('Arial','B',12);
-$pdf->Cell(50, 5, 'ESCOLA: ' . utf8_decode($data['escola']->nome), 0, 1, 'L');       
+
 
 $pdf->SetFont('Arial','B',12);
 
-//primeira linha com os nomes dos campos
-$i=0;
-foreach($colunas as $coluna){
-  $i++;           
-  $pdf->Cell($larguracoll[$i],$left,utf8_decode($coluna),1);
-  
-}
-$pdf->Ln();           
-
-$count=0;
-if($data['result']){
-  foreach($data['result'] as $row){ 
-    $count++;
-    $pdf->Cell($larguracoll[1],5,utf8_decode($count),1,0,'C'); 
-    $pdf->Cell($larguracoll[2],5,utf8_decode($row->nome),1,0,'C');     
-    $pdf->Cell($larguracoll[3],5,utf8_decode($row->ano),1,0,'C');
-    $pdf->Ln(); 
-  } 
+if($data['escola']=='Todas'){
+  $pdf->SetFont('Arial','B',8);  
+  $colunas =array("N","Nome","Escola","Ano"); 
+  $larguracoll = array(1 => 5, 2 => 140, 3 => 100, 4 => 35);  
+  $left = 5; 
+  $pdf->AddPage('L');
+  $pdf->Ln();
+  $pdf->Cell(50, 5,utf8_decode('Relatório: Servidores que responderam o questionário mas não responderam a especialização'), 0, 1, 'L');
+  $pdf->Cell(50, 5, 'ESCOLA: ' . utf8_decode('Todas'), 0, 1, 'L');  
+  $i=0;
+  //primeira linha da tabela com os campos
+  foreach($colunas as $coluna){
+    $i++;           
+    $pdf->Cell($larguracoll[$i],$left,utf8_decode($coluna),1);    
+  }
+  $pdf->Ln(); 
+  $count=0;
+  if($data['result']){
+    foreach($data['result'] as $row){ 
+      $count++;
+      $pdf->Cell($larguracoll[1],5,utf8_decode($count),1,0,'C'); 
+      $pdf->Cell($larguracoll[2],5,utf8_decode($row->nome),1,0,'C');     
+      $pdf->Cell($larguracoll[3],5,utf8_decode($row->escola),1,0,'C');
+      $pdf->Cell($larguracoll[4],5,utf8_decode($row->ano),1,0,'C');
+      $pdf->Ln(); 
+    } 
+  } else {
+    $data['erro'] = "Sem dados para emitir";
+    $data['link'] = "/buscadadosescolars";
+    $this->view('relatorios/erroAoGerarRelatorio', $data);
+  }  
 } else {
-  $data['erro'] = "Sem dados para emitir";
-  $data['link'] = "/buscadadosescolars";
-  $this->view('relatorios/erroAoGerarRelatorio', $data);
-}  
+
+  $pdf->SetFont('Arial','B',8);  
+  $colunas =array("N","Nome","Ano");  
+  $larguracoll = array(1 => 5, 2 => 150, 3 => 35);  
+  $left = 5; 
+  $pdf->AddPage('P');
+  $pdf->Ln();
+  $pdf->Cell(50, 5,utf8_decode('Relatório: Servidores que responderam o questionário mas não responderam a especialização'), 0, 1, 'L');
+  $pdf->Cell(50, 5, 'ESCOLA: ' . utf8_decode($data['escola']->nome), 0, 1, 'L'); 
+  $i=0;
+  //primeira linha da tabela com os campos
+  foreach($colunas as $coluna){
+    $i++;           
+    $pdf->Cell($larguracoll[$i],$left,utf8_decode($coluna),1);    
+  }
+  $pdf->Ln(); 
+  $count=0;
+  if($data['result']){
+    foreach($data['result'] as $row){ 
+      $count++;
+      $pdf->Cell($larguracoll[1],5,utf8_decode($count),1,0,'C'); 
+      $pdf->Cell($larguracoll[2],5,utf8_decode($row->nome),1,0,'C');     
+      $pdf->Cell($larguracoll[3],5,utf8_decode($row->ano),1,0,'C');
+      $pdf->Ln(); 
+    } 
+  } else {
+    $data['erro'] = "Sem dados para emitir";
+    $data['link'] = "/buscadadosescolars";
+    $this->view('relatorios/erroAoGerarRelatorio', $data);
+  }   
+} 
 
 if($pdf->Output())
 {
