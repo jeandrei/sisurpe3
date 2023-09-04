@@ -110,24 +110,32 @@
       <th scope="col">Email</th>           
       <th scope="col">Criado em</th> 
       <th scope="col">Tipo</th>
-      <th scope="col" >Ações</th> 
+      <th scope="col">Ações</th> 
     </tr>
   </thead>
   <tbody>
-    <?php foreach($result as $row) : ?> 
-            <tr>   
-                      <td><?php echo $row['name']; ?></td>
-                      <td><?php echo $row['email']; ?></td>
-                      <td><?php echo date('d-m-Y', strtotime($row['created_at'])); ?></td>
-                      <td><?php echo $row['type']; ?></td>                     
-                      <!--BTN EDITAR-->            
-                      <td style="text-align:right;">
-                          <a class="btn btn-success" href="<?php echo URLROOT; ?>/users/edit/<?php echo $row['id'];?>" class="pull-left"> Editar</a>                          
-                      
-                          <a class="btn bg-warning" href="<?php echo URLROOT; ?>/inscricoes/inscreverUsuario/<?php echo $row['id'];?>" class="pull-left"> Inscrever</a>                          
-                      </td>
-            </tr>
-    <?php endforeach; ?>    
+    <?php if($result) : ?>
+      <?php foreach($result as $row) : ?> 
+          <tr>   
+              <td><?php echo $row['name']; ?></td>
+              <td><?php echo $row['email']; ?></td>
+              <td><?php echo date('d-m-Y', strtotime($row['created_at'])); ?></td>
+              <td><?php echo $row['type']; ?></td>                     
+              <!--BTN EDITAR-->            
+              <td style="text-align:right;">
+                  <a class="btn btn-success" href="<?php echo URLROOT; ?>/users/edit/<?php echo $row['id'];?>" class="pull-left"> Editar</a>                          
+              
+                  <a class="btn bg-warning" href="<?php echo URLROOT; ?>/inscricoes/inscreverUsuario/<?php echo $row['id'];?>" class="pull-left"> Inscrever</a>                          
+              </td>
+          </tr>
+      <?php endforeach; ?> 
+    <?php else: ?>   
+      <tr class='text-center'>
+          <td colspan='5'>
+              Nenhum resultado encontrado
+          </td> 
+      </tr>  
+    <?php endif;?>
   </tbody>
 </table>
 <?php  

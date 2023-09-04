@@ -145,7 +145,7 @@
                 <a href="<?php echo URLROOT; ?>/fusercursosuperiores/index" class="btn btn-success"><i class="fa fa-forward"></i> Avançar</a>
             <?php else:?>
                 <!-- se não tem curso superior avanço para outros cursos -->
-                <a href="<?php echo URLROOT; ?>/fuserformacoes/index" class="btn btn-success"><i class="fa fa-forward"></i> Avançar</a>
+                <a href="<?php echo URLROOT; ?>/fuseroutroscursos/index" class="btn btn-success"><i class="fa fa-forward"></i> Avançar</a>
             <?php endif;?>
                
         <?php endif;?>       

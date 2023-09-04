@@ -10,16 +10,18 @@
             $this->fuserposModel = $this->model('Fuserpo');
             $this->foutrosCursosModel = $this->model('Foutroscurso');
             $this->fuseroutrosCursosModel = $this->model('Fuseroutroscurso');
+            $this->fuserFormacoes = $this->model('Fuserformacao');
         }
 
         public function index() {    
           
           //se o usuário ainda não adicionou nenhuma escola, faço essa verificação para evitar passar para próxima etapa pelo link sem ter adicionado uma escola
-          if(!$this->fuserposModel->getUserPos($_SESSION[DB_NAME . '_user_id'])){
+          if(!$this->fuserposModel->getUserPos($_SESSION[DB_NAME . '_user_id']) && $this->fuserFormacoes->getUserFormacoesById($_SESSION[DB_NAME . '_user_id'])=='e_superior'){
             flash('message', 'Você deve adicionar um curso de pós graduação primeiro!', 'error'); 
             redirect('fuserpos/index');
             die();
-          } 
+          }       
+          
 
           if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -51,7 +53,8 @@
             } 
             
           } else {
-                   
+            
+            $data['userFormacao'] = $this->fuserFormacoes->getUserFormacoesById($_SESSION[DB_NAME . '_user_id']);
             $data['outrosCursos'] = $this->foutrosCursosModel->getOutrosCursos();
             $data['useroutrosCursos'] = $this->fuseroutrosCursosModel->getUserOutrosCursos($_SESSION[DB_NAME . '_user_id']);
             if($data['useroutrosCursos']){

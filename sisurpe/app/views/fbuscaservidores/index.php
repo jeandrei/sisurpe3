@@ -230,18 +230,26 @@
     </tr>
   </thead>
   <tbody>
-    <?php foreach($result as $row) : ?> 
+    <?php if($result) : ?>
+        <?php foreach($result as $row) : ?> 
             <tr>   
-                      <td><?php echo $row['nome']; ?></td>
-                      <td><?php echo $row['escola']; ?></td>
-                      <td><?php echo getMaiorEscolaridade($row['maiorEscolaridade']);?></td>
-                      <td><?php echo getTipoEnsinoMedio($row['tipoEnsinoMedio']); ?></td>                   
-                      <!--BTN EDITAR-->            
-                      <td style="text-align:right;">
-                          <a class="btn btn-primary" href="<?php echo URLROOT; ?>/fbuscaservidores/ver/<?php echo $row['userId'];?>" class="pull-left"><i class="fa-solid fa-eye"></i></a>                    
-                      </td>
+                <td><?php echo $row['nome']; ?></td>
+                <td><?php echo $row['escola']; ?></td>
+                <td><?php echo getMaiorEscolaridade($row['maiorEscolaridade']);?></td>
+                <td><?php echo getTipoEnsinoMedio($row['tipoEnsinoMedio']); ?></td>                   
+                <!--BTN EDITAR-->            
+                <td style="text-align:right;">
+                    <a class="btn btn-primary" href="<?php echo URLROOT; ?>/fbuscaservidores/ver/<?php echo $row['userId'];?>" class="pull-left" target="_blank"><i class="fa-solid fa-eye"></i></a>                    
+                </td>
             </tr>
-    <?php endforeach; ?>    
+         <?php endforeach; ?> 
+    <?php else: ?> 
+        <tr class='text-center'>
+            <td colspan='5'>
+                Nenhum resultado encontrado
+            </td> 
+        </tr>   
+    <?php endif;?>
   </tbody>
 </table>
 <?php  

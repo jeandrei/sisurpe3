@@ -22,6 +22,11 @@
             $this->fusercursosSupModel = $this->model('Fusercursosuperior');
             $this->fuserposModel = $this->model('Fuserpo');
             $this->fuseroutroscurModel = $this->model('Fuseroutroscurso');
+            $this->fareaModel = $this->model('Fareacurso');
+            $this->fnivelModel = $this->model('Fnivelcurso');
+            $this->fcursosModel = $this->model('Fcursossuperior');
+            $this->municipioModel = $this->model('Municipio');
+            $this->foutroscursosModel = $this->model('Foutroscurso');
         }     
 
     public function index(){ 
@@ -45,7 +50,7 @@
 
         $options = array(
             'results_per_page' => 10,
-            'url' => URLROOT . '/adminusers/index.php?page=*VAR*&cpf=' . $_GET['cpf'] .'&name=' . $_GET['name'] . '&escolaId=' . $_GET['escolaId'] . '&maiorEscolaridade=' . $_GET['maiorEscolaridade'] . '&tipoEnsinoMedio=' . $_GET['tipoEnsinoMedio'] . '&posId=' . $_GET['posId'], 
+            'url' => URLROOT . '/fbuscaservidores/index.php?page=*VAR*&cpf=' . $_GET['cpf'] .'&name=' . $_GET['name'] . '&escolaId=' . $_GET['escolaId'] . '&maiorEscolaridade=' . $_GET['maiorEscolaridade'] . '&tipoEnsinoMedio=' . $_GET['tipoEnsinoMedio'] . '&posId=' . $_GET['posId'], 
             'using_bound_params' => true,
             'named_params' => array(
                                     ':cpf' => $_GET['cpf'],
@@ -78,12 +83,46 @@
     }
     
     public function ver($userId){
+        $data['title'] = 'Formação do servidor'; 
+        $data['description'] = 'Visualização dos dados de formação do servidor.';
         $data['escolas'] = $this->fuserEscolaAnoModel->getEscolasUser($userId);
+        $data['user'] = $this->userModel->getUserById($userId);
         $data['forarmacao'] = $this->fuserFormacaoModel->getUserFormacoesById($userId);
-        $data['fcursossup'] = $this->fusercursosSupModel->getCursosUser($userId);
+
+        
+        if($cursossup = $this->fusercursosSupModel->getCursosUser($userId)){
+            foreach($cursossup as $row){
+                $data['fcursossup'][] = [
+                    'ucsId' => $row->ucsId,
+                    'areaId' => $row->areaId,
+                    'area' => $this->fareaModel->getAreaById($row->areaId)->area,
+                    'nivelId' => $row->nivelId,
+                    'nivel' => $this->fnivelModel->getNivelById($row->nivelId)->nivel,
+                    'cursoId' => $row->cursoId,
+                    'curso' => $this->fcursosModel->getCursoById($row->cursoId)->curso,
+                    'tipoInstituicao' => $row->tipoInstituicao,
+                    'instituicaoEnsino' => $row->instituicaoEnsino,
+                    'municipioId' => $row->municipioId,
+                    'municipio' => $this->municipioModel->getMunicipioById($row->municipioId)->nomeMunicipio,
+                    'file' => $row->file,
+                    'file_name' => $row->file_name,
+                    'file_type'  => $row->file_type
+                ];
+            }
+        }
+               
         $data['fpos'] = $this->fuserposModel->getUserPos($userId);
-        $data['foutroscur'] = $this->fuseroutroscurModel->getUserOutrosCursos($userId);
-        debug($data);
+
+        if($outroscursos = $this->fuseroutroscurModel->getUserOutrosCursos($userId)){
+            foreach($outroscursos as $row){
+                $data['foutroscur'][] = [
+                    'cursoId' => $row->cursoId,
+                    'curso' => $this->foutroscursosModel->getOutrosCursosById($row->cursoId)->curso
+                ];
+            }
+        }  
+
+        $this->view('fbuscaservidores/ver', $data);
     }
 }   
 ?>

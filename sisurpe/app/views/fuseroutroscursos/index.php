@@ -49,7 +49,11 @@
 
       <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Salvar</button> 
 
-      <a href="<?php echo URLROOT; ?>/fuserpos/index" class="btn bg-warning"><i class="fa-solid fa-backward"></i> Voltar</a>      
+      <?php if($data['userFormacao'] == 'e_superior') : ?>
+        <a href="<?php echo URLROOT; ?>/fuserpos/index" class="btn bg-warning"><i class="fa-solid fa-backward"></i> Voltar</a>
+      <?php else: ?>
+        <a href="<?php echo URLROOT; ?>/fuserformacoes/index" class="btn bg-warning"><i class="fa-solid fa-backward"></i> Voltar</a>    
+      <?php endif;?>
             
   </div>   
   <!-- BOTÕES -->
