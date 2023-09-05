@@ -233,21 +233,13 @@
           }
         }
 
-        public function getImagenFormacao($_ucsId){   
-          $html = "";
-          if(!$imagenCurso = $this->fusercursossupModel->getImagenUserCurso($_ucsId)){
+        public function download($_ucsId){
+          if(!$data = $this->fusercursossupModel->getFile($_ucsId)){
             $html = "<p>Erro ao tentar recuperar o anexo.</p>";
             return $html;
-          }
-                  
-          if($imagenCurso->file==NULL){
-            $html = "<p>Nenhuma imagem anexada</p>";
           } else {
-            $file = base64_encode($imagenCurso->file);           
-            $html = "<img src='data:image/jpeg;base64,$file' class='img-fluid img-thumbnail'>";
-          }          
-          echo $html;
-      }
-    
+            $this->view('fusercursosuperiores/download',$data);  
+          }
+        }    
 }   
 ?>

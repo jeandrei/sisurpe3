@@ -1,5 +1,5 @@
 <?php
-    die(phpinfo());
+    //die(phpinfo());
     
     // Load Session
     require_once 'helpers/session_helper.php';

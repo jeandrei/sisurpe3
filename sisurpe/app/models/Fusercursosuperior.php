@@ -132,7 +132,7 @@
             return $file;
         }
 
-        public function getImagenUserCurso($_ucsId){            
+        public function getFile($_ucsId){            
             $this->db->query("SELECT file,file_name,file_type FROM f_user_curso_superior WHERE  ucsId = :ucsId");
             $this->db->bind(':ucsId',$_ucsId); 
             $row = $this->db->single(); 

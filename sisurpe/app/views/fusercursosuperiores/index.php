@@ -58,7 +58,7 @@
           <td><?php echo $row['municipioInstituicao'];?></td>           
 
           <?php if($row['file']) : ?>
-            <td><a href="" id="showImageBtn" data-toggle="modal" data-target="#showimg" onClick="showImageModal(<?php echo $row['ucsId']; ?>)"><i class="fa-solid fa-paperclip"></i></a></td>
+            <td><a href="<?php echo URLROOT; ?>/fusercursosuperiores/download/<?php echo $row['ucsId'];?>"><i class="fa-solid fa-paperclip"></i></a></td>
           <?php else: ?>
             <td></td>
           <?php endif; ?>

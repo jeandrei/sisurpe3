@@ -1,12 +1,15 @@
 <?php require APPROOT . '/views/inc/header.php'; ?>
 
 <script>  
-  function limpar(){
-          document.getElementById('cpf').value = ""; 
-          document.getElementById('name').value = "";  
-          document.getElementById('cpf').focus(); 
-      }  
-    document.getElementById('nome_aluno').focus(); 
+  function limpar(){        
+        document.getElementById('cpf').value = ""; 
+        document.getElementById('name').value = "";       
+        document.getElementById('escolaId').value = "null";
+        document.getElementById('maiorEscolaridade').value = "null";
+        document.getElementById('tipoEnsinoMedio').value = "null";
+        document.getElementById('posId').value = "null"; 
+        document.getElementById('cpf').focus(); 
+      }     
 </script>
 
 <?php flash('mensagem');?>
@@ -262,7 +265,7 @@
     /*
      * Echo out the total number of results
      */
-    echo '<p style="clear: left; padding-top: 10px;">Total de rows: '.$paginate->total_results.'</p>';
+    echo '<p style="clear: left; padding-top: 10px;">Resultados: '.$paginate->total_results.'</p>';
 
     /*
      * Echo out the total number of pages
