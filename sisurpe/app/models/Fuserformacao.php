@@ -8,7 +8,7 @@
         }
 
         // Registra a formacao na tabela f_user_formacao 
-        public function register($data){             
+        public function register($data){                    
             $this->db->query('SELECT * FROM f_user_formacao WHERE userId = :userId');
             $this->db->bind(':userId',$data['userId']);
             $result = $this->db->resultSet();            

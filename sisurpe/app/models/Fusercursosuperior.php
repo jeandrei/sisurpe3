@@ -20,7 +20,7 @@
         }
 
         // Registra um curso na tabela f_user_curso_superior
-        public function register($data){ 
+        public function register($data){             
             if($data['file_post_data']){                
                 $sql = 'INSERT INTO f_user_curso_superior (userId, areaId,nivelId, cursoId,tipoInstituicao,instituicaoEnsino,municipioId,file,file_name,file_type) VALUES (:userId, :areaId,:nivelId,:cursoId,:tipoInstituicao,:instituicaoEnsino,:municipioId,:file,:file_name,:file_type)';
             } else {                

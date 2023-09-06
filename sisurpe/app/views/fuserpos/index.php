@@ -1,9 +1,9 @@
 <!-- HEADER -->
 <?php require APPROOT . '/views/inc/header.php';?>
 
+
 <!-- FLASH MESSAGE -->
 <?php flash('message'); ?>
-
 
 <div class="alert alert-warning" role="alert">
   <h4 class="alert-heading">Curso de pós graduação concluída.</h4>

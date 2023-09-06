@@ -21,11 +21,11 @@
             redirect('fuserpos/index');
             die();
           }       
-          
 
+          $formacoes = $this->fuserFormacoes->getUserFormacoesById($_SESSION[DB_NAME . '_user_id']);
+          
           if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-            
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);            
                        
             if(empty($_POST['outros'])){
               $data['outros_err'] = 'Por favor informe ao menos uma opção, se não tem nenhum curso informe a opção Nenhum.';
@@ -53,17 +53,22 @@
             } 
             
           } else {
-            
-            $data['userFormacao'] = $this->fuserFormacoes->getUserFormacoesById($_SESSION[DB_NAME . '_user_id']);
-            $data['outrosCursos'] = $this->foutrosCursosModel->getOutrosCursos();
-            $data['useroutrosCursos'] = $this->fuseroutrosCursosModel->getUserOutrosCursos($_SESSION[DB_NAME . '_user_id']);
-            if($data['useroutrosCursos']){
-              foreach($data['useroutrosCursos'] as $row){
-                $data['useroutrosCursosId'][] = $row->cursoId;
+
+            if($userOutrosCursos = $this->fuseroutrosCursosModel->getUserOutrosCursos($_SESSION[DB_NAME . '_user_id'])){
+              foreach($userOutrosCursos as $row){
+                $userOutrosCursosIdArray[] = $row->cursoId;
               } 
             } else {
-              $data['useroutrosCursosId'] = 'null';
-            }
+              $userOutrosCursosIdArray = 'null';
+            }            
+
+            $data = [
+              'userFormacao' => $this->fuserFormacoes->getUserFormacoesById($_SESSION[DB_NAME . '_user_id']),
+              'outrosCursos' => $this->foutrosCursosModel->getOutrosCursos(),
+              'useroutrosCursosId' => $userOutrosCursosIdArray,
+              'voltarLink' => ($formacoes->maiorEscolaridade == 'e_superior') ? URLROOT .'/fuserpos/index' : URLROOT .'/fuserformacoes/index'              
+            ];
+            
             $this->view('fuseroutroscursos/index',$data);
           }          
           

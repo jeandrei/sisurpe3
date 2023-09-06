@@ -8,7 +8,7 @@
 <!-- TÍTULO -->
 <div class="row">
     <div class="col-12 text-center">
-        <h3><?php echo $data['init']['titulo']; ?></h3>
+        <h3><?php echo $data['titulo']; ?></h3>
     </div>    
 </div>
 
@@ -69,19 +69,19 @@
                 <select
                     name="areaId"
                     id="areaId"
-                    class="form-control <?php echo (!empty($data['init']['areaId_err'])) ? 'is-invalid' : ''; ?>"
+                    class="form-control <?php echo (!empty($data['areaId_err'])) ? 'is-invalid' : ''; ?>"
                 >
                     <option value="null">Selecione</option>
-                    <?php foreach($data['init']['areasCurso'] as $row) : ?> 
+                    <?php foreach($data['areasCurso'] as $row) : ?> 
                             <option value="<?php htmlout($row->areaId); ?>"
-                            <?php echo $data['init']['areaId'] == $row->areaId ? 'selected':'';?>
+                            <?php echo $data['areaId'] == $row->areaId ? 'selected':'';?>
                             >
                                 <?php htmlout($row->area);?>
                             </option>
                     <?php endforeach; ?>
                 </select>
                 <span class="text-danger">
-                    <?php echo $data['init']['areaId_err']; ?>
+                    <?php echo $data['areaId_err']; ?>
                 </span>
             </div>
             <!--areaId-->
@@ -100,19 +100,19 @@
                 <select
                     name="nivelId"
                     id="nivelId"
-                    class="form-control <?php echo (!empty($data['init']['nivelId_err'])) ? 'is-invalid' : ''; ?>"
+                    class="form-control <?php echo (!empty($data['nivelId_err'])) ? 'is-invalid' : ''; ?>"
                 >
                     <option value="null">Selecione</option>
-                    <?php foreach($data['init']['nivelCurso'] as $row) : ?> 
+                    <?php foreach($data['nivelCurso'] as $row) : ?> 
                             <option value="<?php htmlout($row->nivelId); ?>"
-                            <?php echo $data['init']['nivelId'] == $row->nivelId ? 'selected':'';?>
+                            <?php echo $data['nivelId'] == $row->nivelId ? 'selected':'';?>
                             >
                                 <?php htmlout($row->nivel);?>
                             </option>
                     <?php endforeach; ?>
                 </select>
                 <span class="text-danger">
-                    <?php echo $data['init']['nivelId_err']; ?>
+                    <?php echo $data['nivelId_err']; ?>
                 </span>
             </div>
             <!--nivelId-->
@@ -131,19 +131,19 @@
                 <select
                     name="cursoId"
                     id="cursoId"
-                    class="form-control <?php echo (!empty($data['init']['cursoId_err'])) ? 'is-invalid' : ''; ?>"
+                    class="form-control <?php echo (!empty($data['cursoId_err'])) ? 'is-invalid' : ''; ?>"
                 >
                     <option value="null">Selecione</option>
-                    <?php foreach($data['init']['cursosSuperiores'] as $row) : ?> 
+                    <?php foreach($data['cursosSuperiores'] as $row) : ?> 
                             <option value="<?php htmlout($row->cursoId); ?>"
-                            <?php echo $data['init']['cursoId'] == $row->cursoId ? 'selected':'';?>
+                            <?php echo $data['cursoId'] == $row->cursoId ? 'selected':'';?>
                             >
                                 <?php htmlout($row->curso);?>
                             </option>
                     <?php endforeach; ?>
                 </select>
                 <span class="text-danger">
-                    <?php echo $data['init']['cursoId_err']; ?>
+                    <?php echo $data['cursoId_err']; ?>
                 </span>
             </div>
             <!--cursoId-->
@@ -162,19 +162,19 @@
                 <select
                     name="tipoInstituicao"
                     id="tipoInstituicao"
-                    class="form-control <?php echo (!empty($data['init']['tipoInstituicao_err'])) ? 'is-invalid' : ''; ?>"
+                    class="form-control <?php echo (!empty($data['tipoInstituicao_err'])) ? 'is-invalid' : ''; ?>"
                 >
                     <option value="null">Selecione</option>
-                    <?php foreach($data['init']['tiposInstituicoes'] as $row) : ?> 
+                    <?php foreach($data['tiposInstituicoes'] as $row) : ?> 
                             <option value="<?php htmlout($row); ?>"
-                            <?php echo $data['init']['tipoInstituicao'] == $row ? 'selected':'';?>
+                            <?php echo $data['tipoInstituicao'] == $row ? 'selected':'';?>
                             >
                                 <?php htmlout($row);?>
                             </option>
                     <?php endforeach; ?>
                 </select>
                 <span class="text-danger">
-                    <?php echo $data['init']['tipoInstituicao_err']; ?>
+                    <?php echo $data['tipoInstituicao_err']; ?>
                 </span>
             </div>
             <!--tipoInstituicao-->
@@ -194,12 +194,12 @@
                     type="text" 
                     name="instituicaoEnsino" 
                     id="instituicaoEnsino" 
-                    class="form-control <?php echo (!empty($data['init']['instituicaoEnsino_err'])) ? 'is-invalid' : ''; ?>"                             
-                    value="<?php htmlout($data['init']['instituicaoEnsino']);?>"
+                    class="form-control <?php echo (!empty($data['instituicaoEnsino_err'])) ? 'is-invalid' : ''; ?>"                             
+                    value="<?php htmlout($data['instituicaoEnsino']);?>"
                     onkeydown="upperCaseF(this)"                    
                 >
                 <span class="text-danger">
-                    <?php echo $data['init']['instituicaoEnsino_err']; ?>
+                    <?php echo $data['instituicaoEnsino_err']; ?>
                 </span>
             </div>
             <!--	instituicaoEnsino-->

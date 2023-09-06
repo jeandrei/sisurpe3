@@ -1,8 +1,6 @@
 <!-- HEADER -->
 <?php require APPROOT . '/views/inc/header.php';?>
 
-
-
 <!-- FLASH MESSAGE -->
 <?php flash('message'); ?>
 
@@ -133,23 +131,10 @@
     <!-- fim do grup de dados 1 -->    
 
     <!-- BOTÕES -->
-    <div class="form-group mt-3 mb-3">           
-        
-        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Salvar</button>  
-        
+    <div class="form-group mt-3 mb-3">  
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Salvar</button> 
         <a href="<?php echo URLROOT; ?>/fuserescolaanos/userEscolaAno" class="btn bg-warning"><i class="fa-solid fa-backward"></i> Voltar</a>
-
-    <!-- $data['userformacao'] retorna false se não tem formação do usuário -->
-        <?php if($data['userformacao']): ?>
-            <?php if($data['userformacao']->maiorEscolaridade == 'e_superior') : ?>
-                <a href="<?php echo URLROOT; ?>/fusercursosuperiores/index" class="btn btn-success"><i class="fa fa-forward"></i> Avançar</a>
-            <?php else:?>
-                <!-- se não tem curso superior avanço para outros cursos -->
-                <a href="<?php echo URLROOT; ?>/fuseroutroscursos/index" class="btn btn-success"><i class="fa fa-forward"></i> Avançar</a>
-            <?php endif;?>
-               
-        <?php endif;?>       
-
+        <a href="<?php echo $data['avancarLink']?>" class="btn btn-success"><i class="fa fa-forward"></i> Avançar</a>
     </div>   
     <!-- BOTÕES -->
     

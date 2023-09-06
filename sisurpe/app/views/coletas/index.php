@@ -52,7 +52,7 @@
 
 <!-- TÍTULO -->
 <div class="row text-center">
-    <h1><?php echo $data['init']['titulo']; ?></h1>
+    <h1><?php echo $data['titulo']; ?></h1>
 </div>
 
 

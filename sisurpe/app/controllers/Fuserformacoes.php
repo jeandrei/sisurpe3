@@ -16,25 +16,24 @@
 
         public function index() { 
           
-          //se o usuário ainda não adicionou nenhuma escola, faço essa verificação para evitar passar para próxima etapa pelo link sem ter adicionado uma escola
-          if(!$this->fuserescolaModel->getEscolasUser($_SESSION[DB_NAME . '_user_id'])){
+            //se o usuário ainda não adicionou nenhuma escola, faço essa verificação para evitar passar para próxima etapa pelo link sem ter adicionado uma escola
+            if(!$this->fuserescolaModel->getEscolasUser($_SESSION[DB_NAME . '_user_id'])){
             flash('message', 'Você deve adicionar uma escola ao ano corrente primeiro!', 'error'); 
             redirect('fuserescolaanos/index');
-              die();
-          } 
+            die();
+            } 
 
             $formacoes = $this->fuserformacoesModel->getUserFormacoesById($_SESSION[DB_NAME . '_user_id']);
-                        $data = [
-                        'maiorEscolaridade' => $formacoes->maiorEscolaridade,
-                        'tipoEnsinoMedio' => $formacoes->tipoEnsinoMedio,
-                        'userId' => $_SESSION[DB_NAME . '_user_id'],
-                        'userformacao' => $this->fuserformacoesModel->getUserFormacoesById($_SESSION[DB_NAME . '_user_id']),
-                        'titulo' => 'Formação do usuário'
-            ];   
-         
-          $this->view('fuserformacoes/index',$data);
-          
-          
+            $data = [
+                'titulo' => 'Formação do usuário',
+                'maiorEscolaridade' => $formacoes->maiorEscolaridade,
+                'tipoEnsinoMedio' => $formacoes->tipoEnsinoMedio,
+                'userId' => $_SESSION[DB_NAME . '_user_id'],
+                'userformacao' => $this->fuserformacoesModel->getUserFormacoesById($_SESSION[DB_NAME . '_user_id']),
+                'avancarLink' => ($formacoes->maiorEscolaridade == 'e_superior') ? URLROOT .'/fusercursosuperiores/index' : URLROOT .'/fuseroutroscursos/index'
+            ]; 
+
+            $this->view('fuserformacoes/index',$data);
         }
 
         public function add(){           
@@ -43,19 +42,17 @@
             if($_SERVER['REQUEST_METHOD'] == 'POST'){ 
 
                 // Sanitize POST data
-                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);    
-
-
-                //init data
+                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);   
+                
                 unset($data);
                 $data = [
+                    'titulo' => 'Formação do usuário',   
+                    'userId' => $_SESSION[DB_NAME . '_user_id'],
+                    'userformacao' => $this->fuserformacoesModel->getUserFormacoesById($_SESSION[DB_NAME . '_user_id']),
                     'maiorEscolaridade' => trim($_POST['maiorEscolaridade']),
                     'tipoEnsinoMedio' => trim($_POST['tipoEnsinoMedio']),
-                    'userId' => $_SESSION[DB_NAME . '_user_id'],
-                    'titulo' => 'Formação do usuário'
-                ];                
-               
-                   
+                    'avancarLink' => ($_POST['maiorEscolaridade'] == 'e_superior') ? URLROOT .'/fusercursosuperiores/index' : URLROOT .'/fuseroutroscursos/index'  
+                ];                      
                 
                 // Valida maiorEscolaridade
                 if(empty($data['maiorEscolaridade']) || ($data['maiorEscolaridade'] == 'null')){
@@ -65,8 +62,7 @@
                 // Valida tipoEnsinoMedio
                 if(empty($data['tipoEnsinoMedio']) || ($data['tipoEnsinoMedio'] == 'null')){
                     $data['tipoEnsinoMedio_err'] = 'Por favor informe tipo de ensino médio cursado.';
-                } 
-                               
+                }           
                 
                 // Make sure errors are empty
                 if(                    
@@ -86,17 +82,13 @@
                         } catch (Exception $e) {
                             $erro = 'Erro: '.  $e->getMessage(); 
                             flash('message', $erro,'error');                       
-                            redirect('fuserformacoes/index');        
+                            //redirect('fuserformacoes/index'); 
+                            $this->view('fuserformacoes/index',$data);       
                         }  
-                    } else {
-                      // Load the view with errors
-                        if(!empty($data['erro'])){
-                        flash('message', $data['erro'], 'error');
-                        }                        
+                    } else {                       
+                        flash('message', 'Erro ao efetuar o cadastro, verifique os dados informados!','error');                     
                         $this->view('fuserformacoes/index', $data);
-                    }               
-
-            
+                    } 
             } 
         }
     

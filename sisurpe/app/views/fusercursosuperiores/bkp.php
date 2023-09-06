@@ -299,7 +299,9 @@
     <!-- BOTÕES -->
     <div class="form-group mt-3 mb-3">           
         <button type="submit" id="btnSalvar" name="btnSalvar" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Salvar</button> 
-        <a href="<?php echo URLROOT; ?>/fusercursosuperiores/index" class="btn bg-warning"><i class="fa-solid fa-backward"></i> Voltar</a>            
+
+        <a href="<?php echo URLROOT; ?>/fusercursosuperiores/index" class="btn bg-warning"><i class="fa-solid fa-backward"></i> Voltar</a>
+            
     </div>   
     <!-- BOTÕES -->
 

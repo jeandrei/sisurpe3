@@ -4,7 +4,6 @@
 <!-- FLASH MESSAGE -->
 <?php flash('message'); ?>
 
-
 <div class="alert alert-warning" role="alert">
   <h4 class="alert-heading">Curso superior.</h4>
   <p>Abaixo são listados os cursos superiores já adicionados.</p>
@@ -27,7 +26,6 @@
     <?php endif;?>
   </div>
 </div>
-
 
 <table class="table table-striped table-responsive-sm">
   <thead>
@@ -76,32 +74,7 @@
   </tbody>
 </table>
 
-
-
-<!-- Modal -->
-<div class="modal fade" id="showimg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Anexo</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="img-fluid text-center" id="modalImage">
-
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>        
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-  
+<script>  
   function showImageModal(ucsId){
     //const modalImage = document.querySelector('#modalImage');
     if(typeof ucsId != 'undefined'){
@@ -115,8 +88,6 @@
     }
   }
 </script>
-
-
 
 <!-- FOOTER -->
 <?php require APPROOT . '/views/inc/footer.php'; ?>

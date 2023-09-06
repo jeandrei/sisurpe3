@@ -8,14 +8,14 @@
 <!-- ADD NEW -->
 <div class="row mb-3">
     <div class="col-md-12 text-center">
-        <h1><?php echo $data['init']['titulo']; ?></h1>
+        <h1><?php echo $data['titulo']; ?></h1>
     </div>  
 </div>
 
 
 
 <!-- FORMULÁRIO -->
-<form target="_blank" id="frmRelUniformeEscola" action="<?php echo URLROOT ."/relatorios"."/".$data['init']['view'] ?>" method="GET" novalidate enctype="multipart/form-data">
+<form target="_blank" id="frmRelUniformeEscola" action="<?php echo URLROOT ."/relatorios"."/".$data['view'] ?>" method="GET" novalidate enctype="multipart/form-data">
 
  <!-- linha -->
   <div class="row mt-2">  

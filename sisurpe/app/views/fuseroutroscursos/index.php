@@ -10,7 +10,6 @@
     </div>          
 <?php endif;?>
 
-
 <div class="alert alert-warning" role="alert">
   <h4 class="alert-heading">Outros cursos.</h4>
   <p>Informe outros cursos realizados e clique em  <b>Salvar</b>.</p>
@@ -52,7 +51,7 @@
       <?php if($data['userFormacao'] == 'e_superior') : ?>
         <a href="<?php echo URLROOT; ?>/fuserpos/index" class="btn bg-warning"><i class="fa-solid fa-backward"></i> Voltar</a>
       <?php else: ?>
-        <a href="<?php echo URLROOT; ?>/fuserformacoes/index" class="btn bg-warning"><i class="fa-solid fa-backward"></i> Voltar</a>    
+        <a href="<?php echo $data['voltarLink'] ?>" class="btn bg-warning"><i class="fa-solid fa-backward"></i> Voltar</a>    
       <?php endif;?>
             
   </div>   

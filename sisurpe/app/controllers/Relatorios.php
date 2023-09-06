@@ -13,7 +13,7 @@
 
         public function index(){ 
           
-            $data['init'] = [
+            $data = [
               'titulo' => 'Relatórios',              
             ];
 
@@ -22,7 +22,7 @@
 
 
         public function selectEscola($view){          
-          $data['init'] = [
+          $data = [
             'titulo' => 'Selecione a escola',
             'view' => $view              
           ];

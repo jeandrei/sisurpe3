@@ -123,18 +123,18 @@
 
 
 
-    public function update($data){
+    public function update($data){   
         $this->db->query('UPDATE inscricoes  SET                                           
-                                            nome_curso = :nome_curso,
-                                            descricao = :descricao,
-                                            data_inicio = :data_inicio, 
-                                            data_termino = :data_termino, 
-                                            numero_certificado = :numero_certificado,        
-                                            localEvento = :localEvento,
-                                            periodo = :periodo,
-                                            horario = :horario,
-                                            fase = :fase  
-                                            WHERE id = :id');
+                            nome_curso = :nome_curso,
+                            descricao = :descricao,
+                            data_inicio = :data_inicio, 
+                            data_termino = :data_termino, 
+                            numero_certificado = :numero_certificado,        
+                            localEvento = :localEvento,
+                            periodo = :periodo,
+                            horario = :horario,
+                            fase = :fase  
+                        WHERE id = :id');
                   
         // Bind values 
         $this->db->bind(':id',$data['id']);            
@@ -237,7 +237,115 @@
         } else {
             return false;
         }
-    } 
+    }
+    
+
+    public function getAbrePresencas($inscricoes_id){
+        $this->db->query('
+            SELECT 
+                * 
+            FROM                 
+                abre_presenca
+            WHERE              
+                abre_presenca.inscricoes_id = :inscricoes_id            
+        '); 
+        $this->db->bind(':inscricoes_id',$inscricoes_id);          
+        $result = $this->db->resultSet();
+        if($this->db->rowCount() > 0){
+            //return $result;
+            return $result;
+        } else {
+            return false;
+        }       
+    }
+    
+
+    public function removeAbrePresenca($inscricoes_id){
+        $this->db->query('DELETE FROM abre_presenca WHERE inscricoes_id = :inscricoes_id');
+        $this->db->bind(':inscricoes_id', $inscricoes_id);
+        if($this->db->execute()){            
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function removePresencas($abre_presenca_id){              
+        $this->db->query('DELETE FROM presenca WHERE abre_presenca_id = :abre_presenca_id');
+        $this->db->bind(':abre_presenca_id', $abre_presenca_id);       
+        if($this->db->execute()){            
+            return true;
+        } else {
+            return false;
+        } 
+    }
+
+    public function removeInscritos($inscricoes_id){           
+        $this->db->query('DELETE FROM inscritos WHERE inscricoes_id = :inscricoes_id');
+        $this->db->bind(':inscricoes_id', $inscricoes_id);   
+        if($this->db->execute()){            
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function removeTemas($inscricoes_id){        
+        $this->db->query('DELETE FROM inscricoes_temas WHERE inscricoes_id = :inscricoes_id');
+        $this->db->bind(':inscricoes_id', $inscricoes_id);   
+        if($this->db->execute()){            
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function deletePresencas($inscricoes_id){
+        //pego todas as abre presença
+        $abrepresencas = $this->getAbrePresencas($inscricoes_id);
+        //se não tem nenhuma abre presença retorno true pq não tem o que excluir
+        if($abrepresencas){
+            //para cada abrepresença removo todas as presenças        
+            foreach($abrepresencas as $abrep){            
+                //removo todas as presenças
+                if(!$this->removePresencas($abrep->id)){                                          
+                    return false;
+                }
+                //removo a propria abrepresença
+                if(!$this->removeAbrePresenca($inscricoes_id)){                
+                    return false;
+                }
+            }  
+        } else {
+            return true;
+        }
+          
+    return true;              
+    }
+
+
+    public function delete($inscricoes_id){        
+        //excluir todas as presenças
+        if(!$this->deletePresencas($inscricoes_id)){ 
+            return false;
+        } 
+        //excluir todos os inscritos
+        if(!$this->removeInscritos($inscricoes_id)){            
+            return false;
+        } 
+        //excluir todos os temas  
+        if(!$this->removeTemas($inscricoes_id)){            
+            return false;
+        } 
+        //excluir o curso
+        $this->db->query('DELETE FROM inscricoes WHERE id = :id');
+        $this->db->bind(':id', $inscricoes_id);   
+        if($this->db->execute()){            
+            return true;
+        } else {
+            return false;
+        }
+    }
   
 
 

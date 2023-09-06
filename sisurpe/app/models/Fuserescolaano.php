@@ -106,10 +106,7 @@
                 return false;
             }
         } 
-                
-
-         
-
+            
               
         public function atualizaSituacao($id,$situacao){            
             

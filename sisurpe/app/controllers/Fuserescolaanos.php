@@ -1,29 +1,28 @@
 <?php 
     class Fuserescolaanos extends Controller{
 
-        public function __construct(){
-            //vai procurar na pasta model um arquivo chamado User.php e incluir
-            if((!isLoggedIn())){ 
-              flash('message', 'Você deve efetuar o login para ter acesso a esta página', 'error'); 
-              redirect('users/login');
-              die();
-            }
-            $this->userModel = $this->model('User');
-            $this->escolaModel = $this->model('Escola');
-            $this->fuserescolaModel = $this->model('Fuserescolaano');
+      public function __construct(){
+        //vai procurar na pasta model um arquivo chamado User.php e incluir
+        if((!isLoggedIn())){ 
+          flash('message', 'Você deve efetuar o login para ter acesso a esta página', 'error'); 
+          redirect('users/login');
+          die();
         }
+        $this->userModel = $this->model('User');
+        $this->escolaModel = $this->model('Escola');
+        $this->fuserescolaModel = $this->model('Fuserescolaano');
+      }
 
-        public function index(){    
-              $data['init'] = [
-                  'titulo' => 'Atualização dos dados do servidor para o ano de ',
-                  'ano' => date("Y")
-              ];
-              $data['user'] = $this->userModel->getUserById($_SESSION[DB_NAME . '_user_id']);
-              $data['escolas'] = $this->escolaModel->getEscolas();              
-              $data['userEscolas'] = $this->fuserescolaModel->getEscolasUser($_SESSION[DB_NAME . '_user_id']);
-
-              $this->view('users/userescola', $data);
-              
+      public function index(){   
+        $data = [
+            'titulo' => 'Atualização dos dados do servidor para o ano de ',
+            'ano' => date("Y"),
+            'user' => $this->userModel->getUserById($_SESSION[DB_NAME . '_user_id']),
+            'escolas' => $this->escolaModel->getEscolas(),
+            'userEscolas' => $this->fuserescolaModel->getEscolasUser($_SESSION[DB_NAME . '_user_id']),
+            'avancarLink' => URLROOT . '/fuserformacoes/index'
+        ];        
+        $this->view('users/userescola', $data);
       }
 
 
@@ -31,6 +30,12 @@
         if($_SERVER['REQUEST_METHOD'] == 'POST'){ 
           $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
           $data = [
+            'titulo' => 'Atualização dos dados do servidor para o ano de ',
+            'ano' => date("Y"),
+            'user' => $this->userModel->getUserById($_SESSION[DB_NAME . '_user_id']),
+            'escolas' => $this->escolaModel->getEscolas(),
+            'userEscolas' => $this->fuserescolaModel->getEscolasUser($_SESSION[DB_NAME . '_user_id']),
+            'avancarLink' => URLROOT . '/fuserformacoes/index',
             'escolaId' => html($_POST['escolaId']),
             'userId' => $this->userModel->getUserById($_SESSION[DB_NAME . '_user_id'])->id
           ];
@@ -39,12 +44,12 @@
             $data['escolaId_err'] = 'Por favor selecione uma escola.';
           }
 
-
           if(
             empty($data['escolaId_err'])             
           ) 
           {
               try {                               
+                //verifico se a escola já foi adicionada ao usuário
                 if($this->fuserescolaModel->getUserEscolaAno($_SESSION[DB_NAME . '_user_id'],$data['escolaId'],date("Y"))){
                   throw new Exception('Ops! Escola já cadastrada!');
                 }
@@ -58,25 +63,11 @@
                 }
               } catch (Exception $e) {                   
                 $erro = 'Erro: '.  $e->getMessage();                      
-                flash('message', $erro,'error');
-                $data['init'] = [
-                  'titulo' => 'Atualização dos dados do servidor para o ano de ',
-                  'ano' => date("Y")
-                ];
-                $data['user'] = $this->userModel->getUserById($_SESSION[DB_NAME . '_user_id']);
-                $data['escolas'] = $this->escolaModel->getEscolas();              
-                $data['userEscolas'] = $this->fuserescolaModel->getEscolasUser($_SESSION[DB_NAME . '_user_id']);
+                flash('message', $erro,'error');               
                 $this->view('users/userescola',$data);
               } 
           } else {
-            //Validação falhou
-            $data['init'] = [
-              'titulo' => 'Atualização dos dados do servidor para o ano de ',
-              'ano' => date("Y")
-            ];
-            $data['user'] = $this->userModel->getUserById($_SESSION[DB_NAME . '_user_id']);
-            $data['escolas'] = $this->escolaModel->getEscolas();              
-            $data['userEscolas'] = $this->fuserescolaModel->getEscolasUser($_SESSION[DB_NAME . '_user_id']);
+            //Validação falhou            
             flash('message', 'Erro ao efetuar o cadastro, verifique os dados informados!','error');                     
             $this->view('users/userescola', $data);
           }

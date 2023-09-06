@@ -1,6 +1,6 @@
 <?php require APPROOT . '/views/inc/header.php'; ?>
 
-<?php flash('mensagem');?>
+<?php flash('message');?>
 
 <hr>
 <div class="p-3 text-center">
@@ -8,16 +8,11 @@
 </div>
 <hr>
 
-
-
-
 <!-- paginação -->
 <?php
   $paginate = $data['paginate'];
   $result = $data['results'];
 ?>
- 
-
 
 
 
@@ -55,10 +50,7 @@ if(isset($data['error'])){
   <div class="col-2">
       <input type="submit" name="botao" class="btn btn-primary" value="Atualizar">
   </div>
-</div><!--<div class="row mb-3"> -->  
-
- 
-
+</div><!--<div class="row mb-3"> -->   
 
 
 </form>
@@ -69,11 +61,12 @@ if(isset($data['error'])){
   
         
   <div class="row p-1 mb-2 bg-secondary text-white">
-    <div class="col-11">        
+    <div class="col-10">        
         <?php echo $registro['nome_curso'] . ' de ' . $registro['data_inicio'] .' até ' .$registro['data_termino'];?> 
     </div>
-    <div class="col-1">
+    <div class="col-2">
     <a class="text-warning" href="<?php echo URLROOT; ?>/inscricoes/reabrir/<?php echo $registro['id'];?>" role="button">Reabrir</a>
+    <a class="text-danger" href="<?php echo URLROOT; ?>/inscricoes/confirm/<?php echo $registro['id'];?>" role="button">Excluir</a>
     </div>
     
   </div>

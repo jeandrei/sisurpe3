@@ -1,11 +1,6 @@
 <?php 
     class Inscricoes extends Controller{
-         public function __construct(){ 
-          
-          if((!isLoggedIn())){                  
-            redirect('users/login');
-          } 
-
+         public function __construct(){            
           $this->inscricaoModel = $this->model('Inscricoe');
           $this->inscritoModel = $this->model('Inscrito');
           $this->temaModel = $this->model('Tema');
@@ -15,22 +10,38 @@
         }
         
     public function index(){ 
+      
+            if((!isLoggedIn())){                  
+              redirect('users/login');
+            } 
+            
+        
             $data = [
             'title' => 'Inscrições',
             'description'=> 'Inscrições',
             'inscricoes' => $this->inscricaoModel->getInscricoes()               
-        ];        
+        ];
+        
         $this->view('inscricoes/index', $data);
     }  
 
         
     public function arquivadas(){           
       
-      if ((!isAdmin()) && (!isSec())){                         
-        flash('message', 'Você não tem permissão de acesso a esta página', 'error'); 
-        redirect('pages/index'); 
+      if((!isLoggedIn())){ 
+        flash('message', 'Você deve efetuar o login para ter acesso a esta página', 'error'); 
+        redirect('pages/index');
         die();
-      }        
+      } else if ((!isAdmin()) && (!isSec())){                
+          flash('message', 'Você não tem permissão de acesso a esta página', 'error'); 
+          redirect('pages/index'); 
+          die();
+      }   
+
+      if(($_SESSION[DB_NAME . '_user_type']) != "admin" && (!$_SESSION[DB_NAME . '_user_type']) != "sec"){
+        die('Você não tem permissão para acessar esta página!');
+      }     
+  
 
       if(isset($_GET['page']))  
       {  
@@ -39,7 +50,8 @@
       else  
       {  
         $page = 1;  
-      }         
+      }   
+                
   
       $options = array(
           'results_per_page' => 10,
@@ -49,7 +61,8 @@
                                   )     
       );
   
-      $paginate = $this->inscricaoModel->getArquivadasPag($page, $options);    
+      $paginate = $this->inscricaoModel->getArquivadasPag($page, $options);
+    
 
       if($paginate->success == true){ 
           $data['paginate'] = $paginate;          
@@ -66,9 +79,14 @@
       redirect('inscricoes/index/');
     }
         
-    /* quando a inscrição é feita pelo usuário */
-    public function inscrever($inscricoes_id){      
 
+    /* quando a inscrição é feita pelo usuário */
+    public function inscrever($inscricoes_id){
+      
+      if((!isLoggedIn())){                  
+        redirect('users/login');
+      } 
+        
       $error=[];
       if(empty($inscricoes_id)){
           $error['inscricoes_id_err'] = 'Id obrigatório';
@@ -86,7 +104,7 @@
                   'description'=> 'Inscrições Abertas',
                   'inscricoes' => $this->inscricaoModel->getInscricoes()                      
               ];                        
-              $this->view('inscricoes/index', $data);
+              $this->view('inscricoes/index', $data);  
           }                 
           
       } else {
@@ -103,12 +121,17 @@
 
 
 
-    public function cancelar($inscricoes_id){     
+    public function cancelar($inscricoes_id){
+        
+      if((!isLoggedIn())){                  
+        redirect('users/login');
+      } 
         
       $error=[];
       if(empty($inscricoes_id)){
           $error['inscricoes_id_err'] = 'Id obrigatório';
       }
+
         
       if(empty($error['inscricoes_id_err'])){
           
@@ -132,11 +155,15 @@
 
     public function add(){ 
       
-      if ((!isAdmin()) && (!isSec())){                         
-        flash('message', 'Você não tem permissão de acesso a esta página', 'error'); 
-        redirect('pages/index'); 
+      if((!isLoggedIn())){ 
+        flash('message', 'Você deve efetuar o login para ter acesso a esta página', 'error'); 
+        redirect('pages/index');
         die();
-      }    
+      } else if ((!isAdmin()) && (!isSec())){                
+          flash('message', 'Você não tem permissão de acesso a esta página', 'error'); 
+          redirect('pages/index'); 
+          die();
+      }   
 
       // Check for POST            
       if($_SERVER['REQUEST_METHOD'] == 'POST'){        
@@ -200,24 +227,11 @@
               try {                          
                 if($lastId = $this->inscricaoModel->register($data)){
                   // verifico se a inscrição é editavel ou seja se ela não está fechada ou arquivada
-                  $editavel = $this->inscricaoModel->inscricaoEditavel($lastId);
+                  $data['editavel'] = $this->inscricaoModel->inscricaoEditavel($lastId);
                   // pego o id da inscrição criada
-                  $inscricoes_id = $lastId; 
+                  $data['inscricoes_id'] = $lastId; 
                   // pega os temas se o usuário estiver adicionando
-                  $temas = $this->temaModel->getTemasInscricoesById($lastId);
-                  $data = [
-                    'nome_curso' => mb_strtoupper(trim($_POST['nome_curso'])),
-                    'descricao' => mb_strtoupper(trim($_POST['descricao'])),
-                    'data_inicio' => $_POST['data_inicio'],
-                    'data_termino' => trim($_POST['data_termino']),
-                    'localEvento' => trim($_POST['localEvento']),
-                    'horario' => trim($_POST['horario']),
-                    'periodo' => trim($_POST['periodo']),
-                    'fase' => $_POST['fase'],
-                    'editavel' => $editavel,
-                    'inscricoes_id' => $inscricoes_id,
-                    'temas' => $temas
-                  ];
+                  $data['temas'] = $this->temaModel->getTemasInscricoesById($lastId);
                   flash('message', 'Dados registrados com sucesso');  
                   $this->view('inscricoes/add', $data);  
                 } else {
@@ -225,7 +239,7 @@
                 }                 
               } catch (Exception $e) {
                 $erro = 'Erro: '.  $e->getMessage(). "\n";
-                flash('message', $erro,'error');
+                flash('message', $erro,'alert alert-danger');
                 $this->view('inscricoes/add');
               }  
 
@@ -234,8 +248,26 @@
               $this->view('inscricoes/add', $data);
             } 
     
-      } else {        
-        unset($data);   
+      } else {
+        // Init data             
+        $data = [              
+          'nome_curso' => '',
+          'descricao' => '',                
+          'data_inicio' => '',
+          'data_termino' => '',
+          'localEvento' => '',
+          'horario' => '',
+          'periodo' => '',
+          'aberto' => '',
+          'nome_curso_err' => '',
+          'descricao_err' => '',              
+          'data_inicio_err' => '',
+          'data_termino_err' => '',
+          'localEvento_err' => '',
+          'horario_err' => '',
+          'periodo_err' => ''
+      ];
+        // Load view
         $this->view('inscricoes/add', $data);
       }     
     }//add
@@ -245,27 +277,27 @@
 
     public function edit($id){
 
-      if ((!isAdmin()) && (!isSec())){                         
-        flash('message', 'Você não tem permissão de acesso a esta página', 'error'); 
-        redirect('pages/index'); 
+      if((!isLoggedIn())){ 
+        flash('message', 'Você deve efetuar o login para ter acesso a esta página', 'error'); 
+        redirect('pages/index');
         die();
-      }  
+      } else if ((!isAdmin()) && (!isSec())){                
+          flash('message', 'Você não tem permissão de acesso a esta página', 'error'); 
+          redirect('pages/index'); 
+          die();
+      }   
       
       //pego a data atual
       $dataAtual = new DateTime('now', new DateTimeZone('America/Sao_Paulo'));
       $dataAtual = $dataAtual->format('Y-m-d');
 
       // Check for POST            
-      if($_SERVER['REQUEST_METHOD'] == 'POST'){ 
+      if($_SERVER['REQUEST_METHOD'] == 'POST'){        
           
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);    
 
-        $temas = $this->temaModel->getTemasInscricoesById($id); 
-        $editavel = $this->inscricaoModel->inscricaoEditavel($id);       
-
         $data = [     
-          'id' => $id,         
-          'inscricoes_id' => $id,            
+          'id' => $id,                     
           'nome_curso' => mb_strtoupper(trim($_POST['nome_curso'])),
           'descricao' => mb_strtoupper(trim($_POST['descricao'])),            
           'data_inicio' => $_POST['data_inicio'],
@@ -274,9 +306,7 @@
           'localEvento' => trim($_POST['localEvento']),
           'horario' => trim($_POST['horario']),
           'periodo' => trim($_POST['periodo']),
-          'fase' => $_POST['fase'],
-          'temas' => ($temas) ? $temas : 'null',
-          'editavel' => $editavel
+          'fase' => $_POST['fase']                
         ];
 
         //se a data atual for menor que a data de início permito a edição e faço a validação
@@ -326,44 +356,30 @@
             empty($data['periodo_err']) 
           ){             
               try { 
-                if($this->inscricaoModel->update($data)){                   
-                   // verifico se a inscrição é editavel ou seja se ela não está fechada ou arquivada
-                   $editavel = $this->inscricaoModel->inscricaoEditavel($id);
-                   // pego o id da inscrição criada
-                   $inscricoes_id = $id;  
-                   // pega os temas se o usuário estiver adicionando
-                   $temas = $this->temaModel->getTemasInscricoesById($id);
-                   $data = [
-                     'nome_curso' => mb_strtoupper(trim($_POST['nome_curso'])),
-                     'descricao' => mb_strtoupper(trim($_POST['descricao'])),
-                     'data_inicio' => $_POST['data_inicio'],
-                     'data_termino' => trim($_POST['data_termino']),
-                     'localEvento' => trim($_POST['localEvento']),
-                     'horario' => trim($_POST['horario']),
-                     'periodo' => trim($_POST['periodo']),
-                     'fase' => $_POST['fase'],
-                     'editavel' => $editavel,
-                     'inscricoes_id' => $inscricoes_id,
-                     'temas' => $temas
-                   ];
-
-                   flash('message', 'Dados atualizados com sucessso!', 'success');   
+                if($this->inscricaoModel->update($data)){                      
+                  // verifico se a inscrição é editavel ou seja se ela não está fechada ou arquivada
+                  $data['editavel'] = $this->inscricaoModel->inscricaoEditavel($id);
+                  // pego o id da inscrição 
+                  $data['inscricoes_id'] = $id;  
+                  flash('message', 'Dados atualizados com sucesso');  
                   $this->view('inscricoes/edit', $data);  
                 } else {
                     throw new Exception('Ops! Algo deu errado ao tentar gravar os dados!');
                 }                 
-              } catch (Exception $e) {
-                $erro = 'Erro: '.  $e->getMessage();
-                flash('message', $erro, 'error');                
-                $this->view('inscricoes/edit',$data);
+              } catch (Exception $e) {        
+                $erro = 'Erro: '.  $e->getMessage(). "\n";
+                flash('message', $erro,'alert alert-danger');
+                $this->view('inscricoes/edit');
               }  
 
         } else {
           // Load the view with errors
-          $this->view('inscricoes/edit',$data);
-        }   
-      } else { 
-        $data = $this->inscricaoModel->getInscricaoById($id);        
+          $this->view('inscricoes/edit', $data);
+        } 
+  
+      } else {
+        $data = $this->inscricaoModel->getInscricaoById($id); 
+        
         $data = [
           'editavel' => $this->inscricaoModel->inscricaoEditavel($id),
           'inscricoes_id' => $id,
@@ -378,52 +394,70 @@
           'horario' => $data->horario,
           'periodo' => $data->periodo,
           'fase' => $data->fase,
-          'data_atual' => $dataAtual               
+          'data_atual' => $dataAtual            
         ];
         // Load view
         $this->view('inscricoes/edit', $data);
       }     
     }//edit
 
+
+
+
     public function certificado($inscricoes_id){
       if($this->inscritoModel->estaInscrito($inscricoes_id,$_SESSION[DB_NAME . '_user_id'])){
+                    
         $data = [
           'curso' => $this->inscricaoModel->getInscricaoById($inscricoes_id),
           'temas' => $this->temaModel->getTemasInscricoesById($inscricoes_id),
           'usuario' =>$this->userModel->getUserById($_SESSION[DB_NAME . '_user_id']),
           'presencas' =>$this->inscricaoModel->getPresencasUsuarioById($_SESSION[DB_NAME . '_user_id'],$inscricoes_id)
-        ];         
+        ];            
         $this->view('relatorios/certificado', $data);
       } else {
         echo "Você não está inscrito para este curso!";
       }          
     }
 
+
     public function inscritos($inscricoes_id){ 
-      if ((!isAdmin()) && (!isSec())){                         
-        flash('message', 'Você não tem permissão de acesso a esta página', 'error'); 
-        redirect('pages/index'); 
+
+      if((!isLoggedIn())){ 
+        flash('message', 'Você deve efetuar o login para ter acesso a esta página', 'error'); 
+        redirect('pages/index');
         die();
-      } 
-      $data = [
-        'inscritos' => $this->inscritoModel->getInscritos($inscricoes_id),
-        'curso' => $this->inscricaoModel->getInscricaoById($inscricoes_id)
-      ];   
-      $this->view('relatorios/inscritos',$data);       
+      } else if ((!isAdmin()) && (!isSec())){                
+          flash('message', 'Você não tem permissão de acesso a esta página', 'error'); 
+          redirect('pages/index'); 
+          die();
+      }   
+
+      $data['inscritos'] = $this->inscritoModel->getInscritos($inscricoes_id);         
+      $data['curso'] = $this->inscricaoModel->getInscricaoById($inscricoes_id);
+      $this->view('relatorios/inscritos',$data);
+       
     }
 
+
     public function presentes($inscricoes_id){
-      if ((!isAdmin()) && (!isSec())){                         
-        flash('message', 'Você não tem permissão de acesso a esta página', 'error'); 
-        redirect('pages/index'); 
+
+      if((!isLoggedIn())){ 
+        flash('message', 'Você deve efetuar o login para ter acesso a esta página', 'error'); 
+        redirect('pages/index');
         die();
-      } 
-      $data=[
-        'presentes' => $this->presencaModel->getPresencas($inscricoes_id),
-        'curso' => $this->inscricaoModel->getInscricaoById($inscricoes_id)
-      ];      
+      } else if ((!isAdmin()) && (!isSec())){                
+          flash('message', 'Você não tem permissão de acesso a esta página', 'error'); 
+          redirect('pages/index'); 
+          die();
+      }   
+
+      $data['presentes'] = $this->presencaModel->getPresencas($inscricoes_id);
+      $data['curso'] = $this->inscricaoModel->getInscricaoById($inscricoes_id);
       $this->view('relatorios/presentes',$data);           
     }
+
+
+
 
     // Retorna true or false
     function estaInscrito(){
@@ -434,13 +468,20 @@
       //return $this->inscritoModel->estaInscrito($inscricoes_id,$userId);
     }
 
+
     //monta o form para o usuário selecionar qual a abre inscrição ele que gerenciar
     public function abrePresencas($inscricoes_id){
-      if ((!isAdmin()) && (!isSec())){                         
-        flash('message', 'Você não tem permissão de acesso a esta página', 'error'); 
-        redirect('pages/index'); 
+
+      if((!isLoggedIn())){ 
+        flash('message', 'Você deve efetuar o login para ter acesso a esta página', 'error'); 
+        redirect('pages/index');
         die();
-      } 
+      } else if ((!isAdmin()) && (!isSec())){                
+          flash('message', 'Você não tem permissão de acesso a esta página', 'error'); 
+          redirect('pages/index'); 
+          die();
+      }   
+
       if($abrePresencas = $this->abrePresencaModel->getAbrePresencasInscricaoById($inscricoes_id)){
         $data = [
           'curso' => $this->inscricaoModel->getInscricaoById($inscricoes_id),
@@ -451,35 +492,51 @@
         $this->view('inscricoes/abrePresencas', $data);
       } else {
         echo "Não tem nenhuma presença registrada para esta inscrição";
-      }     
+      }
+     
     }
 
 
     public function gerenciarPresencas($abrePresenca_id){
-      if ((!isAdmin()) && (!isSec())){                         
-        flash('message', 'Você não tem permissão de acesso a esta página', 'error'); 
-        redirect('pages/index'); 
+
+      if((!isLoggedIn())){ 
+        flash('message', 'Você deve efetuar o login para ter acesso a esta página', 'error'); 
+        redirect('pages/index');
         die();
-      } 
-      $inscricoes_id = $this->abrePresencaModel->getInscricaoById($abrePresenca_id)->id;  
+      } else if ((!isAdmin()) && (!isSec())){                
+          flash('message', 'Você não tem permissão de acesso a esta página', 'error'); 
+          redirect('pages/index'); 
+          die();
+      }   
+
+      $inscricoes_id = $this->abrePresencaModel->getInscricaoById($abrePresenca_id)->id;        
+    
       $data = [
         'abrePresencaId' => $abrePresenca_id,
         'curso' => $this->abrePresencaModel->getInscricaoById($abrePresenca_id),          
         'usuario' => $this->userModel->getUserById($_SESSION[DB_NAME . '_user_id']),
         'inscritos' => $this->inscritoModel->getInscritos($inscricoes_id) 
         
-      ];   
-      $this->view('inscricoes/gerenciarPresencas', $data);      
+      ];            
+      
+      $this->view('inscricoes/gerenciarPresencas', $data);
+      
     }
 
 
     /* carrega o formulário para que o  administrador selecione a inscrição que deseja inscrever um usuário*/
     public function inscreverUsuario($user_Id){
-      if ((!isAdmin()) && (!isSec())){                         
-        flash('message', 'Você não tem permissão de acesso a esta página', 'error'); 
-        redirect('pages/index'); 
+      
+      if((!isLoggedIn())){ 
+        flash('message', 'Você deve efetuar o login para ter acesso a esta página', 'error'); 
+        redirect('pages/index');
         die();
-      } 
+      } else if ((!isAdmin()) && (!isSec())){                
+          flash('message', 'Você não tem permissão de acesso a esta página', 'error'); 
+          redirect('pages/index'); 
+          die();
+      }   
+
       $data = [
         'title' => 'Inscrição de usuário',
         'user' => $this->userModel->getUserById($user_Id),        
@@ -489,13 +546,18 @@
     }
 
     /* quando a inscrição do usuário é feita pelo administrador */
-    public function registrarInscricao(){  
-      if ((!isAdmin()) && (!isSec())){                         
-        flash('message', 'Você não tem permissão de acesso a esta página', 'error'); 
-        redirect('pages/index'); 
-        die();
-      } 
+    public function registrarInscricao(){     
 
+      if((!isLoggedIn())){ 
+        flash('message', 'Você deve efetuar o login para ter acesso a esta página', 'error'); 
+        redirect('pages/index');
+        die();
+      } else if ((!isAdmin()) && (!isSec())){                
+          flash('message', 'Você não tem permissão de acesso a esta página', 'error'); 
+          redirect('pages/index'); 
+          die();
+      }   
+      
       if(empty($_POST['userId'])){
         $error['userId_err'] = 'Ops! Algo deu errado ao selecionar o usuário! Tente novamente.';
       }
@@ -585,40 +647,12 @@
           echo json_encode($json_ret);
           die();
       }         
-    }    
-    
-
-    public function confirm($id){ 
-      $data = [
-        'id' => $id,
-        'inscricao' => $this->inscricaoModel->getInscricaoById($id)
-      ];      
-      $this->view('inscricoes/confirm',$data);
     }
 
 
-    public function delete($id){      
-      //VALIDAÇÃO DO ID
-      if(!is_numeric($id)){
-        flash('message', 'Id inválido!', 'error'); 
-        redirect('inscricoes/arquivadas');
-        die();
-      }
-    
-      if(isset($_POST['delete'])){
-        if($this->inscricaoModel->delete($id)){
-              flash('message', 'Inscrição excluida com sucessso!', 'success'); 
-              redirect('inscricoes/arquivadas');
-              die();
-          } else {
-              flash('message', 'Houve um erro ao tentar excluir a inscrição, tente excluir novamente.', 'error'); 
-              redirect('inscricoes/arquivadas');
-              die();
-          }
-        } else {                 
-          redirect('inscricoes/arquivadas');
-          die();
-        }     
-  }
+
+        
+        
+        
         
 }

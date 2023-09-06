@@ -28,8 +28,7 @@
 
           if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-            
-                       
+                                   
             if(empty($_POST['pos'])){
               $data['pos_err'] = 'Por favor informe ao menos uma opção de pos graduação.';
             }  
@@ -56,20 +55,27 @@
             } 
             
           } else {
-            $data['pos'] = $this->fposModel->getPos();  
-            $data['userPos'] = $this->fuserposModel->getUserPos($_SESSION[DB_NAME . '_user_id']);
-            if($data['userPos']){
-              foreach($data['userPos'] as $row){
-                $data['userPosId'][] = $row->posId;
+
+            if($userPos = $this->fuserposModel->getUserPos($_SESSION[DB_NAME . '_user_id'])){
+              foreach($userPos as $row){
+                $userPosIdArray[] = $row->posId;
               } 
             } else {
-              $data['userPosId'] = 'null';
+              $userPosIdArray = 'null';
             }
-                       
+
+            $data = [
+              'pos' => $this->fposModel->getPos(),
+              'userPos' => $userPos,
+              'userPosId' => $userPosIdArray
+            ];      
+                                  
             $this->view('fuserpos/index',$data);
           }          
           
-        }        
+        } 
+        
+       
     
 }   
 ?>

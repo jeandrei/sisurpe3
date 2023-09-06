@@ -56,7 +56,7 @@
                 $data['results'] = false;
             }
 
-            $data['init'] = [
+            $data = [
                 'titulo' => 'Municípios',
                 'estados' => $this->estadoModel->getEstados()
             ];             
