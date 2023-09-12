@@ -65,7 +65,7 @@
 
         // RETORNA TODAS AS ESCOLAS
         public function getEscolas() {
-            $this->db->query('SELECT * FROM escola');            
+            $this->db->query('SELECT * FROM escola ORDER BY nome ASC');            
 
             $result = $this->db->resultSet();
 

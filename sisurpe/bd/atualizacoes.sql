@@ -902,6 +902,7 @@ CREATE TABLE `municipios` (
 (2,'NORTE'),
 (3,'SUDESTE'),
 (4,'SUL');
+(5,'CENTRO-OESTE');
 
 
 

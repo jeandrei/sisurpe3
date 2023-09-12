@@ -76,6 +76,26 @@
           }          
         }
 
+        // o mesmo relatório do rfespecializacao só que com o CPF
+        public function rfespecializacaocpf(){   
+
+          if($_GET['escolaId']=='null'){
+            $escolaId = 'null';
+            $data['escola']='Todas';
+          } else {
+            $data['escola'] = $this->escolaModel->getEscolaById($_GET['escolaId']);
+            $escolaId = $data['escola']->id;
+          }   
+                             
+          $data['result'] = $this->fuserPos->getUsersPos($escolaId,date("Y"));             
+          
+          if($data['result']){
+            $this->view('relatorios/rfuserposporescolacpf',$data);
+          } else {
+            die('Sem dados para emitir');
+          }          
+        }
+
         public function fusersemrespostapos(){   
           
           if($_GET['escolaId']=='null'){

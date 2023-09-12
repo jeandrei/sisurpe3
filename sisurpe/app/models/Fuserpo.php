@@ -78,10 +78,11 @@
 
         public function getUsersPos($_escolaId,$_ano){            
             if($_escolaId == 'null'){
-                $sql = "SELECT u.name as nome, fp.pos as pos, e.nome as escola, fup.userId as userId, fup.posId as posId, fue.escolaId as escolaId, fue.ano as ano FROM users u, f_pos fp, escola e, f_user_pos fup, f_user_escola fue WHERE u.id = fup.userId AND fup.userId = fue.userId AND fp.posId = fup.posId AND e.id = fue.escolaId AND fue.ano = :ano ORDER BY e.nome, fp.pos, u.name  ASC";
+                $sql = "SELECT u.name as nome, u.cpf as cpf, fp.pos as pos, e.nome as escola, fup.userId as userId, fup.posId as posId, fue.escolaId as escolaId, fue.ano as ano FROM users u, f_pos fp, escola e, f_user_pos fup, f_user_escola fue WHERE u.id = fup.userId AND fup.userId = fue.userId AND fp.posId = fup.posId AND e.id = fue.escolaId AND fue.ano = :ano ORDER BY e.nome, u.name, fp.pos ASC";
             } else {
-                $sql = "SELECT u.name as nome, fp.pos as pos, e.nome as escola, fup.userId as userId, fup.posId as posId, fue.escolaId as escolaId, fue.ano as ano FROM users u, f_pos fp, escola e, f_user_pos fup, f_user_escola fue WHERE u.id = fup.userId AND fup.userId = fue.userId AND fp.posId = fup.posId AND e.id = fue.escolaId AND fue.escolaId = :escolaId AND fue.ano = :ano ORDER BY u.name, fp.pos ASC";
+                $sql = "SELECT u.name as nome, u.cpf as cpf, fp.pos as pos, e.nome as escola, fup.userId as userId, fup.posId as posId, fue.escolaId as escolaId, fue.ano as ano FROM users u, f_pos fp, escola e, f_user_pos fup, f_user_escola fue WHERE u.id = fup.userId AND fup.userId = fue.userId AND fp.posId = fup.posId AND e.id = fue.escolaId AND fue.escolaId = :escolaId AND fue.ano = :ano ORDER BY u.name, fp.pos ASC";
             }
+            
 
             $this->db->query($sql);
 
