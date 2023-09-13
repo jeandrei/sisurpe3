@@ -173,8 +173,8 @@ function imptamanhounif($tamanhosec){
   return $html;
   }
 
-  function imptlinhastransporte($linhasec){
-    $arrayLinhas = array(     
+  function getLinhas(){
+    $arrayLinhas = array(
       'LINHA 03',
       'LINHA 05',
       'LINHA 06',
@@ -190,8 +190,13 @@ function imptamanhounif($tamanhosec){
       'ROTA 17',
       'ROTA 17A',
       'ROTA 20-18A',
-      'ROTA VAN'                      
-      );  
+      'ROTA VAN'  
+    );
+    return $arrayLinhas;
+  }
+
+  function imptlinhastransporte($linhasec){
+    $arrayLinhas =  getLinhas();
       foreach($arrayLinhas as $linha){ 
         //idtamanho tem que ser passada pelo post
         if($linha == $linhasec){

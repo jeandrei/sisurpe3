@@ -22,7 +22,7 @@
     <a href="<?php echo URLROOT; ?>/fuserformacoes/index" class="btn bg-warning"><i class="fa-solid fa-backward"></i> Voltar</a>
 
     <?php if($data['userCursosSup']) : ?>
-      <a href="<?php echo URLROOT; ?>/fuserpos/index" class="btn btn-success"><i class="fa fa-forward"></i> Avançar</a>
+      <a href="<?php echo URLROOT; ?>/fusercomplementacoes/index" class="btn btn-success"><i class="fa fa-forward"></i> Avançar</a>
     <?php endif;?>
   </div>
 </div>

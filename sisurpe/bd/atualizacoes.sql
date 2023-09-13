@@ -750,6 +750,39 @@ INSERT INTO `f_pos`(`pos`) VALUES ('Mestrado');
 INSERT INTO `f_pos`(`pos`) VALUES ('Doutorado');
 
 
+/* Armazena as opções de formação/complementação pedagógica */
+CREATE TABLE `f_complementacao_pedagogica` (
+  `cpId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,  
+  `complementacao` varchar(100)  NOT NULL   
+) auto_increment=0,
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('Arte - Educação Artística, Teatro, Dança, Música, Artes Plásticas e outras');
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('Biologia');
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('Ciências');
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('Educação Física');
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('Ensino religioso');
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('Estudos Sociais');
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('Filosofia');
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('Física');
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('História');
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('Informática - Computação');
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('Libras');
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('Língua - Literatura Portuguesa');
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('Língua - Literatura estrangeira - Espanhol');
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('Língua - Literatura estrangeira - Inglês');
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('Língua - Literatura estrangeira - outra');
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('Língua Portuguesa como Segunda Língua');
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('Língua indígena');
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('Língua - Literatura estrangeira - Francês');
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('Matemática');
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('Projeto de vida');
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('Química');
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('Sociologia');
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('Áreas do Conhecimento pedagógicas');
+INSERT INTO `f_complementacao_pedagogica`(`complementacao`) VALUES ('Áreas do Conhecimento profissionalizantes');
+INSERT INTO `f_complementacao_pedagogica` (`complementacao`) VALUES ('Geografia');
+
+
 /* formação do usuário 
 19 - maiorEscolaridade:
   Não Concluiu o ensino fundamental
@@ -799,9 +832,27 @@ CREATE TABLE `f_user_curso_superior` (
   `tipoInstituicao` varchar(50)  NOT NULL,
   `instituicaoEnsino` varchar(50)  NOT NULL,
   `municipioId` int(11) DEFAULT NULL,
+  `anoConclusao` VARCHAR(4),
   `file` longblob NULL,
   `file_name` varchar(255) NULL,
   `file_type` varchar(255) NULL 
+) auto_increment=0,
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/* 
+20 - Formação/Complementação pedagógica
+Armazena a formação/complementação pedagógica do servidor
+Arte - Educação Artística, Teatro, Dança, Música, Artes Plásticas e outras
+Biologia
+Ciências
+.
+.
+.
+ */
+CREATE TABLE `f_user_complementacao_pedagogica` (
+  `fucpId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,  
+  `cpId` int(11) NOT NULL,
+  `userId` int(11) NOT NULL  
 ) auto_increment=0,
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

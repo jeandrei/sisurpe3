@@ -25,6 +25,7 @@ $pdf->AddPage('P');
 
 $tamanhosUniformes = getArrayTamanhos();
 $tamanhosCalcados = getTamanhosCalcados();
+$linhas = getLinhas();
 $i = 0;
 if($data['result']){
   foreach($data['result'] as $row){ 
@@ -56,6 +57,19 @@ if($data['result']){
     foreach($tamanhosCalcados as $tamanho){
       $pdf->Cell(9,5,utf8_decode($tamanho),1,0,'C');
     }
+    $pdf->Ln();  
+    $pdf->Cell(50, 5, utf8_decode('Transporte Escolar - Linhas que o aluno utiliza: '), 0, 1, 'L');
+    $i=0;
+    foreach($linhas as $linha){
+      if($i == 7){
+        $pdf->Ln(); 
+        $i = 0;
+      }
+      $pdf->Cell(25,5,utf8_decode($linha),1,0,'C');
+      $i++;
+    }
+    $pdf->Cell(25,5,utf8_decode('Não Utiliza'),1,0,'C');
+      $i++;
     $pdf->Ln(); 
     $pdf->Ln();
     $pdf->Cell(50, 5, utf8_decode('Nome do responável pelo preenchimento: ___________________________________________________.Assinatura_________________________'), 0, 1, 'L');    
