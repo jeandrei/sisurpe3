@@ -80,7 +80,7 @@
         <div class="col-md-12">
           <fieldset class="form-group border p-3">
             <legend class="w-auto px-2">Cursos Superiores</legend>
-            <table class="table table-striped">
+            <table class="table table-striped table-responsive table-sm">
               <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -88,7 +88,8 @@
                   <th scope="col">Area</th>    
                   <th scope="col">Nível</th>   
                   <th scope="col">Instituição</th> 
-                  <th scope="col">Tipo Inst.</th>  
+                  <th scope="col">Conclusão</th> 
+                  <th scope="col">Tipo</th>  
                   <th scope="col">UF</th> 
                   <th scope="col">Município</th>                
                 </tr>
@@ -102,6 +103,7 @@
                     <td><?php echo $row['area'];?></td>
                     <td><?php echo $row['nivel'];?></td>
                     <td><?php echo $row['instituicaoEnsino'];?></td>
+                    <td><?php echo $row['anoConclusao'];?></td>
                     <td><?php echo $row['tipoInstituicao'];?></td>
                     <td><?php echo $row['uf'];?></td> 
                     <td><?php echo $row['municipio'];?></td>  

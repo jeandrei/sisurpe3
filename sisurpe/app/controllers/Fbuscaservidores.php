@@ -88,7 +88,7 @@
 
     public function ver($userId){  
         
-        if($cursossup = $this->fusercursosSupModel->getCursosUser($userId)){
+        if($cursossup = $this->fusercursosSupModel->getCursosUser($userId)){           
             foreach($cursossup as $row){
                 $cursossupArray[] = [
                     'ucsId' => $row->ucsId,
@@ -103,12 +103,13 @@
                     'municipioId' => $row->municipioId,
                     'municipio' => $this->municipioModel->getMunicipioById($row->municipioId)->nomeMunicipio,
                     'uf' => $this->municipioModel->getEstadoMunicipio($row->municipioId)->estado,
+                    'anoConclusao' => $row->anoConclusao,
                     'file' => $row->file,
                     'file_name' => $row->file_name,
                     'file_type'  => $row->file_type
                 ];
             }
-        }   
+        }  
         
         if($complementacao = $this->fusercomplementacaoModel->getUserComplementacoes($userId)){
             foreach($complementacao as $row){
