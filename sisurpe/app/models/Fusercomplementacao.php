@@ -38,7 +38,7 @@
             }
         }
 
-        
+               
 
         // Registra 
         public function register($data){            

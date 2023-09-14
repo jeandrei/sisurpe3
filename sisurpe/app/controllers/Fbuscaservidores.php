@@ -27,6 +27,8 @@
             $this->fcursosModel = $this->model('Fcursossuperior');
             $this->municipioModel = $this->model('Municipio');
             $this->foutroscursosModel = $this->model('Foutroscurso');
+            $this->fusercomplementacaoModel = $this->model('Fusercomplementacao');
+            $this->fcomplementacaoModel = $this->model('Fcomplementacao');
         }     
 
     public function index(){ 
@@ -106,7 +108,16 @@
                     'file_type'  => $row->file_type
                 ];
             }
-        }              
+        }   
+        
+        if($complementacao = $this->fusercomplementacaoModel->getUserComplementacoes($userId)){
+            foreach($complementacao as $row){
+                $complementacaoArray[] = [
+                    'cpId' => $row->cpId,
+                    'complementacao' => $this->fcomplementacaoModel->getComplementacaoById($row->cpId)->complementacao
+                ];
+            }
+        }  
         
         if($outroscursos = $this->fuseroutroscurModel->getUserOutrosCursos($userId)){
             foreach($outroscursos as $row){
@@ -122,9 +133,11 @@
             'user' => $this->userModel->getUserById($userId),
             'forarmacao' => $this->fuserFormacaoModel->getUserFormacoesById($userId),
             'fcursossup' => $cursossupArray,
+            'fcomplementacoes' => $complementacaoArray,
             'fpos' => $this->fuserposModel->getUserPos($userId),
             'foutroscur' => $outroscursosArray
         ];
+        
 
         $this->view('fbuscaservidores/ver', $data);
     }   

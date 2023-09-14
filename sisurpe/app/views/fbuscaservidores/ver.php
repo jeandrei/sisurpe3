@@ -125,6 +125,47 @@
     <?php endif;?>
     <!-- linha curso superior -->
 
+
+
+
+
+    <!-- linha formação/complementação pedagógica -->
+    <?php if($data['fcomplementacoes']) : ?>
+      <?php $count = 0;?>
+      <div class="row">
+        <div class="col-md-12">
+          <fieldset class="form-group border p-3">
+            <legend class="w-auto px-2">Formação/Complementação pedagógica</legend>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Formação/Complementação</th>                  
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach($data['fcomplementacoes'] as $row) : ?>
+                  <tr>
+                    <?php $count++;?>
+                    <th scope="row"><?php echo $count;?></th>
+                    <td><?php echo $row['complementacao'];?></td>                    
+                  </tr>
+                <?php endforeach;?>
+              </tbody>
+            </table>          
+          </fieldset>
+        </div>
+      </div>
+    <?php else: ?>
+      <fieldset class="form-group border p-3">
+          <legend class="w-auto px-2">Formação/Complementação pedagógica</legend>
+          <p>Servidor sem informação de formação/complementação pedagógica</p>
+      </fieldset>
+    <?php endif;?>
+    <!-- linha formação/complementação pedagógica -->
+
+
+
     <!-- linha especialização -->
     <?php if($data['fpos']) : ?>
       <?php $count = 0;?>

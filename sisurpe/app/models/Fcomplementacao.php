@@ -19,29 +19,12 @@
                 return false;
             } 
         }
-       
 
-        
-
-        // RETORNA TODAS AS ESCOLAS
-        public function getEscolas() {
-            $this->db->query('SELECT * FROM escola ORDER BY nome ASC');            
-
-            $result = $this->db->resultSet();
-
-            // Check row
-            if($this->db->rowCount() > 0){
-                return $result;
-            } else {
-                return false;
-            }
-        } 
-     
-         // Busca etapa por id
-         public function getEscolaByid($id){
-            $this->db->query('SELECT * FROM escola WHERE id = :id');
+        // RETORNA UMA COMPLEMENTAÇÃO POR ID
+        public function getComplementacaoById($_cpId){
+            $this->db->query('SELECT * FROM f_complementacao_pedagogica WHERE cpId = :cpId');
             // Bind value
-            $this->db->bind(':id', $id);
+            $this->db->bind(':cpId', $_cpId);
 
             $row = $this->db->single();
 
@@ -52,50 +35,9 @@
                 return false;
             }
         } 
-                
-
-         // Deleta escola por id
-         public function delete($id){            
             
-            $this->db->query('DELETE FROM escola WHERE id = :id');
-            // Bind value
-            $this->db->bind(':id', $id);
-
-            $row = $this->db->execute();
-
-            // Check row
-            if($this->db->rowCount() > 0){
-                return true;
-            } else {
-                return false;
-            }
-        }         
-
-              
-        public function atualizaSituacao($id,$situacao){            
-            
-            
-            if($situacao == 'true')          {
-                $sql = 'UPDATE escola SET emAtividade = 1 WHERE id = :id';
-            } else {
-                $sql = 'UPDATE escola SET emAtividade = 0 WHERE id = :id';
-            }
-                     
-            $this->db->query($sql);
-
-            // Bind values
-            $this->db->bind(':id',$id);      
-
-            // Execute
-            if($this->db->execute()){
-                return true;
-            } else {
-                return false;
-            }
-        }
 
 
-
-    }//etapa
+    }//final
     
 ?>
