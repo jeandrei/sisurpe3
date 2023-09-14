@@ -22,9 +22,9 @@
         // Registra um curso na tabela f_user_curso_superior
         public function register($data){             
             if($data['file_post_data']){                
-                $sql = 'INSERT INTO f_user_curso_superior (userId, areaId,nivelId, cursoId,tipoInstituicao,instituicaoEnsino,municipioId,file,file_name,file_type) VALUES (:userId, :areaId,:nivelId,:cursoId,:tipoInstituicao,:instituicaoEnsino,:municipioId,:file,:file_name,:file_type)';
+                $sql = 'INSERT INTO f_user_curso_superior (userId, areaId,nivelId, cursoId,tipoInstituicao,instituicaoEnsino,municipioId,file,file_name,file_type,anoConclusao) VALUES (:userId, :areaId,:nivelId,:cursoId,:tipoInstituicao,:instituicaoEnsino,:municipioId,:file,:file_name,:file_type,:anoConclusao)';
             } else {                
-                $sql = 'INSERT INTO f_user_curso_superior (userId, areaId,nivelId, cursoId,tipoInstituicao,instituicaoEnsino,municipioId) VALUES (:userId, :areaId,:nivelId,:cursoId,:tipoInstituicao,:instituicaoEnsino,:municipioId)';
+                $sql = 'INSERT INTO f_user_curso_superior (userId, areaId,nivelId, cursoId,tipoInstituicao,instituicaoEnsino,municipioId,anoConclusao) VALUES (:userId, :areaId,:nivelId,:cursoId,:tipoInstituicao,:instituicaoEnsino,:municipioId,:anoConclusao)';
             }
                        
             $this->db->query($sql);          
@@ -34,6 +34,7 @@
             $this->db->bind(':nivelId',$data['nivelId']);
             $this->db->bind(':cursoId',$data['cursoId']);
             $this->db->bind(':tipoInstituicao',$data['tipoInstituicao']);
+            $this->db->bind(':anoConclusao',$data['anoConclusao']);
             $this->db->bind(':instituicaoEnsino',$data['instituicaoEnsino']);
             $this->db->bind(':municipioId',$data['municipioId']);
             if($data['file_post_data']){

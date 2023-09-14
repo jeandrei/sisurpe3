@@ -8,10 +8,7 @@
           redirect('users/login');
           die();
         }
-        $this->userModel = $this->model('User');
-        $this->escolaModel = $this->model('Escola');
-        $this->fuserescolaModel = $this->model('Fuserescolaano');
-        
+        $this->userModel = $this->model('User');        
         $this->fcomplementacaoModel = $this->model('Fcomplementacao');
         $this->fusercomplementacoesModel = $this->model('Fusercomplementacao');
       }
@@ -22,13 +19,14 @@
             'user' => $this->userModel->getUserById($_SESSION[DB_NAME . '_user_id']),
             'complementacoes' => $this->fcomplementacaoModel->getComplementacoes(), 
             'userComplementacoes' => $this->fusercomplementacoesModel->getUserComplementacoes($_SESSION[DB_NAME . '_user_id']),
-            'avancarLink' => URLROOT . '/fuserpos/index'
+            'avancarLink' => URLROOT . '/fuserpos/index',
+            'voltarLink' => URLROOT . '/fusercursosuperiores/index',
         ];        
         $this->view('fusercomplementacao/index', $data);
       }
 
 
-      public function add(){
+      public function add(){       
         if($_SERVER['REQUEST_METHOD'] == 'POST'){ 
           $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
           $data = [            
@@ -36,6 +34,7 @@
             'complementacoes' => $this->fcomplementacaoModel->getComplementacoes(),
             'userComplementacoes' => $this->fusercomplementacoesModel->getUserComplementacoes($_SESSION[DB_NAME . '_user_id']),
             'avancarLink' => URLROOT . '/fuserpos/index',
+            'voltarLink' => URLROOT . '/fusercursosuperiores/index',
             'cpId' => html($_POST['cpId']),
             'userId' => $this->userModel->getUserById($_SESSION[DB_NAME . '_user_id'])->id
           ];
@@ -61,31 +60,31 @@
                 } else {                        
                     throw new Exception('Ops! Algo deu errado ao tentar gravar os dados!');
                 }
-              } catch (Exception $e) {                   
+              } catch (Exception $e) {                                  
                 $erro = 'Erro: '.  $e->getMessage();                      
                 flash('message', $erro,'error');                 
-                $this->view('fusercomplementacoes/index',$data);
+                $this->view('fusercomplementacao/index',$data);
               } 
-          } else {
+          } else {           
             //Validação falhou            
             flash('message', 'Erro ao efetuar o cadastro, verifique os dados informados!','error');                     
-            $this->view('fusercomplementacoes/index', $data);
+            $this->view('fusercomplementacao/index',$data);
           }
         }
       }
 
-      public function delete($_escolaId){
+      public function delete($_fucpId){        
         try {
-          if($this->fuserescolaModel->delete($_escolaId,$_SESSION[DB_NAME . '_user_id'])){           
-              flash('message', 'Escola removida com sucesso!','success');                     
-              redirect('fusercomplementacao/index');
+          if($this->fusercomplementacoesModel->delete($_fucpId,$_SESSION[DB_NAME . '_user_id'])){           
+              flash('message', 'Formação/Complementação removida com sucesso!','success');                     
+              redirect('fusercomplementacoes/index');
           } else {                        
-              throw new Exception('Ops! Algo deu errado ao tentar excluir a escola!');
+              throw new Exception('Ops! Algo deu errado ao tentar excluir os dados!');
           }
         } catch (Exception $e) {                   
           $erro = 'Erro: '.  $e->getMessage();                      
           flash('message', $erro,'error');
-          redirect('fusercomplementacao/index');
+          redirect('fusercomplementacoes/index');
         }
       }
 }   

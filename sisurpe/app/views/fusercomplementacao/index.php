@@ -12,7 +12,7 @@
 </div>
 
 <!-- FORMULÁRIO -->
-<form id="frmUserComplementacao" action="<?php echo URLROOT.'/fusercomplementacoes/add/'.$data['user']->id;?>" method="POST" novalidate enctype="multipart/form-data">
+<form id="frmUserComplementacao" action="<?php echo URLROOT.'/fusercomplementacoes/add';?>" method="POST" novalidate enctype="multipart/form-data">
     
     <!-- grup de dados 1 -->
     <fieldset class="bg-light p-2">
@@ -56,6 +56,7 @@
     <div class="form-group mt-3 mb-3">           
         <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Adicionar</button>        
         <?php if($data['userComplementacoes']) : ?>
+          <a href="<?php echo $data['voltarLink']?>" class="btn bg-warning"><i class="fa-solid fa-backward"></i> Voltar</a>
           <a href="<?php echo $data['avancarLink']?>" class="btn btn-success"><i class="fa fa-forward"></i> Avançar</a>     
         <?php endif;?>
     </div>   
@@ -79,7 +80,7 @@
         <tr>
           <th scope="row"><?php echo $i;?></th>
           <td><?php echo $row->complementacao;?></td> 
-          <td><a href="<?php echo URLROOT.'/fusercomplementacoes/delete/'.$row->cpId;?>"><i class="fa-solid fa-trash" style="color: #f20707;"></i></a></td>     
+          <td><a href="<?php echo URLROOT.'/fusercomplementacoes/delete/'.$row->fucpId;?>"><i class="fa-solid fa-trash" style="color: #f20707;"></i></a></td>     
         </tr>
       <?php endforeach; ?>    
     <?php else: ?>

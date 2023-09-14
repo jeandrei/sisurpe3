@@ -43,7 +43,7 @@
 
       <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Salvar</button> 
 
-      <a href="<?php echo URLROOT; ?>/fusercursosuperiores/index" class="btn bg-warning"><i class="fa-solid fa-backward"></i> Voltar</a>
+      <a href="<?php echo URLROOT; ?>/fusercomplementacoes/index" class="btn bg-warning"><i class="fa-solid fa-backward"></i> Voltar</a>
       
       <?php if($data['userPosId'] != 'null'): ?>            
           <a href="<?php echo URLROOT; ?>/fuseroutroscursos/index" class="btn btn-success"><i class="fa fa-forward"></i> Avançar</a>

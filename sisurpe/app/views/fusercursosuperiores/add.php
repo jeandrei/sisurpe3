@@ -148,12 +148,35 @@
 
         </div>
          <!-- QUARTA LINHA -->
+
+        <!-- QUINTA LINHA -->
+        <div class="row mb-3">
+             <!--anoConclusao-->
+             <div class="col-12"> 
+                <label for="instituicaoEnsino">
+                    <b class="obrigatorio">*</b> Ano de Conclusão: 
+                </label> 
+                <input 
+                    type="number" 
+                    name="anoConclusao" 
+                    id="anoConclusao" 
+                    class="form-control <?php echo (!empty($data['anoConclusao_err'])) ? 'is-invalid' : ''; ?>"                             
+                    value="<?php htmlout($data['anoConclusao']);?>"
+                >
+                <span class="text-danger">
+                    <?php echo $data['anoConclusao_err']; ?>
+                </span>
+            </div>
+            <!--instituicaoEnsino-->
+        </div>
+        <!-- QUINTA LINHA -->
+
     </fieldset>
     <!-- fim do grup de dados 1 --> 
 
     <!-- grup de dados 2 -->
     <fieldset class="bg-light p-2 mt-3">
-         <!-- QUINTA LINHA -->
+         <!-- SEXTA LINHA -->
         <div class="row mb-3">
             
             <!--	instituicaoEnsino-->
@@ -176,9 +199,9 @@
             <!--	instituicaoEnsino-->
 
         </div>
-        <!-- QUINTA LINHA -->
-
         <!-- SEXTA LINHA -->
+
+        <!-- SETIMA LINHA -->
         <div class="row mb-3">
          <!--regiaoId-->
          <div class="col-12">
@@ -206,9 +229,9 @@
             </div>
             <!--regiaoId-->
         </div>
-         <!-- SEXTA LINHA -->
+         <!-- SETIMA LINHA -->
 
-        <!-- SETIMA LINHA -->
+        <!-- OITAVA LINHA -->
         <div class="row mb-3">
             <!--estadoId-->
             <div class="col-12"> 
@@ -235,8 +258,9 @@
             </div>
             <!--estadoId-->
         </div>
-
         <!-- OITAVA LINHA -->
+
+        <!-- NONA LINHA -->
         <div class="row mb-3">
             <!--municipioId-->
             <div class="col-12"> 
@@ -263,12 +287,12 @@
             </div>
             <!--municipioId-->
         </div>
-        <!-- OITAVA LINHA -->
+        <!-- NONA LINHA -->        
     </fieldset>
     <!-- fim do grup de dados 2 --> 
 
     <fieldset>
-    <!-- NONA LINHA -->
+    <!-- DECIMA LINHA -->
        <!-- Adicionar arquivo-->
         <div class="row" style="margin:5px;">  
             <!-- Mensagem -->    
@@ -291,7 +315,7 @@
             </span>
         </div><!-- row -->            
         <!-- Fim Adicionar arquivo -->                 
-    <!-- NONA LINHA -->                   
+    <!-- DECIMA LINHA -->                   
     </fieldset>   
          
     

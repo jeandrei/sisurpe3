@@ -100,6 +100,7 @@
                   'municipio' => $this->municipioModel->getMunicipioById($_POST['municipioId']),
                   'municipios' => $this->municipioModel->getMunicipiosEstadoById($_POST['estadoId']),
                   'tipoInstituicao' => trim($_POST['tipoInstituicao']),
+                  'anoConclusao' => html($_POST['anoConclusao']),
                   'instituicaoEnsino' => trim($_POST['instituicaoEnsino']),
                   'areasCurso' => $this->fareacursoModel->getAreasCurso(),
                   'nivelCurso' => $this->fnivelcursoModel->getNivelCurso(),
@@ -144,6 +145,11 @@
                     $data['tipoInstituicao_err'] = 'Por favor informe tipo da instituição.';
                 } 
 
+                 // Valida ano de conclusão
+                 if(empty($data['anoConclusao']) || ($data['anoConclusao'] == 'null')){
+                  $data['anoConclusao_err'] = 'Por favor informe o ano de conclusão.';
+                }
+
                 // Valida nstituicaoEnsino
                 if(empty($data['instituicaoEnsino']) || ($data['instituicaoEnsino'] == '')){
                   $data['instituicaoEnsino_err'] = 'Por favor informe a instituição de ensino.';
@@ -178,6 +184,7 @@
                     empty($data['estadoId_err'])&&
                     empty($data['municipioId_err'])&&
                     empty($data['instituicaoEnsino_err']) && 
+                    empty($data['anoConclusao_err']) && 
                     empty($data['file_post_err'])
                   ){
                         // Register maiorEscolaridade
