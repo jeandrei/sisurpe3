@@ -81,18 +81,14 @@
         
         $this->view('fbuscaservidores/index', $data);
     }
-    
-    public function ver($userId){
-        $data['title'] = 'Formação do servidor'; 
-        $data['description'] = 'Visualização dos dados de formação do servidor.';
-        $data['escolas'] = $this->fuserEscolaAnoModel->getEscolasUser($userId);
-        $data['user'] = $this->userModel->getUserById($userId);
-        $data['forarmacao'] = $this->fuserFormacaoModel->getUserFormacoesById($userId);
 
+
+
+    public function ver($userId){  
         
         if($cursossup = $this->fusercursosSupModel->getCursosUser($userId)){
             foreach($cursossup as $row){
-                $data['fcursossup'][] = [
+                $cursossupArray[] = [
                     'ucsId' => $row->ucsId,
                     'areaId' => $row->areaId,
                     'area' => $this->fareaModel->getAreaById($row->areaId)->area,
@@ -104,25 +100,34 @@
                     'instituicaoEnsino' => $row->instituicaoEnsino,
                     'municipioId' => $row->municipioId,
                     'municipio' => $this->municipioModel->getMunicipioById($row->municipioId)->nomeMunicipio,
+                    'uf' => $this->municipioModel->getEstadoMunicipio($row->municipioId)->estado,
                     'file' => $row->file,
                     'file_name' => $row->file_name,
                     'file_type'  => $row->file_type
                 ];
             }
-        }
-               
-        $data['fpos'] = $this->fuserposModel->getUserPos($userId);
-
+        }              
+        
         if($outroscursos = $this->fuseroutroscurModel->getUserOutrosCursos($userId)){
             foreach($outroscursos as $row){
-                $data['foutroscur'][] = [
+                $outroscursosArray[] = [
                     'cursoId' => $row->cursoId,
                     'curso' => $this->foutroscursosModel->getOutrosCursosById($row->cursoId)->curso
                 ];
             }
         }  
 
+        $data = [
+            'escolas' => $this->fuserEscolaAnoModel->getEscolasUser($userId),
+            'user' => $this->userModel->getUserById($userId),
+            'forarmacao' => $this->fuserFormacaoModel->getUserFormacoesById($userId),
+            'fcursossup' => $cursossupArray,
+            'fpos' => $this->fuserposModel->getUserPos($userId),
+            'foutroscur' => $outroscursosArray
+        ];
+
         $this->view('fbuscaservidores/ver', $data);
-    }
+    }   
+    
 }   
 ?>

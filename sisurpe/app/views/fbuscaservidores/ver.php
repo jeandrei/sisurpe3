@@ -89,6 +89,7 @@
                   <th scope="col">Nível</th>   
                   <th scope="col">Instituição</th> 
                   <th scope="col">Tipo Inst.</th>  
+                  <th scope="col">UF</th> 
                   <th scope="col">Município</th>                
                 </tr>
               </thead>
@@ -102,6 +103,7 @@
                     <td><?php echo $row['nivel'];?></td>
                     <td><?php echo $row['instituicaoEnsino'];?></td>
                     <td><?php echo $row['tipoInstituicao'];?></td>
+                    <td><?php echo $row['uf'];?></td> 
                     <td><?php echo $row['municipio'];?></td>  
                     <?php if($row['file']) : ?>
                       <td><a href="<?php echo URLROOT; ?>/fusercursosuperiores/download/<?php echo $row['ucsId'];?>"><i class="fa-solid fa-paperclip"></i></a></td>
