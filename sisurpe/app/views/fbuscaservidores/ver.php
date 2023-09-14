@@ -54,7 +54,7 @@
       <div class="row">
         <div class="col-md-12">
           <fieldset class="form-group border p-3">
-            <legend class="w-auto px-2">Formação do Servidor</legend>
+            <legend class="w-auto px-2">Formação</legend>
             <p>Maior escolaridade:
               <b><?php echo getMaiorEscolaridade($data['forarmacao']->maiorEscolaridade);?></b>
             </p>
@@ -66,7 +66,7 @@
       </div>
     <?php else: ?>
       <fieldset class="form-group border p-3">
-          <legend class="w-auto px-2">Formação do Servidor</legend>
+          <legend class="w-auto px-2">Formação</legend>
           <p>Servidor sem formação informada</p>
       </fieldset>
     <?php endif;?>
@@ -172,7 +172,7 @@
       <div class="row">
         <div class="col-md-12">
           <fieldset class="form-group border p-3">
-            <legend class="w-auto px-2">Especialização do servidor</legend>
+            <legend class="w-auto px-2">Especialização</legend>
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -195,7 +195,7 @@
       </div>
     <?php else: ?>
       <fieldset class="form-group border p-3">
-          <legend class="w-auto px-2">Especialização do servidor</legend>
+          <legend class="w-auto px-2">Especialização</legend>
           <p>Servidor sem especialização informadas</p>
       </fieldset>
     <?php endif;?>
@@ -208,7 +208,7 @@
       <div class="row">
         <div class="col-md-12">
           <fieldset class="form-group border p-3">
-            <legend class="w-auto px-2">Outros cursos do servidor</legend>
+            <legend class="w-auto px-2">Outros cursos</legend>
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -231,7 +231,7 @@
       </div>
     <?php else: ?>
       <fieldset class="form-group border p-3">
-          <legend class="w-auto px-2">Outros cursos do servidor</legend>
+          <legend class="w-auto px-2">Outros cursos</legend>
           <p>Servidor sem outros cursos informados</p>
       </fieldset>
     <?php endif;?>
