@@ -174,12 +174,12 @@
       <div class="row">
         <div class="col-md-12">
           <fieldset class="form-group border p-3">
-            <legend class="w-auto px-2">Especialização</legend>
+            <legend class="w-auto px-2">Pós-Graduações concluídas</legend>
             <table class="table table-striped">
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">Especialização</th>                  
+                  <th scope="col">Descrição</th>                  
                 </tr>
               </thead>
               <tbody>
