@@ -33,8 +33,31 @@
                 return true;
             }
         }
+
+        public function deleteAllUserPosCurso($_userId){
+            //se tem pos cadastrada
+            if($this->getUserPos($_userId)){
+                $this->db->query('DELETE FROM f_user_pos_curso WHERE userId = :userId');
+                $this->db->bind(':userId', $_userId);
+                $row = $this->db->execute();
+                if($this->db->rowCount() > 0){
+                    return true;
+                } else {
+                    return false;
+                }   
+            } else {
+                return true;
+            }
+        }
          //Registra as pos do usuário
         public function register($data,$_userId){
+            //se for 1 quer dizer que é a opção Não tem pós-graduação concluida
+            //então se o usuário tem alguma especialização registrada eu apago
+            if($data[0] == 1){
+                if(!$this->deleteAllUserPosCurso($_userId)){
+                    return false;
+                } 
+            }
             
             if(!$this->deleteAllPosUser($_userId)){
                 return false;

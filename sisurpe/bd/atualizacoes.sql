@@ -871,6 +871,14 @@ CREATE TABLE `f_user_pos` (
 ) auto_increment=0,
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `f_user_pos_curso` (
+  `fupcId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,  
+  `areaId` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `anoConclusao` VARCHAR(4)
+) auto_increment=0,
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*
 f_outros_cursos
 Tabela para armazenar os outros cursos
@@ -949,8 +957,8 @@ CREATE TABLE `municipios` (
   ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
   INSERT INTO `regioes`(`id`, `regiao`) VALUES 
-(1,'NORDESTE'),
-(2,'NORTE'),
+(1,'NORTE'),
+(2,'NORDESTE'),
 (3,'SUDESTE'),
 (4,'SUL');
 (5,'CENTRO-OESTE');

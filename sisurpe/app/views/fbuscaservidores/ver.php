@@ -170,24 +170,62 @@
 
     <!-- linha especialização -->
     <?php if($data['fpos']) : ?>
+      <fieldset class="form-group border p-3">
+        <legend class="w-auto px-2">Pós-Graduações concluídas</legend>
+      <?php $count = 0;?>
+          <div class="row">
+            <div class="col-md-12">
+              
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Descrição</th>                  
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php foreach($data['fpos'] as $row) : ?>
+                      <tr>
+                        <?php $count++;?>
+                        <th scope="row"><?php echo $count;?></th>
+                        <td><?php echo $row->pos;?></td>                    
+                      </tr>
+                    <?php endforeach;?>
+                  </tbody>
+                </table>      
+            </div>
+          </div>
+      </fieldset>
+    <?php else: ?>
+      <fieldset class="form-group border p-3">
+          <legend class="w-auto px-2">Especialização</legend>
+          <p>Servidor sem especialização informadas</p>
+      </fieldset>
+    <?php endif;?>
+    <!-- linha especialização -->
+
+    <!-- linha especialização cursos-->
+    <?php if($data['fuserEspCursos']) : ?>
       <?php $count = 0;?>
       <div class="row">
         <div class="col-md-12">
           <fieldset class="form-group border p-3">
-            <legend class="w-auto px-2">Pós-Graduações concluídas</legend>
+            <legend class="w-auto px-2">Cursos de Especialização</legend>
             <table class="table table-striped">
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">Descrição</th>                  
+                  <th scope="col">Área</th>                  
+                  <th scope="col">Ano de conclusão</th>  
                 </tr>
               </thead>
               <tbody>
-                <?php foreach($data['fpos'] as $row) : ?>
+                <?php foreach($data['fuserEspCursos'] as $row) : ?>
                   <tr>
                     <?php $count++;?>
                     <th scope="row"><?php echo $count;?></th>
-                    <td><?php echo $row->pos;?></td>                    
+                    <td><?php echo $row->area;?></td>  
+                    <td><?php echo $row->anoConclusao;?></td>                    
                   </tr>
                 <?php endforeach;?>
               </tbody>
@@ -197,11 +235,11 @@
       </div>
     <?php else: ?>
       <fieldset class="form-group border p-3">
-          <legend class="w-auto px-2">Especialização</legend>
-          <p>Servidor sem especialização informadas</p>
+          <legend class="w-auto px-2">Cursos de Especialização</legend>
+          <p>Servidor sem curso de especialização informado</p>
       </fieldset>
     <?php endif;?>
-    <!-- linha especialização -->
+    <!-- linha especialização cursos-->
 
 
     <!-- linha outros cursos 80 horas -->
