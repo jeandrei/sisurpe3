@@ -83,7 +83,7 @@
       public function delete($_fupcId){        
         try {
           if($this->fuserEspCursosModel->delete($_fupcId)){           
-              flash('message', 'Especialização removida com sucesso!','success');                     
+              flash('message', 'Curso de especialização removido com sucesso!','success');                     
               redirect('fusercursoespecializacoes/index');
           } else {                        
               throw new Exception('Ops! Algo deu errado ao tentar excluir os dados!');

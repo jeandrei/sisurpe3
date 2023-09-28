@@ -112,7 +112,7 @@
       <?php endforeach; ?>    
     <?php else: ?>
       <tr class='text-center'>
-          <td colspan='3'>
+          <td colspan='4'>
               Nenhum curso de especialização adicionado!
           </td> 
       </tr>   
