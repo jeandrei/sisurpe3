@@ -67,9 +67,8 @@ if($data['result']){
       }
       $pdf->Cell(25,5,utf8_decode($linha),1,0,'C');
       $i++;
-    }
-    $pdf->Cell(25,5,utf8_decode('Não Utiliza'),1,0,'C');
-      $i++;
+    }    
+    $i++;
     $pdf->Ln(); 
     $pdf->Ln();
     $pdf->Cell(50, 5, utf8_decode('Nome do responável pelo preenchimento: ___________________________________________________.Assinatura_________________________'), 0, 1, 'L');    
