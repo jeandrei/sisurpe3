@@ -16,36 +16,33 @@
              
 
             <!--FAZ A VERIFICAÇÃO SE O USUÁRIO É ADMINISTRADOR, OU SECRETÁRIO SE SIM CARREGA OS MENUS DE CADASTRO-->
-            <?php if((isset($_SESSION[DB_NAME . '_user_type']))&&((($_SESSION[DB_NAME . '_user_type']) == "admin")||(($_SESSION[DB_NAME . '_user_type']) == "sec"))) : ?>           
+                       
+            <?php if((isset($_SESSION[DB_NAME . '_user_type']))&&((($_SESSION[DB_NAME . '_user_type']) == "admin")||(($_SESSION[DB_NAME . '_user_type']) == "sec"))) : ?>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Consulta
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+                  <a class="dropdown-item" href="<?php echo URLROOT; ?>/fbuscaservidores">Busca Servidor</a>
+                  <!-- 
                   <a class="dropdown-item" href="<?php echo URLROOT; ?>/buscaalunos">Busca Alunos</a>
                   <a class="dropdown-item" href="<?php echo URLROOT; ?>/buscadadosescolars">Busca Dados Escolares</a>
-                  <a class="dropdown-item" href="<?php echo URLROOT; ?>/buscadadostransportes">Busca Dados Transporte</a>           
+                  <a class="dropdown-item" href="<?php echo URLROOT; ?>/buscadadostransportes">Busca Dados Transporte</a>-->
                 </div>
-              </li>           
+              </li>       
             <?php endif; ?> 
 
-             <!--FAZ A VERIFICAÇÃO SE O USUÁRIO É ADMINISTRADOR, OU SECRETÁRIO SE SIM CARREGA OS MENUS DE CADASTRO-->
-             <?php if((isset($_SESSION[DB_NAME . '_user_type']))&&((($_SESSION[DB_NAME . '_user_type']) == "admin")||(($_SESSION[DB_NAME . '_user_type']) == "sec"))) : ?>           
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Servidor
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-                  <a class="dropdown-item" href="<?php echo URLROOT; ?>/fbuscaservidores">Busca Servidor</a>                      
-                </div>
-              </li>           
-            <?php endif; ?> 
-
+            
             <!--FAZ A VERIFICAÇÃO SE O USUÁRIO É ADMINISTRADOR, OU SECRETÁRIO SE SIM CARREGA OS MENUS DE CADASTRO-->
             <?php if(isset($_SESSION[DB_NAME . '_user_type']) && ($_SESSION[DB_NAME . '_user_type']) == "admin") : ?>
-              <li class="nav-item">
-              <a class="nav-link" href="<?php echo URLROOT; ?>/adminusers/index">Administração de Usuários</a>
-              </li> 
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Administração
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+                  <a class="dropdown-item" href="<?php echo URLROOT; ?>/adminusers/index">Usuários</a>          
+                </div>
+              </li>              
             <?php endif; ?> 
 
             <?php if((isset($_SESSION[DB_NAME . '_user_type']))&&((($_SESSION[DB_NAME . '_user_type']) == "admin")||(($_SESSION[DB_NAME . '_user_type']) == "sec"))) : ?>

@@ -175,6 +175,7 @@ function imptamanhounif($tamanhosec){
 
   function getLinhas(){
     $arrayLinhas = array(
+      'NÃO UTILIZA',
       'LINHA 03',
       'LINHA 05',
       'LINHA 06',
