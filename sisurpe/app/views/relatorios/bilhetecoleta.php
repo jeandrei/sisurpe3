@@ -26,14 +26,14 @@ $pdf->AddPage('P');
 $tamanhosUniformes = getArrayTamanhos();
 $tamanhosCalcados = getTamanhosCalcados();
 $linhas = getLinhas();
-$i = 0;
-if($data['result']){
+$newPage = 0;
+if($data['result']){  
   foreach($data['result'] as $row){ 
-    if($i == $data['bilheteFolha']){
-      $i=0;
+    if($newPage == $data['bilheteFolha']){
+      $newPage=0;
       $pdf->AddPage('P');
     }
-    $i++;
+    $newPage++;
     $pdf->SetFont('Arial','B',10);   
     $pdf->Cell(50, 5, 'ESCOLA: ' . utf8_decode($data['escola']), 0, 1, 'L');           
     $pdf->Cell(50, 5, 'Turma: ' . utf8_decode($row['turma']), 0, 1, 'L');

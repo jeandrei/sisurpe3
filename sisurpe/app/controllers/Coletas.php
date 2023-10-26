@@ -256,7 +256,8 @@
                     'escolaId_err' => '',
                     'turmaId_err' => '',
                     'bilheteFolha_err' => ''                                 
-                ];   
+                ];
+                                
                       
                 // Valida escolaId
                 if(empty($data['escolaId']) || $data['escolaId'] === 'null'){
